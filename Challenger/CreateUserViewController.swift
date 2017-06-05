@@ -17,6 +17,7 @@ class CreateUserViewController: UIViewController, UITextFieldDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        Global.setupBannerAd(self, tab: false)
         usernameTextField.delegate = self
         passwordTextField.delegate = self
         repeatPasswordTextField.delegate = self

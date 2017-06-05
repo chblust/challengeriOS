@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import SwiftyJSON
+import GoogleMobileAds
 class Global: NSObject{
     static let global = Global()
     var loggedInUser: User!
@@ -125,5 +126,25 @@ class Global: NSObject{
     
     func setUserImage(image: UIImage, view: UIImageView){
         view.image = image
+    }
+    
+    static func setupBannerAd(_ viewController: UIViewController, tab: Bool){
+        let bannerView = GADBannerView(adSize: kGADAdSizeFullBanner)
+        bannerView.frame.origin.x = 0
+        if tab{
+            if let viewController = viewController as? UITableViewController{
+                bannerView.frame.origin.y = viewController.view.frame.height - 108 - bannerView.frame.height
+            }else{
+                bannerView.frame.origin.y = viewController.view.frame.height -  viewController.navigationController!.toolbar.frame.height - bannerView.frame.height
+                print("Height \(viewController.navigationController!.toolbar.frame.height)")
+            }
+        }else{
+            
+            bannerView.frame.origin.y = viewController.view.frame.height - bannerView.frame.height
+        }
+        viewController.view.addSubview(bannerView)
+        bannerView.adUnitID = "ca-app-pub-3940256099942544/6300978111"
+        bannerView.rootViewController = viewController
+        bannerView.load(GADRequest())
     }
 }

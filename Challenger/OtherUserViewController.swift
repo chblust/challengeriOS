@@ -40,7 +40,7 @@ class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableVie
     //methods that set up metadata views
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        Global.setupBannerAd(self, tab: true)
         if (user.followers!.contains(Global.global.loggedInUser.username!)){
             followButton.setImage(UIImage(named: "following"), for: .normal)
         }else{

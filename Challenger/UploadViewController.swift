@@ -21,6 +21,7 @@ class UploadViewController: UIViewController, URLSessionDelegate, URLSessionTask
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Global.setupBannerAd(self, tab: false)
         //set the image to the preview of the selected video
         imageView.image = previewImage
     }

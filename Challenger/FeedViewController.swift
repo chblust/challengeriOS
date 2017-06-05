@@ -21,8 +21,10 @@ class FeedViewController: UITableViewController, UIImagePickerControllerDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         uploadProcessDelegate = UploadProcessDelegate(self, "feedToUpload")
         feedDelegate = FeedDelegate(viewController: self, username: "", tableController: self, upd: uploadProcessDelegate, view: "feedToView", list: "feedToUserList")
+        Global.setupBannerAd(self, tab: true)
     }
     
    

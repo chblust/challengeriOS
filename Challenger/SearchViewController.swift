@@ -24,6 +24,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
     var challengePass: Challenge!
     override func viewDidLoad() {
         super.viewDidLoad()
+        Global.setupBannerAd(self, tab: true)
         searchBar.delegate = self
         tableView.dataSource = self
     }

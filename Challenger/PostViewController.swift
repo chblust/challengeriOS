@@ -14,6 +14,7 @@ class PostViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        Global.setupBannerAd(self, tab: true)
         challengeNameTextField.delegate = self
         challengeInstructionsTextView.delegate = self
     }

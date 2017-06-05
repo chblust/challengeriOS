@@ -20,7 +20,7 @@ class UserListViewController: UITableViewController, URLSessionDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        Global.setupBannerAd(self, tab: false)
         var getUsersParams = [String:String]()
         
         let userList: [String]?

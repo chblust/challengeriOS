@@ -29,6 +29,7 @@ class AcceptanceTableViewController: UITableViewController, URLSessionDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Global.setupBannerAd(self, tab: false)
         //get the users that have accepted that challenge from the server
         let params = [
             "challengeName": challenge.name!,

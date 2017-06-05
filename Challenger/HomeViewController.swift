@@ -37,6 +37,7 @@ class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataS
     //MARK: functions to set user metadata
     override func viewDidLoad() {
         super.viewDidLoad()
+        Global.setupBannerAd(self, tab: true)
         imageUploadProgressView.isHidden = true
         uploadProcessDelegate = UploadProcessDelegate(self, "homeToUpload")
         homeFeed.dataSource = self

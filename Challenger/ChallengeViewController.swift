@@ -18,6 +18,7 @@ class ChallengeViewController: UIViewController, UITableViewDataSource, UITableV
     var uploadProcessDelegate: UploadProcessDelegate!
     override func viewDidLoad() {
         super.viewDidLoad()
+        Global.setupBannerAd(self, tab: false)
         uploadProcessDelegate = UploadProcessDelegate(self, "challengeToUpload")
         tableViewController = UITableViewController()
         tableViewController.tableView = tableView

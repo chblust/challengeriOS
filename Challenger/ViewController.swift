@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftyJSON
+import GoogleMobileAds
 class ViewController: UIViewController, UITextFieldDelegate, URLSessionDelegate {
     @IBOutlet weak var usernameField: UITextField!
     
@@ -18,6 +19,7 @@ class ViewController: UIViewController, UITextFieldDelegate, URLSessionDelegate 
     override func viewDidLoad() {
         UserDefaults.standard.removeObject(forKey: "loginUsername")
         super.viewDidLoad()
+        Global.setupBannerAd(self, tab: false)
         self.navigationController?.setToolbarHidden(true, animated: true)
         //establish control over text fields
         usernameField.delegate = self
