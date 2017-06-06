@@ -61,7 +61,7 @@ class AcceptanceTableViewController: UITableViewController, URLSessionDelegate{
                 cell.likeButton.setImage(UIImage(named: "like"), for: .normal)
             }
             
-            if user.username! == Global.global.loggedInUser.username!{
+            if user.username! == Global.global.loggedInUser.username! || challenge.author! == Global.global.loggedInUser.username!{
                 cell.removeButton.setTitle("remove", for: .normal)
             }else{
                 cell.removeButton.setTitle("report", for: .normal)
@@ -114,12 +114,8 @@ class AcceptanceTableViewController: UITableViewController, URLSessionDelegate{
     func removeButtonTapped(user: Acceptance, cell: UITableViewCell){
         let cell = cell as! AcceptanceTableViewCell
         var params = [String: String]()
-        
-        
-        
-        
-        
-        if user.username! == Global.global.loggedInUser.username!{
+
+        if user.username! == Global.global.loggedInUser.username! || challenge.author! == Global.global.loggedInUser.username!{
             let alert = UIAlertController(title: "Delete Video", message: "are you sure you want to permanently remove this video?", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: {(UIAlertAction) in
                 params = [
