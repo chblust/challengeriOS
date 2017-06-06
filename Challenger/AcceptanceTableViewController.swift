@@ -29,7 +29,6 @@ class AcceptanceTableViewController: UITableViewController, URLSessionDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        Global.setupBannerAd(self, tab: false)
         //get the users that have accepted that challenge from the server
         let params = [
             "challengeName": challenge.name!,
@@ -61,6 +60,14 @@ class AcceptanceTableViewController: UITableViewController, URLSessionDelegate{
             }else{
                 cell.likeButton.setImage(UIImage(named: "like"), for: .normal)
             }
+            
+            if user.username! == Global.global.loggedInUser.username!{
+                cell.removeButton.setTitle("remove", for: .normal)
+            }else{
+                cell.removeButton.setTitle("report", for: .normal)
+            }
+            
+            cell.removeButtonAction = {[weak self] (cell) in self?.removeButtonTapped(user: user, cell: cell)}
             
            Global.global.getUserImage(username: user.username!, view: cell.userImage)
         }
@@ -102,6 +109,46 @@ class AcceptanceTableViewController: UITableViewController, URLSessionDelegate{
         ]
         URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "like")){data, response, error in}.resume()
         cell.likeCountLabel.text = String(user.likers!.count)
+    }
+    
+    func removeButtonTapped(user: Acceptance, cell: UITableViewCell){
+        let cell = cell as! AcceptanceTableViewCell
+        var params = [String: String]()
+        
+        
+        
+        
+        
+        if user.username! == Global.global.loggedInUser.username!{
+            let alert = UIAlertController(title: "Delete Video", message: "are you sure you want to permanently remove this video?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: {(UIAlertAction) in
+                params = [
+                    "uploader": user.username!,
+                    "challengeName": self.challenge.name!
+                ]
+                URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "removeVideo")).resume()
+            }))
+            alert.addAction(UIAlertAction(title: "No", style: .default, handler: {(UIAlertAction) in alert.dismiss(animated: true, completion: {})}))
+            present(alert, animated: true, completion: {})
+        }else{
+            let alert = UIAlertController(title: "Report a Video", message: "please enter a reason for this challenge to be removed below", preferredStyle: .alert)
+            alert.addTextField(configurationHandler: {(textField) in
+                textField.placeholder = "reason"
+            })
+            alert.addAction(UIAlertAction(title: "Report", style: .destructive, handler: {(UIAlertAction) in
+                let params = [
+                    "type":"video",
+                    "username":Global.global.loggedInUser.username!,
+                    "reason":alert.textFields![0].text!,
+                    "challenge":self.challenge.name!,
+                    "offender":user.username!
+                ]
+                URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "report")).resume()
+                Global.showAlert(title: "Video Reported", message: "justice has been served!", here: self)
+            }))
+            present(alert, animated: true, completion: {})
+
+        }
     }
     
     func completeCellWithUserImage(data: Data, imageView: UIImageView){

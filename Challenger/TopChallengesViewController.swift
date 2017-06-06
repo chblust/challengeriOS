@@ -21,7 +21,6 @@ class TopChallengesViewController: UITableViewController, UIImagePickerControlle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        Global.setupBannerAd(self, tab: true)
         uploadProcessDelegate = UploadProcessDelegate(self, "topToUpload")
         feedDelegate = FeedDelegate(viewController: self, username: "[]", tableController: self, upd: uploadProcessDelegate, view: "topToView", list: "topToUserList")
     }

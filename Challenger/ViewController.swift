@@ -17,7 +17,7 @@ class ViewController: UIViewController, UITextFieldDelegate, URLSessionDelegate 
     @IBOutlet weak var loginButton: UIButton!
     
     override func viewDidLoad() {
-        UserDefaults.standard.removeObject(forKey: "loginUsername")
+        //UserDefaults.standard.removeObject(forKey: "loginUsername")
         super.viewDidLoad()
         Global.setupBannerAd(self, tab: false)
         self.navigationController?.setToolbarHidden(true, animated: true)

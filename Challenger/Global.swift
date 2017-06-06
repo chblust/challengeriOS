@@ -132,17 +132,15 @@ class Global: NSObject{
         let bannerView = GADBannerView(adSize: kGADAdSizeFullBanner)
         bannerView.frame.origin.x = 0
         if tab{
-            if let viewController = viewController as? UITableViewController{
-                bannerView.frame.origin.y = viewController.view.frame.height - 108 - bannerView.frame.height
-            }else{
                 bannerView.frame.origin.y = viewController.view.frame.height -  viewController.navigationController!.toolbar.frame.height - bannerView.frame.height
-                print("Height \(viewController.navigationController!.toolbar.frame.height)")
-            }
+                 viewController.view.addSubview(bannerView)
+            
         }else{
             
             bannerView.frame.origin.y = viewController.view.frame.height - bannerView.frame.height
+             viewController.view.addSubview(bannerView)
         }
-        viewController.view.addSubview(bannerView)
+       
         bannerView.adUnitID = "ca-app-pub-3940256099942544/6300978111"
         bannerView.rootViewController = viewController
         bannerView.load(GADRequest())
