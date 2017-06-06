@@ -19,7 +19,8 @@ class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataS
     @IBOutlet weak var imageUploadProgressView: UIProgressView!
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
-    @IBOutlet weak var bioLabel: UILabel!
+    
+    @IBOutlet weak var bioTextView: UITextView!
     @IBOutlet weak var followersButton: UIButton!
     @IBOutlet weak var followingButton: UIButton!
     @IBOutlet weak var logoutButton: UIButton!
@@ -50,7 +51,7 @@ class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataS
     
     func setupHome(){
         usernameLabel.text = Global.global.loggedInUser.username
-        bioLabel.text = Global.global.loggedInUser.bio
+        bioTextView.text = Global.global.loggedInUser.bio
         
         Global.global.getUserImage(username: Global.global.loggedInUser.username!, view: userImage)
 

@@ -329,6 +329,9 @@ class FeedDelegate{
             URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "report")).resume()
             Global.showAlert(title: "Challenge Reported", message: "justice has been served!", here: self.viewController)
         }))
+        alert.addAction(UIAlertAction(title: "cancel", style: .default, handler: { (UIAlertAction) in
+            alert.dismiss(animated: true, completion: {})
+        }))
         viewController.present(alert, animated: true, completion: {})
     }
     @objc func handleRefresh(){

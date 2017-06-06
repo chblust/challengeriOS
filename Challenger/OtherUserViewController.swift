@@ -17,10 +17,10 @@ class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableVie
     //userMetaData view references
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
-    @IBOutlet weak var bioLabel: UILabel!
     @IBOutlet weak var followersButton: UIButton!
     @IBOutlet weak var followingButton: UIButton!
     @IBOutlet weak var followButton: UIButton!
+    @IBOutlet weak var bioTextView: UITextView!
     
     
     
@@ -59,7 +59,7 @@ class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableVie
           
         //set the user info labels to the logged in user metadata
         usernameLabel.text = user!.username
-        bioLabel.text = user!.bio
+        bioTextView.text = user!.bio
         //retrieve the userImage from the server
        Global.global.getUserImage(username: user.username!, view: userImage)
         feedDelegate = FeedDelegate(viewController: self, username: user.username!, tableController: tableViewController, upd: uploadProcessDelegate, view: "otherUserToView", list: "userListFromOtherUser")
@@ -134,4 +134,24 @@ class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableVie
         task.resume()
     }
     
+    @IBAction func reportButtonPressed(_ sender: UIButton) {
+        let alert = UIAlertController(title: "Report a User", message: "please enter a reason for this user to be removed below", preferredStyle: .alert)
+        alert.addTextField(configurationHandler: {(textField) in
+            textField.placeholder = "reason"
+        })
+        alert.addAction(UIAlertAction(title: "Report", style: .destructive, handler: {(UIAlertAction) in
+            let params = [
+                "type":"user",
+                "username":Global.global.loggedInUser.username!,
+                "reason":alert.textFields![0].text!,
+                "offender":self.user.username!
+            ]
+            URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "report")).resume()
+            Global.showAlert(title: "User Reported", message: "justice has been served!", here: self)
+        }))
+        alert.addAction(UIAlertAction(title: "cancel", style: .default, handler: { (UIAlertAction) in
+            alert.dismiss(animated: true, completion: {})
+        }))
+        present(alert, animated: true, completion: {})
+    }
 }
