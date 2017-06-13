@@ -88,5 +88,9 @@ class ViewController: UIViewController, UITextFieldDelegate, URLSessionDelegate 
             break
         }
     }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
     @IBAction func unwindToVC1(segue:UIStoryboardSegue) { }
 }

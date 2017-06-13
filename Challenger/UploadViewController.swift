@@ -34,7 +34,7 @@ class UploadViewController: UIViewController, URLSessionDelegate, URLSessionTask
         if videoData != nil{
             //ensure user cannot initiate a second upload
             uploadButton.isUserInteractionEnabled = false
-            uploadButton.titleLabel?.text = "Uploading..."
+            uploadButton.setTitle("Uploading...", for: .normal)
             //create http mult-part form request
             var request = URLRequest(url: Global.url!)
             request.httpMethod = "POST"

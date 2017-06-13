@@ -99,4 +99,16 @@ class CreateUserViewController: UIViewController, UITextFieldDelegate {
         
         return false
     }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    @IBAction func viewTapped(_ sender: UITapGestureRecognizer) {
+        usernameTextField.resignFirstResponder()
+        passwordTextField.resignFirstResponder()
+        repeatPasswordTextField.resignFirstResponder()
+        bioTextField.resignFirstResponder()
+        emailTextField.resignFirstResponder()
+    }
 }

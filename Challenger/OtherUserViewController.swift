@@ -110,7 +110,7 @@ class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableVie
         tableViewController.tableView.removeFromSuperview()
     }
     @IBAction func followButtonPressed(_ sender: UIButton) {
-        if user.following!.contains(Global.global.loggedInUser.username!){
+        if user.followers!.contains(Global.global.loggedInUser.username!){
             followButton.setImage(UIImage(named: "follow"), for: .normal)
             user.followers!.remove(at: user.followers!.index(of: Global.global.loggedInUser.username!)!)
             Global.global.loggedInUser.following!.remove(at: Global.global.loggedInUser.following!.index(of: user.username!)!)

@@ -18,7 +18,8 @@ class Global: NSObject{
     static let ip = "http://96.249.48.217/"
     static let url = URL(string: Global.ip)
     static let securityKey = "4qfY2ASbr0VTqwItKrrMHSvPKgUj89aJ4QjlbOEHawx8V1Ef9ahy95JREJAZgycxYRCsj9OcgqKDQx75mOcZ0aObgv8Hv1576oJu"
-    
+    static let admobAdUnitId = "ca-app-pub-3025080868728529/9894486690"
+    static let admobTestAdUnitId = "ca-app-pub-3940256099942544/6300978111"
     static func createPostParameters(params: [String: String])->Data{
         var postString = ""
         var x = 0
@@ -87,14 +88,12 @@ class Global: NSObject{
     func getUserImage(username: String, view: UIImageView){
         print(username)
         if userImages.keys.contains(username){
-            print("memory")
             setUserImage(image: userImages[username]!, view: view)
         }else{
             if imageQueues.keys.contains(username){
-                print("waiting")
                 imageQueues[username]!.append(view)
             }else{
-                print("server")
+                
                 imageQueues[username] = [UIImageView]()
                 imageQueues[username]!.append(view)
                 let params = [
@@ -141,7 +140,7 @@ class Global: NSObject{
              viewController.view.addSubview(bannerView)
         }
        
-        bannerView.adUnitID = "ca-app-pub-3940256099942544/6300978111"
+        bannerView.adUnitID = admobTestAdUnitId
         bannerView.rootViewController = viewController
         bannerView.load(GADRequest())
     }

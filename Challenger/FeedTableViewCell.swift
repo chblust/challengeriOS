@@ -29,6 +29,8 @@ class FeedTableViewCell: UITableViewCell {
     
     @IBOutlet weak var rechallengerLabel: UILabel!
     @IBOutlet weak var rechallengeImageView: UIImageView!
+    @IBOutlet weak var acceptButton: UIButton!
+    @IBOutlet weak var viewButton: UIButton!
     var reportButtonAction: ((UITableViewCell)->Void)?
     override func awakeFromNib() {
         super.awakeFromNib()

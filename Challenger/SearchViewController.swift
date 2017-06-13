@@ -142,4 +142,11 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
             next.challenge = challengePass
         }
     }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+    @IBAction func viewTapped(_ sender: UITapGestureRecognizer) {
+        searchBar.resignFirstResponder()
+    }
 }

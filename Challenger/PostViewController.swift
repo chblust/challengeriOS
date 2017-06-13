@@ -22,6 +22,10 @@ class PostViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    @IBAction func viewTapped(_ sender: UITapGestureRecognizer) {
+        challengeInstructionsTextView.resignFirstResponder()
+        challengeNameTextField.resignFirstResponder()
+    }
     
     @IBAction func postButtonPressed(_ sender: UIButton) {
         //get information to send to server
@@ -60,10 +64,10 @@ class PostViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let str = textField.text
         
-            if str!.characters.count <= 40 {
+            if str!.characters.count <= 30 {
                 return true
             }
-            textField.text = str!.substring(to: str!.index(str!.startIndex, offsetBy: 40))
+            textField.text = str!.substring(to: str!.index(str!.startIndex, offsetBy: 30))
         
         
         return false
@@ -78,5 +82,13 @@ class PostViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
                 
                 
                 return false
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
+        textView.resignFirstResponder()
+        return true
     }
 }

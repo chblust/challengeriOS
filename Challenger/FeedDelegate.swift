@@ -69,7 +69,6 @@ class FeedDelegate{
             if let data = data{
                 let json = JSON(data: data)
                 //reversed to keep latest posted challenges on top of feed
-                print(json)
                 for i in (0..<json.count).reversed(){
                     self.challenges.append(Global.jsonToChallenge(json: json[i].dictionaryValue))
                 }
@@ -84,7 +83,8 @@ class FeedDelegate{
     func getChallengeCell(indexPath: IndexPath)->UITableViewCell{
         let challenge = challenges[indexPath.row]
         if challenge.feedType == "challenge"{
-            self.tableViewController.tableView.rowHeight = 199
+            //self.tableViewController.tableView.estimatedRowHeight = 199
+        self.tableViewController.tableView.rowHeight = 199
         let cell = tableViewController.tableView.dequeueReusableCell(withIdentifier: "fc", for: indexPath) as! FeedTableViewCell
         
         cell.challengeNameLabel.text = challenge.name
@@ -124,9 +124,18 @@ class FeedDelegate{
         cell.rechallengeButtonAction = {[weak self] (cell) in self?.rechallengeButtonTapped(challenge: challenge, cell: cell)}
         cell.viewRechallengersButtonAction = {[weak self] (cell) in self?.viewRechallengersButtonTapped(challenge: challenge, sender: cell)}
         Global.global.getUserImage(username: challenge.author!, view: cell.userImage)
-        
+            //below are manual cell constraints
+            let cellwidth = cell.frame.width
+            cell.rechallengeButton.frame.origin.x = cellwidth - cell.rechallengeButton.frame.width - cell.viewRechallengersButton.frame.width
+            cell.viewRechallengersButton.frame.origin.x = cellwidth - cell.viewRechallengersButton.frame.width
+            cell.likeButton.frame.origin.x = cellwidth - cell.likeButton.frame.width - cell.viewLikersButton.frame.width
+            cell.viewLikersButton.frame.origin.x = cellwidth - cell.viewLikersButton.frame.width
+            cell.acceptButton.frame.origin.x = cellwidth - cell.acceptButton.frame.width - 10
+            cell.viewButton.frame.origin.x = cellwidth - cell.viewButton.frame.width - 10
+            
         return cell
         }else if challenge.feedType == "acceptance"{
+//            self.tableViewController.tableView.estimatedRowHeight = 62
             self.tableViewController.tableView.rowHeight = 62
             let cell = tableViewController.tableView.dequeueReusableCell(withIdentifier: "ac", for: indexPath) as! FollowingAcceptanceTableViewCell
             cell.messageButton.setTitle("\(challenge.poster!) has accepted the challenge: \(challenge.name!)", for: .normal)
@@ -135,6 +144,7 @@ class FeedDelegate{
             
             return cell
         }else if challenge.feedType == "reChallenge"{
+//            self.tableViewController.tableView.estimatedRowHeight = 199
             self.tableViewController.tableView.rowHeight = 199
             let cell = tableViewController.tableView.dequeueReusableCell(withIdentifier: "fc", for: indexPath) as! FeedTableViewCell
             
@@ -176,7 +186,14 @@ class FeedDelegate{
             cell.rechallengeButtonAction = {[weak self] (cell) in self?.rechallengeButtonTapped(challenge: challenge, cell: cell)}
             cell.viewRechallengersButtonAction = {[weak self] (cell) in self?.viewRechallengersButtonTapped(challenge: challenge, sender: cell)}
             Global.global.getUserImage(username: challenge.author!, view: cell.userImage)
-            
+            //below are manual cell constraints
+            let cellwidth = cell.frame.width
+            cell.rechallengeButton.frame.origin.x = cellwidth - cell.rechallengeButton.frame.width - cell.viewRechallengersButton.frame.width
+            cell.viewRechallengersButton.frame.origin.x = cellwidth - cell.viewRechallengersButton.frame.width
+            cell.likeButton.frame.origin.x = cellwidth - cell.likeButton.frame.width - cell.viewLikersButton.frame.width
+            cell.viewLikersButton.frame.origin.x = cellwidth - cell.viewLikersButton.frame.width
+            cell.acceptButton.frame.origin.x = cellwidth - cell.acceptButton.frame.width - 10
+            cell.viewButton.frame.origin.x = cellwidth - cell.viewButton.frame.width - 10
             return cell
         }
         return UITableViewCell()
@@ -213,7 +230,14 @@ class FeedDelegate{
         cell.rechallengeButtonAction = {[weak self] (cell) in self?.rechallengeButtonTapped(challenge: challenge, cell: cell)}
         cell.viewRechallengersButtonAction = {[weak self] (cell) in self?.viewRechallengersButtonTapped(challenge: challenge, sender: cell)}
         Global.global.getUserImage(username: challenge.author!, view: cell.userImage)
-        
+        //below are manual cell constraints
+        let cellwidth = cell.frame.width
+        cell.rechallengeButton.frame.origin.x = cellwidth - cell.rechallengeButton.frame.width - cell.viewRechallengersButton.frame.width
+        cell.viewRechallengersButton.frame.origin.x = cellwidth - cell.viewRechallengersButton.frame.width
+        cell.likeButton.frame.origin.x = cellwidth - cell.likeButton.frame.width - cell.viewLikersButton.frame.width
+        cell.viewLikersButton.frame.origin.x = cellwidth - cell.viewLikersButton.frame.width
+        cell.acceptButton.frame.origin.x = cellwidth - cell.acceptButton.frame.width - 10
+        cell.viewButton.frame.origin.x = cellwidth - cell.viewButton.frame.width - 10
         return cell
     }
     
@@ -287,7 +311,6 @@ class FeedDelegate{
     func messageButtonTapped(challenge: Challenge, cell: UITableViewCell){
         //the following brings up a stream of the user's uploaded video
         let path = "\(Global.ip)/uploads/\(Global.getServerSafeName(challenge.name!))/\(challenge.poster!)/4-medium/4-medium.m3u8"
-        print(path)
         let url = URL(string: path)
         let avasset = AVURLAsset(url: url!)
         let item = AVPlayerItem(asset: avasset)

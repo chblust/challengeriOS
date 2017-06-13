@@ -70,6 +70,12 @@ class AcceptanceTableViewController: UITableViewController, URLSessionDelegate{
             cell.removeButtonAction = {[weak self] (cell) in self?.removeButtonTapped(user: user, cell: cell)}
             
            Global.global.getUserImage(username: user.username!, view: cell.userImage)
+            
+            //constraints for cell
+            let cellwidth = cell.frame.width
+            cell.removeButton.frame.origin.x = cellwidth - cell.removeButton.frame.width - cell.likeCountLabel.frame.width - cell.likeButton.frame.width - 25
+            cell.likeCountLabel.frame.origin.x = cellwidth - cell.likeCountLabel.frame.width - cell.likeButton.frame.width - 15
+            cell.likeButton.frame.origin.x = cellwidth - cell.likeButton.frame.width - 5
         }
         return cell
     }
@@ -112,7 +118,6 @@ class AcceptanceTableViewController: UITableViewController, URLSessionDelegate{
     }
     
     func removeButtonTapped(user: Acceptance, cell: UITableViewCell){
-        let cell = cell as! AcceptanceTableViewCell
         var params = [String: String]()
 
         if user.username! == Global.global.loggedInUser.username! || challenge.author! == Global.global.loggedInUser.username!{
