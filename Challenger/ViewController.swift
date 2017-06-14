@@ -26,8 +26,35 @@ class ViewController: UIViewController, UITextFieldDelegate, URLSessionDelegate 
         passwordField.delegate = self
         
         if let username = UserDefaults.standard.value(forKey: "loginUsername") as? String{
-            completeLogin(response: "true", username: username, sender: loginButton)
-        }
+            let params = [
+                "username": username
+            ]
+            
+            URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "checkUser")){data, response, error in
+                if let data = data{
+                    let response = String(data: data, encoding: .utf8)
+                    
+                    switch response!{
+                    case "bool(false)\n":
+                        OperationQueue.main.addOperation {
+                            Global.showAlert(title: "Invalid User", message: "the logged in user no longer exists!", here: self)
+                        }
+                        break
+                    default:
+                            OperationQueue.main.addOperation {
+                                self.completeLogin(response: "true", username: username, sender: self.loginButton)
+                        
+                            }
+                        break
+                    }
+                }
+            }.resume()
+            
+            
+            
+            
+            
+            }
     }
     
     override func didReceiveMemoryWarning() {
@@ -72,7 +99,10 @@ class ViewController: UIViewController, UITextFieldDelegate, URLSessionDelegate 
                 let getLoginTask = URLSession.shared.dataTask(with: getLoginRequest){data, response, error in
                     if let data = data{
                         let json = JSON(data: data)
+                        
                         Global.global.loggedInUser = Global.jsonToUser(json: json[0].dictionaryValue)
+                            
+                        
                         OperationQueue.main.addOperation {
                             self.performSegue(withIdentifier: "login", sender: sender)
                         }

@@ -86,7 +86,6 @@ class Global: NSObject{
         return ret;
     }
     func getUserImage(username: String, view: UIImageView){
-        print(username)
         if userImages.keys.contains(username){
             setUserImage(image: userImages[username]!, view: view)
         }else{
@@ -103,7 +102,6 @@ class Global: NSObject{
                 URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "image")){data, response, error in
                     if let data = data{
                         if (String(data: data, encoding: .utf8) != "false"){
-                            print(data)
                             //set userImageView to userImage from server
                             OperationQueue.main.addOperation {
                                 self.userImages[username] = UIImage(data: data)!
