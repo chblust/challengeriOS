@@ -23,7 +23,7 @@ class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataS
     @IBOutlet weak var bioTextView: UITextView!
     @IBOutlet weak var followersButton: UIButton!
     @IBOutlet weak var followingButton: UIButton!
-    @IBOutlet weak var logoutButton: UIButton!
+    
     //variable passed to user list indicating what kindof list is to follow
     var listTypePass: String?
     
@@ -35,6 +35,9 @@ class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataS
 
     var uploadProcessDelegate: UploadProcessDelegate!
     var feedDelegate: FeedDelegate!
+    
+    //bool to prevent double user load in beginning
+    var userSet: Bool!
     //MARK: functions to set user metadata
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,12 +52,30 @@ class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataS
         setupHome()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        if !userSet{
+            let getLoginParams = [
+                "usernames[0]": Global.global.loggedInUser.username!
+            ]
+            URLSession.shared.dataTask(with: Global.createServerRequest(params: getLoginParams, intent: "getUsers")){data, response, error in
+                if let data = data{
+                    let json = JSON(data: data)
+                    OperationQueue.main.addOperation {
+                        Global.global.loggedInUser = Global.jsonToUser(json: json[0].dictionaryValue)
+                        self.setupHome()
+                    }
+                }
+                }.resume()
+        }
+    }
+    
     func setupHome(){
+        self.title = Global.global.loggedInUser.username!
         usernameLabel.text = Global.global.loggedInUser.username
         bioTextView.text = Global.global.loggedInUser.bio
         
         Global.global.getUserImage(username: Global.global.loggedInUser.username!, view: userImage)
-
+        userSet = false
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -73,10 +94,7 @@ class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataS
             let nextUserListController = nextViewController as? UserListViewController
             nextUserListController?.listType = listTypePass
             nextUserListController?.user = Global.global.loggedInUser
-        }else if (sender as? UIButton == logoutButton){
-            
-        }
-        else if let nextViewController = segue.destination as? UploadViewController{
+        }else if let nextViewController = segue.destination as? UploadViewController{
                 nextViewController.challenge = uploadProcessDelegate.challengePass
                 nextViewController.videoData = uploadProcessDelegate.videoData
                 nextViewController.previewImage = uploadProcessDelegate.videoPreview
@@ -99,11 +117,6 @@ class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataS
     @IBAction func followingButtonPressed(_ sender: UIButton) {
         listTypePass = "following"
         performSegue(withIdentifier: "userListFromHome", sender: sender)
-    }
-    @IBAction func logoutButtonPressed(_ sender: UIButton) {
-        UserDefaults.standard.removeObject(forKey: "loginUsername")
-        Global.global.loggedInUser = nil
-        performSegue(withIdentifier: "unwindToLogin", sender: sender)
     }
     
     //MARK: image setting functions

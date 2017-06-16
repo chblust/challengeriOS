@@ -59,6 +59,7 @@ class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableVie
           
         //set the user info labels to the logged in user metadata
         usernameLabel.text = user!.username
+        self.title = user!.username
         bioTextView.text = user!.bio
         //retrieve the userImage from the server
        Global.global.getUserImage(username: user.username!, view: userImage)

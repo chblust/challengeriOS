@@ -91,12 +91,11 @@ class ViewController: UIViewController, UITextFieldDelegate, URLSessionDelegate 
     func completeLogin(response: String, username: String, sender: UIButton){
         switch response{
             case "true":
-                //since user info matches, get user metdata from server and segue to homepage
+                
                 let getLoginParams = [
                     "usernames[0]": username
                 ]
-                let getLoginRequest = Global.createServerRequest(params: getLoginParams, intent: "getUsers")
-                let getLoginTask = URLSession.shared.dataTask(with: getLoginRequest){data, response, error in
+                URLSession.shared.dataTask(with: Global.createServerRequest(params: getLoginParams, intent: "getUsers")){data, response, error in
                     if let data = data{
                         let json = JSON(data: data)
                         
@@ -107,8 +106,8 @@ class ViewController: UIViewController, UITextFieldDelegate, URLSessionDelegate 
                             self.performSegue(withIdentifier: "login", sender: sender)
                         }
                     }
-                }
-                getLoginTask.resume()
+                }.resume()
+            
             break
             case "false":
                 Global.showAlert(title: "Login failed!", message: "credentials didn't match", here: self)
@@ -116,6 +115,12 @@ class ViewController: UIViewController, UITextFieldDelegate, URLSessionDelegate 
             default:
              Global.showAlert(title: "Invalid Username", message: "the entered username does not exist", here: self)
             break
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let next = segue.destination as? HomeViewController{
+            next.userSet = true
         }
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

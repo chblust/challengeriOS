@@ -10,7 +10,7 @@ import UIKit
 import SwiftyJSON
 import AVFoundation
 import MobileCoreServices
-class FeedViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+class FeedViewController: UITableViewController{
 
     
     var feedDelegate: FeedDelegate!

@@ -59,6 +59,11 @@ class FeedDelegate{
                 "type": "top",
                 "username": Global.global.loggedInUser.username!
             ]
+        }else if username == "="{
+            params = [
+                "type":"accepted",
+                "username":Global.global.loggedInUser.username!
+            ]
         }else{
             params = [
                 "type":"home",
@@ -116,7 +121,8 @@ class FeedDelegate{
             
         cell.rechallengerLabel.text = ""
         cell.rechallengeImageView.image = nil
-        
+        cell.backgroundColor = UIColor(colorLiteralRed: 255, green: 255, blue: 255, alpha: 1)
+            cell.challengeInstructionsLabel.backgroundColor = UIColor(colorLiteralRed: 255, green: 255, blue: 255, alpha: 1)
         cell.acceptButtonAction = {[weak self] (cell) in self?.acceptButtonTapped(challenge: challenge, sender: cell)}
         cell.viewButtonAction = {[weak self] (cell) in self?.viewButtonTapped(challenge: challenge, sender: cell)}
         cell.likeButtonAction = {[weak self] (cell) in self?.likeButtonTapped(challenge: challenge, cell: cell)}

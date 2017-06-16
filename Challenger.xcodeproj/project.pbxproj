@@ -26,6 +26,8 @@
 		934A01B11ED0ADD000E82BFC /* FeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934A01A71ECE606D00E82BFC /* FeedTableViewCell.swift */; };
 		934A01B31ED0B1BB00E82BFC /* UploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934A01B21ED0B1BB00E82BFC /* UploadViewController.swift */; };
 		9361E0881EDB29950080F788 /* FeedDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9361E0871EDB29950080F788 /* FeedDelegate.swift */; };
+		9376C7901EF1E38800B93C87 /* AcceptedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9376C78F1EF1E38800B93C87 /* AcceptedTableViewController.swift */; };
+		9376C7921EF21EFA00B93C87 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9376C7911EF21EFA00B93C87 /* SettingsViewController.swift */; };
 		937E19BF1ECE1682006232F7 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931A64C91ECB7D3100B419DD /* HomeViewController.swift */; };
 		937E19C11ECE2668006232F7 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937E19C01ECE2668006232F7 /* PostViewController.swift */; };
 		938272871ED4F21100EC8404 /* UploadProcessDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938272861ED4F21100EC8404 /* UploadProcessDelegate.swift */; };
@@ -62,6 +64,8 @@
 		934A01AC1ED00E1100E82BFC /* OtherUserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OtherUserViewController.swift; sourceTree = "<group>"; };
 		934A01B21ED0B1BB00E82BFC /* UploadViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadViewController.swift; sourceTree = "<group>"; };
 		9361E0871EDB29950080F788 /* FeedDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedDelegate.swift; sourceTree = "<group>"; };
+		9376C78F1EF1E38800B93C87 /* AcceptedTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptedTableViewController.swift; sourceTree = "<group>"; };
+		9376C7911EF21EFA00B93C87 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		937E19C01ECE2668006232F7 /* PostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		938272861ED4F21100EC8404 /* UploadProcessDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadProcessDelegate.swift; sourceTree = "<group>"; };
 		938272881ED5169C00EC8404 /* AcceptanceTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptanceTableViewController.swift; sourceTree = "<group>"; };
@@ -145,6 +149,8 @@
 				9338AC5E1EDCC0C70071BA29 /* Acceptance.swift */,
 				9338AC601EDD1BFF0071BA29 /* FollowingAcceptanceTableViewCell.swift */,
 				93F9EEDB1EDF6841005D4F7B /* TopChallengesViewController.swift */,
+				9376C78F1EF1E38800B93C87 /* AcceptedTableViewController.swift */,
+				9376C7911EF21EFA00B93C87 /* SettingsViewController.swift */,
 			);
 			path = Challenger;
 			sourceTree = "<group>";
@@ -288,6 +294,7 @@
 				9338AC5F1EDCC0C70071BA29 /* Acceptance.swift in Sources */,
 				934A01AF1ED00EB000E82BFC /* OtherUserViewController.swift in Sources */,
 				934A01AB1ECE870500E82BFC /* FeedViewController.swift in Sources */,
+				9376C7901EF1E38800B93C87 /* AcceptedTableViewController.swift in Sources */,
 				937E19C11ECE2668006232F7 /* PostViewController.swift in Sources */,
 				937E19BF1ECE1682006232F7 /* HomeViewController.swift in Sources */,
 				9338AC611EDD1BFF0071BA29 /* FollowingAcceptanceTableViewCell.swift in Sources */,
@@ -304,6 +311,7 @@
 				931A64C81ECAB40200B419DD /* Global.swift in Sources */,
 				934A01AA1ECE701E00E82BFC /* Challenge.swift in Sources */,
 				931A64D41ECBD4A200B419DD /* UserListViewController.swift in Sources */,
+				9376C7921EF21EFA00B93C87 /* SettingsViewController.swift in Sources */,
 				9338AC5D1EDC72A70071BA29 /* AcceptanceTableViewCell.swift in Sources */,
 				931A64CC1ECBCC3400B419DD /* UserTableViewCell.swift in Sources */,
 			);

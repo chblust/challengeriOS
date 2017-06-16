@@ -10,7 +10,7 @@ import UIKit
 import SwiftyJSON
 import AVFoundation
 import MobileCoreServices
-class TopChallengesViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+class TopChallengesViewController: UITableViewController{
     
     
     var feedDelegate: FeedDelegate!

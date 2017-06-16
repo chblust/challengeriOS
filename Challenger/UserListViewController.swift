@@ -26,15 +26,19 @@ class UserListViewController: UITableViewController, URLSessionDelegate {
         switch listType!{
         case "followers":
             userList = user?.followers!
+            self.title = "Followers"
             break
         case "following":
             userList = user?.following!
+            self.title = "Following"
             break
         case "challengeLikers":
             userList = challenge.likers!
+            self.title = "Likers"
             break
         case "rechallengers":
             userList = challenge.rechallengers!
+            self.title = "ReChallengers"
             break
         default:
             fatalError("list type not set!")
