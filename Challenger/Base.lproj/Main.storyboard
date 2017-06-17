@@ -886,21 +886,18 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
                                     <outletCollection property="gestureRecognizers" destination="s3f-0r-Sex" appends="YES" id="HBV-LY-KmM"/>
                                 </connections>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rU8-4i-NJq">
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rU8-4i-NJq">
                                 <rect key="frame" x="257" y="349" width="50" height="30"/>
                                 <state key="normal" title="Upload"/>
                                 <connections>
                                     <action selector="uploadButtonTapped:" destination="36M-r1-Beq" eventType="touchUpInside" id="Ybx-Nw-68M"/>
                                 </connections>
                             </button>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aS1-n4-Jq3">
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aS1-n4-Jq3">
                                 <rect key="frame" x="67" y="363" width="150" height="2"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="FPt-A8-hNO"/>
-                                </constraints>
                             </progressView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PMG-Tp-rS8">
-                                <rect key="frame" x="261" y="372" width="46" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PMG-Tp-rS8">
+                                <rect key="frame" x="259" y="379" width="46" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="46" id="p9C-mf-hDs"/>
                                     <constraint firstAttribute="height" constant="30" id="t1b-jI-noR"/>
@@ -916,20 +913,20 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="aS1-n4-Jq3" firstAttribute="top" secondItem="uAN-Ir-czq" secondAttribute="bottom" constant="22" id="9nU-vW-mX0"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="uAN-Ir-czq" secondAttribute="trailing" constant="52" id="Fu9-ZX-Zt8"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="PMG-Tp-rS8" secondAttribute="trailing" constant="52" id="GJB-Qm-QcA"/>
-                            <constraint firstItem="Hwz-ig-Wg2" firstAttribute="top" secondItem="aS1-n4-Jq3" secondAttribute="bottom" constant="302" id="KWV-kV-XEV"/>
+                            <constraint firstItem="uAN-Ir-czq" firstAttribute="top" secondItem="CkH-0L-3qz" secondAttribute="bottom" constant="37" id="BdF-eE-q4O"/>
+                            <constraint firstItem="PMG-Tp-rS8" firstAttribute="centerX" secondItem="rU8-4i-NJq" secondAttribute="centerX" id="K7S-KA-Iqr"/>
+                            <constraint firstItem="aS1-n4-Jq3" firstAttribute="leading" secondItem="woJ-os-3Bx" secondAttribute="leadingMargin" constant="51" id="N8X-xu-cEv"/>
+                            <constraint firstItem="rU8-4i-NJq" firstAttribute="trailing" secondItem="uAN-Ir-czq" secondAttribute="trailing" id="U7F-fg-hec"/>
+                            <constraint firstItem="PMG-Tp-rS8" firstAttribute="top" secondItem="rU8-4i-NJq" secondAttribute="bottom" id="Us7-4e-QPh"/>
+                            <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="uAN-Ir-czq" secondAttribute="trailing" constant="52" id="a5l-ig-65R"/>
                             <constraint firstItem="uAN-Ir-czq" firstAttribute="leading" secondItem="woJ-os-3Bx" secondAttribute="leadingMargin" constant="51" id="a8O-qn-DSh"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="aS1-n4-Jq3" secondAttribute="trailing" constant="142" id="fk3-dO-uWt"/>
-                            <constraint firstItem="aS1-n4-Jq3" firstAttribute="leading" secondItem="woJ-os-3Bx" secondAttribute="leadingMargin" constant="51" id="gWa-uX-OXP"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="rU8-4i-NJq" secondAttribute="trailing" constant="52" id="pzf-H7-Yeu"/>
-                            <constraint firstItem="rU8-4i-NJq" firstAttribute="top" secondItem="uAN-Ir-czq" secondAttribute="bottom" constant="8" id="q2D-e9-UDg"/>
-                            <constraint firstItem="Hwz-ig-Wg2" firstAttribute="top" secondItem="PMG-Tp-rS8" secondAttribute="bottom" constant="265" id="r27-8a-p9m"/>
-                            <constraint firstItem="PMG-Tp-rS8" firstAttribute="top" secondItem="uAN-Ir-czq" secondAttribute="bottom" constant="31" id="zoV-no-lvD"/>
+                            <constraint firstItem="rU8-4i-NJq" firstAttribute="leading" secondItem="aS1-n4-Jq3" secondAttribute="trailing" constant="40" id="kvn-1q-bxr"/>
+                            <constraint firstItem="rU8-4i-NJq" firstAttribute="top" secondItem="uAN-Ir-czq" secondAttribute="bottom" constant="8" id="oKU-3G-P9q"/>
+                            <constraint firstItem="aS1-n4-Jq3" firstAttribute="top" secondItem="uAN-Ir-czq" secondAttribute="bottom" constant="22" id="sf7-F7-ccD"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="cancelButton" destination="PMG-Tp-rS8" id="2nH-sp-9ZU"/>
                         <outlet property="imageView" destination="uAN-Ir-czq" id="meS-gk-mMZ"/>
                         <outlet property="uploadButton" destination="rU8-4i-NJq" id="dRf-mu-AmC"/>
                         <outlet property="uploadProgressView" destination="aS1-n4-Jq3" id="3Rv-W6-HqF"/>
@@ -1728,7 +1725,7 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
                                 </constraints>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="199" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="XDK-zl-hSe">
-                                <rect key="frame" x="0.0" y="323" width="375" height="283"/>
+                                <rect key="frame" x="0.0" y="323" width="375" height="234"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="234" id="bv8-DA-pQC"/>

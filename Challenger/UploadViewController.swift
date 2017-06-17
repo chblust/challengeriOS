@@ -14,6 +14,7 @@ class UploadViewController: UIViewController, URLSessionDelegate, URLSessionTask
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var uploadProgressView: UIProgressView!
     @IBOutlet weak var uploadButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
     //here are the variables passed from the previous class before the segue
     var previewImage: UIImage?
     var videoData: Data?
@@ -32,7 +33,8 @@ class UploadViewController: UIViewController, URLSessionDelegate, URLSessionTask
     
     @IBAction func uploadButtonTapped(_ sender: UIButton) {
         if videoData != nil{
-            //ensure user cannot initiate a second upload
+            //ensure user cannot initiate a second upload or cancel upload
+            cancelButton.isHidden = true
             uploadButton.isUserInteractionEnabled = false
             uploadButton.setTitle("Uploading...", for: .normal)
             //create http mult-part form request
