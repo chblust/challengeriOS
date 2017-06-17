@@ -53,6 +53,7 @@ class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataS
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         if !userSet{
             let getLoginParams = [
                 "usernames[0]": Global.global.loggedInUser.username!

@@ -51,7 +51,7 @@ class Global: NSObject{
         return User(username: json["username"]!.stringValue, bio: json["bio"]!.stringValue, email: json["email"]!.stringValue, followers: json["followers"]!.arrayObject as! [String], following: json["following"]!.arrayObject as! [String])
     }
     static func jsonToChallenge(json: [String: JSON])->Challenge{
-        return Challenge(name: json["name"]!.stringValue, author: json["author"]!.stringValue, instructions: json["instructions"]!.stringValue, datePosted: json["datePosted"]!.stringValue, likers: json["likers"]!.arrayObject as! [String], rechallengers: json["rechallengers"]!.arrayObject as! [String], feedType: json["feedType"]!.stringValue, poster: json["poster"]!.stringValue)
+        return Challenge(name: json["name"]!.stringValue, author: json["author"]!.stringValue, instructions: json["instructions"]!.stringValue, datePosted: json["datePosted"]!.stringValue, likers: json["likers"]!.arrayObject as! [String], rechallengers: json["rechallengers"]!.arrayObject as! [String], feedType: json["feedType"]!.stringValue, poster: json["poster"]!.stringValue, acceptedCount: json["acceptedCount"]!.stringValue)
     }
     static func textIsSafe(textView: UITextView, here: UIViewController)->Bool{
         if (textView.text == ""){

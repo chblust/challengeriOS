@@ -98,6 +98,7 @@ class FeedDelegate{
         cell.datePostedLabel.text = challenge.datePosted
         cell.viewLikersButton.setTitle("\(challenge.likers!.count)", for: .normal)
         cell.viewRechallengersButton.setTitle(String(challenge.rechallengers!.count), for: .normal)
+        cell.acceptCountLabel.text = challenge.acceptedCount!
         
         if challenge.likers!.contains(Global.global.loggedInUser.username!){
             cell.likeButton.setImage(UIImage(named: "liked"), for: .normal)
@@ -136,7 +137,8 @@ class FeedDelegate{
             cell.viewRechallengersButton.frame.origin.x = cellwidth - cell.viewRechallengersButton.frame.width
             cell.likeButton.frame.origin.x = cellwidth - cell.likeButton.frame.width - cell.viewLikersButton.frame.width
             cell.viewLikersButton.frame.origin.x = cellwidth - cell.viewLikersButton.frame.width
-            cell.acceptButton.frame.origin.x = cellwidth - cell.acceptButton.frame.width - 10
+            cell.acceptButton.frame.origin.x = cellwidth - cell.acceptButton.frame.width - 10 - cell.acceptCountLabel.frame.width - 10
+            cell.acceptCountLabel.frame.origin.x = cellwidth - cell.acceptCountLabel.frame.width - 10
             cell.viewButton.frame.origin.x = cellwidth - cell.viewButton.frame.width - 10
             
         return cell
@@ -160,6 +162,7 @@ class FeedDelegate{
             cell.datePostedLabel.text = challenge.datePosted
             cell.viewLikersButton.setTitle("\(challenge.likers!.count)", for: .normal)
             cell.viewRechallengersButton.setTitle(String(challenge.rechallengers!.count), for: .normal)
+            cell.acceptCountLabel.text = challenge.acceptedCount!
             
             if challenge.likers!.contains(Global.global.loggedInUser.username!){
                 cell.likeButton.setImage(UIImage(named: "liked"), for: .normal)
@@ -198,7 +201,8 @@ class FeedDelegate{
             cell.viewRechallengersButton.frame.origin.x = cellwidth - cell.viewRechallengersButton.frame.width
             cell.likeButton.frame.origin.x = cellwidth - cell.likeButton.frame.width - cell.viewLikersButton.frame.width
             cell.viewLikersButton.frame.origin.x = cellwidth - cell.viewLikersButton.frame.width
-            cell.acceptButton.frame.origin.x = cellwidth - cell.acceptButton.frame.width - 10
+            cell.acceptButton.frame.origin.x = cellwidth - cell.acceptButton.frame.width - 10 - cell.acceptCountLabel.frame.width - 10
+            cell.acceptCountLabel.frame.origin.x = cellwidth - cell.acceptCountLabel.frame.width - 10
             cell.viewButton.frame.origin.x = cellwidth - cell.viewButton.frame.width - 10
             return cell
         }
@@ -213,6 +217,7 @@ class FeedDelegate{
         cell.datePostedLabel.text = challenge.datePosted
         cell.viewLikersButton.setTitle("\(challenge.likers!.count)", for: .normal)
         cell.viewRechallengersButton.setTitle(String(challenge.rechallengers!.count), for: .normal)
+        cell.acceptCountLabel.text = challenge.acceptedCount!
         
         if challenge.likers!.contains(Global.global.loggedInUser.username!){
             cell.likeButton.setImage(UIImage(named: "liked"), for: .normal)
@@ -242,7 +247,8 @@ class FeedDelegate{
         cell.viewRechallengersButton.frame.origin.x = cellwidth - cell.viewRechallengersButton.frame.width
         cell.likeButton.frame.origin.x = cellwidth - cell.likeButton.frame.width - cell.viewLikersButton.frame.width
         cell.viewLikersButton.frame.origin.x = cellwidth - cell.viewLikersButton.frame.width
-        cell.acceptButton.frame.origin.x = cellwidth - cell.acceptButton.frame.width - 10
+        cell.acceptButton.frame.origin.x = cellwidth - cell.acceptButton.frame.width - 10 - cell.acceptCountLabel.frame.width - 10
+        cell.acceptCountLabel.frame.origin.x = cellwidth - cell.acceptCountLabel.frame.width - 10
         cell.viewButton.frame.origin.x = cellwidth - cell.viewButton.frame.width - 10
         return cell
     }

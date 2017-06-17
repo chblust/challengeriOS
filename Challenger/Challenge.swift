@@ -17,8 +17,9 @@ class Challenge {
     var rechallengers: [String]?
     var feedType: String?
     var poster: String?
+    var acceptedCount: String?
     
-    init(name: String, author: String, instructions: String, datePosted: String, likers: [String], rechallengers: [String], feedType: String, poster: String){
+    init(name: String, author: String, instructions: String, datePosted: String, likers: [String], rechallengers: [String], feedType: String, poster: String, acceptedCount: String){
         self.name = name
         self.author = author
         self.instructions = instructions
@@ -27,5 +28,6 @@ class Challenge {
         self.rechallengers = rechallengers
         self.feedType = feedType
         self.poster = poster
+        self.acceptedCount = acceptedCount
     }
 }

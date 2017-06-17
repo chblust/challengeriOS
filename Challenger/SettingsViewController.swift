@@ -23,11 +23,16 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         passwordTextField.delegate = self
         bioTextField.placeholder = Global.global.loggedInUser.bio!
         emailTextField.placeholder = Global.global.loggedInUser.email!
-        
+        self.navigationController!.navigationBar.isHidden = false
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController!.setNavigationBarHidden(false, animated: true)
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {

@@ -9,6 +9,7 @@
 import UIKit
 
 class FeedTableViewCell: UITableViewCell {
+    @IBOutlet weak var acceptCountLabel: UILabel!
     @IBOutlet weak var challengeNameLabel: UILabel!
     @IBOutlet weak var challengeInstructionsLabel: UITextView!
     @IBOutlet weak var userImage: UIImageView!
