@@ -22,7 +22,7 @@ import AVFoundation
 import AVKit
 class AcceptanceTableViewController: UITableViewController, URLSessionDelegate{
     var challenge: Challenge!
-    
+    var playerViewController: AVPlayerViewController!
     var users: JSON?
     let cellId = "ac"
     var userPass: User?
@@ -88,13 +88,22 @@ class AcceptanceTableViewController: UITableViewController, URLSessionDelegate{
         let avasset = AVURLAsset(url: url!)
         let item = AVPlayerItem(asset: avasset)
         let player = AVPlayer(playerItem: item)
-        let playerViewController = AVPlayerViewController()
+        playerViewController = AVPlayerViewController()
         playerViewController.player = player
         
         self.present(playerViewController, animated: true){() -> Void in
-            playerViewController.player!.play()
+            self.playerViewController.player!.play()
         }
         
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.playerDidFinish(_:)),
+                                               name: .AVPlayerItemDidPlayToEndTime,
+                                               object: player.currentItem)
+        
+    }
+    
+    func playerDidFinish(_ player: AVPlayer){
+        playerViewController.dismiss(animated: true, completion: {})
     }
     
     func likeButtonTapped(user: Acceptance, cell: UITableViewCell){
