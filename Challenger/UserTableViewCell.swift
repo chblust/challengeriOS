@@ -9,7 +9,7 @@
 import UIKit
 
 class UserTableViewCell: UITableViewCell {
-
+    
     @IBOutlet weak var userImage: UIImageView!
     
     @IBOutlet weak var usernameButton: UIButton!
@@ -17,11 +17,11 @@ class UserTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-
+    
     @IBAction func usernameButtonPressed(_ sender: UIButton) {
         tapAction?(self)
     }

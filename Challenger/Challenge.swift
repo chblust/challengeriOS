@@ -6,6 +6,10 @@
 //  Copyright © 2017 ChallengerGroup. All rights reserved.
 //
 
+/***
+ holds the information for a challenge; used to model feeds
+ ***/
+
 import Foundation
 
 class Challenge {

@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		5B99F0B9778C51F58F86349E /* Pods_Challenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D861EA9FF00AB74694254E79 /* Pods_Challenger.framework */; };
 		931A64B61ECAADDC00B419DD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931A64B51ECAADDC00B419DD /* AppDelegate.swift */; };
-		931A64B81ECAADDC00B419DD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931A64B71ECAADDC00B419DD /* ViewController.swift */; };
+		931A64B81ECAADDC00B419DD /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931A64B71ECAADDC00B419DD /* LoginViewController.swift */; };
 		931A64BB1ECAADDC00B419DD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 931A64B91ECAADDC00B419DD /* Main.storyboard */; };
 		931A64BD1ECAADDC00B419DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 931A64BC1ECAADDC00B419DD /* Assets.xcassets */; };
 		931A64C01ECAADDC00B419DD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 931A64BE1ECAADDC00B419DD /* LaunchScreen.storyboard */; };
@@ -33,7 +33,6 @@
 		938272871ED4F21100EC8404 /* UploadProcessDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938272861ED4F21100EC8404 /* UploadProcessDelegate.swift */; };
 		938272891ED5169C00EC8404 /* AcceptanceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938272881ED5169C00EC8404 /* AcceptanceTableViewController.swift */; };
 		9382728D1ED7ACA300EC8404 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9382728C1ED7ACA300EC8404 /* SearchViewController.swift */; };
-		93F027001EF05E5C00E91D75 /* LaunchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F026FF1EF05E5C00E91D75 /* LaunchScreenViewController.swift */; };
 		93F027021EF0636F00E91D75 /* CrashList.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 93F027011EF0636F00E91D75 /* CrashList.rtf */; };
 		93F9EEDC1EDF6841005D4F7B /* TopChallengesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F9EEDB1EDF6841005D4F7B /* TopChallengesViewController.swift */; };
 		93FC07901EDA93150008B7F4 /* CreateUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FC078F1EDA93150008B7F4 /* CreateUserViewController.swift */; };
@@ -45,7 +44,7 @@
 		6F9E2F99625C9FFBC39712AE /* Pods-Challenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Challenger.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Challenger/Pods-Challenger.debug.xcconfig"; sourceTree = "<group>"; };
 		931A64B21ECAADDC00B419DD /* Challenger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Challenger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		931A64B51ECAADDC00B419DD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		931A64B71ECAADDC00B419DD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		931A64B71ECAADDC00B419DD /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		931A64BA1ECAADDC00B419DD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		931A64BC1ECAADDC00B419DD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		931A64BF1ECAADDC00B419DD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -70,7 +69,6 @@
 		938272861ED4F21100EC8404 /* UploadProcessDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadProcessDelegate.swift; sourceTree = "<group>"; };
 		938272881ED5169C00EC8404 /* AcceptanceTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptanceTableViewController.swift; sourceTree = "<group>"; };
 		9382728C1ED7ACA300EC8404 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
-		93F026FF1EF05E5C00E91D75 /* LaunchScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchScreenViewController.swift; sourceTree = "<group>"; };
 		93F027011EF0636F00E91D75 /* CrashList.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = CrashList.rtf; sourceTree = "<group>"; };
 		93F9EEDB1EDF6841005D4F7B /* TopChallengesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopChallengesViewController.swift; sourceTree = "<group>"; };
 		93FC078F1EDA93150008B7F4 /* CreateUserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateUserViewController.swift; sourceTree = "<group>"; };
@@ -121,14 +119,13 @@
 			isa = PBXGroup;
 			children = (
 				931A64B51ECAADDC00B419DD /* AppDelegate.swift */,
-				931A64B71ECAADDC00B419DD /* ViewController.swift */,
+				931A64B71ECAADDC00B419DD /* LoginViewController.swift */,
 				931A64B91ECAADDC00B419DD /* Main.storyboard */,
 				93F027011EF0636F00E91D75 /* CrashList.rtf */,
 				93FC078F1EDA93150008B7F4 /* CreateUserViewController.swift */,
 				9382728C1ED7ACA300EC8404 /* SearchViewController.swift */,
 				931A64BC1ECAADDC00B419DD /* Assets.xcassets */,
 				931A64BE1ECAADDC00B419DD /* LaunchScreen.storyboard */,
-				93F026FF1EF05E5C00E91D75 /* LaunchScreenViewController.swift */,
 				931A64C11ECAADDC00B419DD /* Info.plist */,
 				931A64C71ECAB40200B419DD /* Global.swift */,
 				931A64C91ECB7D3100B419DD /* HomeViewController.swift */,
@@ -298,8 +295,7 @@
 				937E19C11ECE2668006232F7 /* PostViewController.swift in Sources */,
 				937E19BF1ECE1682006232F7 /* HomeViewController.swift in Sources */,
 				9338AC611EDD1BFF0071BA29 /* FollowingAcceptanceTableViewCell.swift in Sources */,
-				931A64B81ECAADDC00B419DD /* ViewController.swift in Sources */,
-				93F027001EF05E5C00E91D75 /* LaunchScreenViewController.swift in Sources */,
+				931A64B81ECAADDC00B419DD /* LoginViewController.swift in Sources */,
 				931A64B61ECAADDC00B419DD /* AppDelegate.swift in Sources */,
 				931A64D01ECBCF6600B419DD /* User.swift in Sources */,
 				93F9EEDC1EDF6841005D4F7B /* TopChallengesViewController.swift in Sources */,
@@ -444,7 +440,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisblust.challengergroup.challenger;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -460,7 +456,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisblust.challengergroup.challenger;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

@@ -10,16 +10,23 @@ import UIKit
 import SwiftyJSON
 class UserListViewController: UITableViewController, URLSessionDelegate {
     //passed parameters
+    //determines the list of users to be displayed
     var listType: String?
+    //the user to which these users have this relationship if its a user related list
     var user: User?
+    //the challenge to which these users have this relationship if its a challenge related list
     var challenge: Challenge!
     
+    //the list of users
     var users = [User]()
     let cellId = "uc"
+    
+    //variable that is passed the other user page when a cell is tapped
     var userPass: User?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //setup the post request based on the type of user list to be displayed
         var getUsersParams = [String:String]()
         
         let userList: [String]?
@@ -51,6 +58,7 @@ class UserListViewController: UITableViewController, URLSessionDelegate {
             index = index + 1
         }
         
+        //get them users
         let getUsersRequest = Global.createServerRequest(params: getUsersParams, intent: "getUsers")
         let session = URLSession(configuration: .default, delegate: self, delegateQueue: .main)
         let getUsersTask = session.dataTask(with: getUsersRequest){data, response, error in
@@ -59,40 +67,40 @@ class UserListViewController: UITableViewController, URLSessionDelegate {
                 for index in 0..<json.count{
                     self.users.append(Global.jsonToUser(json: json[index].dictionaryValue))
                 }
-
+                
                 self.tableView.reloadData()
             }
         }
         getUsersTask.resume()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         tableView.removeFromSuperview()
     }
-
-    // MARK: - Table view data source
-
+    
+    //Table view data source
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         switch listType!{
         case "followers":
             return user!.followers!.count
-        
+            
         case "following":
             return user!.following!.count
-       
-            case "challengeLikers":
-                return challenge!.likers!.count
-           
-            case "rechallengers":
-                return challenge!.rechallengers!.count
-        
+            
+        case "challengeLikers":
+            return challenge!.likers!.count
+            
+        case "rechallengers":
+            return challenge!.rechallengers!.count
+            
         default:
             return 0
             
@@ -116,16 +124,20 @@ class UserListViewController: UITableViewController, URLSessionDelegate {
         }
         return cell
     }
-    func completeCellWithUserImage(data: Data, imageView: UIImageView){
-        imageView.image = UIImage(data: data)
-    }
     
+    
+//    func completeCellWithUserImage(data: Data, imageView: UIImageView){
+//        imageView.image = UIImage(data: data)
+//    }
+    
+    //misc methods
     func cellTapped(user: User, sender: Any?){
         userPass = user
         performSegue(withIdentifier: "otherUserFromUserList", sender: sender)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // pass the user onto the other user view
         let nextViewController = segue.destination as! OtherUserViewController
         nextViewController.user = userPass
         

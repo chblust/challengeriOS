@@ -21,17 +21,17 @@ class AcceptedTableViewController: UITableViewController {
         uploadProcessDelegate = UploadProcessDelegate(self, "acceptedToUpload")
         feedDelegate = FeedDelegate(viewController: self, username: "=", tableController: self, upd: uploadProcessDelegate, view: "acceptedToView", list: "acceptedToUserList")
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return feedDelegate.getNumSections()
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return feedDelegate.getNumRows()
     }
@@ -52,5 +52,5 @@ class AcceptedTableViewController: UITableViewController {
             next.challenge = feedDelegate.challengePass
         }
     }
-
+    
 }

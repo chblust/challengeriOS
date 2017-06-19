@@ -25,14 +25,15 @@ class UploadProcessDelegate:NSObject, UIImagePickerControllerDelegate, UINavigat
         self.viewController = viewController
         self.segueIdentifier = segue
     }
+    
+    //universal method that is called whenever an accept button is tapped
     func acceptButtonTapped(challenge: Challenge, sender: Any?){
         //check to make sure user has not already uploaded to this challenge
-        let params = [
+        URLSession.shared.dataTask(with: Global.createServerRequest(params: [
             "username":Global.global.loggedInUser.username!,
             "challengeName": challenge.name!,
             "type":"check"
-        ]
-        let task = URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "acceptance")){data, response, error in
+        ], intent: "acceptance")){data, response, error in
             if let data = data{
                 let json = JSON(data: data)
                 OperationQueue.main.addOperation {
@@ -47,21 +48,20 @@ class UploadProcessDelegate:NSObject, UIImagePickerControllerDelegate, UINavigat
                     }
                 }
             }
-        }
-        task.resume()
+        }.resume()
     }
-    
+    //presents the two methods of getting the video to upload in a pop up
     func acceptChallenge(challenge: Challenge, sender: Any?){
         challengePass = challenge
         let videoChoice = UIAlertController(title: "Upload a video", message: "choose a video from your library, or capture one right now", preferredStyle: UIAlertControllerStyle.alert)
         videoChoice.addAction(UIAlertAction(title: "Choose", style: .default, handler: { (action: UIAlertAction!) in
-           
+            
             videoChoice.dismiss(animated: true, completion: nil)
             self.completeVideoChoice("choose")
         }))
         
         videoChoice.addAction(UIAlertAction(title: "Capture", style: .default, handler: { (action: UIAlertAction!) in
-           
+            
             videoChoice.dismiss(animated: true, completion: nil)
             self.completeVideoChoice("capture")
         }))
@@ -163,29 +163,30 @@ class UploadProcessDelegate:NSObject, UIImagePickerControllerDelegate, UINavigat
                 }
                 let asset = AVAsset(url: pickedVideo)
                 let duration = CMTimeGetSeconds(asset.duration)
+                //limit the upload to 20 seconds
                 if duration < 21{
-                let assetImageGenerator = AVAssetImageGenerator(asset: asset)
-                var time = asset.duration
-                time.value = min(time.value, 2)
-                do{
-                    let imageRef = try assetImageGenerator.copyCGImage(at: time, actualTime: nil)
-                    let uiImage = UIImage(cgImage: imageRef)
-                    
-                    videoPreview = uiImage
-                }catch{
-                    fatalError("Fatal Error setting image preview to selected media thumbnail")
-                    
-                }
-                //dismiss controller and execute the segue
-                viewController.dismiss(animated: true, completion: nil)
-                if let segueIdentifier = self.segueIdentifier{
-                     viewController.performSegue(withIdentifier: segueIdentifier, sender: picker)
-                }
+                    let assetImageGenerator = AVAssetImageGenerator(asset: asset)
+                    var time = asset.duration
+                    time.value = min(time.value, 2)
+                    do{
+                        let imageRef = try assetImageGenerator.copyCGImage(at: time, actualTime: nil)
+                        let uiImage = UIImage(cgImage: imageRef)
+                        
+                        videoPreview = uiImage
+                    }catch{
+                        fatalError("Fatal Error setting image preview to selected media thumbnail")
+                        
+                    }
+                    //dismiss controller and execute the segue
+                    viewController.dismiss(animated: true, completion: nil)
+                    if let segueIdentifier = self.segueIdentifier{
+                        viewController.performSegue(withIdentifier: segueIdentifier, sender: picker)
+                    }
                 }else{
                     picker.dismiss(animated: true, completion: nil)
                     Global.showAlert(title: "Video too long", message: "please choose a video 20 seconds or shorter", here: viewController)
                 }
-               
+                
                 
             }else{
                 fatalError("Could not retrieve video url")

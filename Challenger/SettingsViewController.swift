@@ -9,7 +9,7 @@
 import UIKit
 import SwiftyJSON
 class SettingsViewController: UIViewController, UITextFieldDelegate {
-
+    
     @IBOutlet weak var passwordSaveButton: UIButton!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var emailSaveButton: UIButton!
@@ -21,18 +21,20 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         bioTextField.delegate = self
         emailTextField.delegate = self
         passwordTextField.delegate = self
-        bioTextField.placeholder = Global.global.loggedInUser.bio!
-        emailTextField.placeholder = Global.global.loggedInUser.email!
+        setupFields()
         self.navigationController!.navigationBar.isHidden = false
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController!.setNavigationBarHidden(false, animated: true)
+    func setupFields(){
+        bioTextField.placeholder = Global.global.loggedInUser.bio!
+        bioTextField.text = ""
+        emailTextField.placeholder = Global.global.loggedInUser.email!
+        emailTextField.text = ""
+        passwordTextField.text = ""
+        
+        bioSaveButton.isHidden = true
+        emailSaveButton.isHidden = true
+        passwordSaveButton.isHidden = true
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -46,9 +48,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField)-> Bool {
-        bioTextField.resignFirstResponder()
-        emailTextField.resignFirstResponder()
-        passwordTextField.resignFirstResponder()
+        textField.resignFirstResponder()
         return true
     }
     
@@ -72,26 +72,26 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         let params = [
             "username":Global.global.loggedInUser.username!,
             "newEmail":newEmail,
-        ]
+            ]
         URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "edit")).resume()
     }
     
+    //shows a protective sequence before a password change
     @IBAction func passwordSaveButtonPressed(_ sender: UIButton) {
         let alert = UIAlertController(title: "Confirm Password Change", message: "enter current password", preferredStyle: .alert)
         alert.addTextField(configurationHandler: {(textField) in
             
         })
         alert.addAction(UIAlertAction(title: "Change", style: .destructive, handler: {(UIAlertAction) in
-            let params = [
-                "username":Global.global.loggedInUser.username!,
-                "password":alert.textFields![0].text!
-            ]
-            URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "login")){data, response, error in
+                URLSession.shared.dataTask(with: Global.createServerRequest(params: [
+                    "username":Global.global.loggedInUser.username!,
+                    "password":alert.textFields![0].text!
+                    ], intent: "login")){data, response, error in
                 if let data = data{
                     let json = JSON(data: data)
                     OperationQueue.main.addOperation {
-                    if json["success"] == "true"{
-                        
+                        if json["success"] == "true"{
+                            
                             //reset password
                             let newPassword = self.passwordTextField.text!
                             self.passwordSaveButton.isHidden = true
@@ -100,26 +100,33 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
                                 "newPassword":newPassword
                             ]
                             URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "edit")).resume()
-                        
-                    }else{
-                        Global.showAlert(title: "Wrong Password", message: "your password is incorrect!", here: self)
-                    }
+                            
+                        }else{
+                            Global.showAlert(title: "Wrong Password", message: "your password is incorrect!", here: self)
+                        }
                     }
                 }
-            }.resume()}))
+                }.resume()}))
         alert.addAction(UIAlertAction(title: "cancel", style: .default, handler: { (UIAlertAction) in
             alert.dismiss(animated: true, completion: {})
         }))
         present(alert, animated: true, completion: {})
     }
-    
+    //returns fields to how they first were before editing commenced
     @IBAction func viewTapped(_ sender: UITapGestureRecognizer) {
         bioTextField.resignFirstResponder()
         emailTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
+        setupFields()
     }
+    
     @IBAction func logoutButtonPressed(_ sender: UIButton) {
         UserDefaults.standard.removeObject(forKey: "loginUsername")
         performSegue(withIdentifier: "unwindToLogin", sender: sender)
+    }
+    
+    //misc methods
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
     }
 }

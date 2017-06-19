@@ -40,7 +40,7 @@ class AcceptanceTableViewController: UITableViewController, URLSessionDelegate{
                 self.users = json
                 self.tableView.reloadData()
             }
-        }.resume()
+            }.resume()
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -69,7 +69,7 @@ class AcceptanceTableViewController: UITableViewController, URLSessionDelegate{
             
             cell.removeButtonAction = {[weak self] (cell) in self?.removeButtonTapped(user: user, cell: cell)}
             
-           Global.global.getUserImage(username: user.username!, view: cell.userImage)
+            Global.global.getUserImage(username: user.username!, view: cell.userImage)
             
             //constraints for cell
             let cellwidth = cell.frame.width
@@ -108,6 +108,8 @@ class AcceptanceTableViewController: UITableViewController, URLSessionDelegate{
     
     func likeButtonTapped(user: Acceptance, cell: UITableViewCell){
         let cell = cell as! AcceptanceTableViewCell
+        
+        //determines how to model and present the like button
         if user.likers!.contains(Global.global.loggedInUser.username!){
             cell.likeButton.setImage(UIImage(named: "like"), for: .normal)
             user.likers.remove(at: user.likers.index(of: Global.global.loggedInUser.username!)!)
@@ -126,9 +128,10 @@ class AcceptanceTableViewController: UITableViewController, URLSessionDelegate{
         cell.likeCountLabel.text = String(user.likers!.count)
     }
     
+    //allows only users who posted the video or the challenge it was uploaded to to delete, all others report
     func removeButtonTapped(user: Acceptance, cell: UITableViewCell){
         var params = [String: String]()
-
+        
         if user.username! == Global.global.loggedInUser.username! || challenge.author! == Global.global.loggedInUser.username!{
             let alert = UIAlertController(title: "Delete Video", message: "are you sure you want to permanently remove this video?", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: {(UIAlertAction) in
@@ -136,7 +139,13 @@ class AcceptanceTableViewController: UITableViewController, URLSessionDelegate{
                     "uploader": user.username!,
                     "challengeName": self.challenge.name!
                 ]
-                URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "removeVideo")).resume()
+                URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "removeVideo")){data, response, error in
+//                    if let data = data{
+//                        self.navigationController!.popViewController(animated: true)
+//                    }
+                    
+                    }.resume()
+                self.navigationController!.popViewController(animated: true)
             }))
             alert.addAction(UIAlertAction(title: "No", style: .default, handler: {(UIAlertAction) in alert.dismiss(animated: true, completion: {})}))
             present(alert, animated: true, completion: {})
@@ -160,14 +169,11 @@ class AcceptanceTableViewController: UITableViewController, URLSessionDelegate{
                 alert.dismiss(animated: true, completion: {})
             }))
             present(alert, animated: true, completion: {})
-
+            
         }
     }
     
-    func completeCellWithUserImage(data: Data, imageView: UIImageView){
-        imageView.image = UIImage(data: data)
-    }
-    
+    //misc methods
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }

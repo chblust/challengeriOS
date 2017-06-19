@@ -27,21 +27,8 @@ class ChallengeViewController: UIViewController, UITableViewDataSource, UITableV
         feedDelegate = FeedDelegate(uploadProcessDelegate: uploadProcessDelegate, viewController: self, view: "challengeToView", list: "challengeToUserList")
         tableView.reloadData()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return feedDelegate.getSingleChallengeCell(challenge: challenge, tableView: tableViewController.tableView, indexPath: indexPath)
-    }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
+   
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let nextViewController = segue.destination as? UploadViewController{
             nextViewController.challenge = uploadProcessDelegate.challengePass
@@ -55,6 +42,22 @@ class ChallengeViewController: UIViewController, UITableViewDataSource, UITableV
             next.listType = feedDelegate.listTypePass
             next.challenge = feedDelegate.challengePass
         }
-
+        
+    }
+    
+    //misc methods
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return feedDelegate.getSingleChallengeCell(challenge: challenge, tableView: tableViewController.tableView, indexPath: indexPath)
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
     }
 }

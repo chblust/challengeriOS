@@ -15,6 +15,8 @@ class UploadViewController: UIViewController, URLSessionDelegate, URLSessionTask
     @IBOutlet weak var uploadProgressView: UIProgressView!
     @IBOutlet weak var uploadButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet weak var processingActivityIndicatorView: UIActivityIndicatorView!
+    
     //here are the variables passed from the previous class before the segue
     var previewImage: UIImage?
     var videoData: Data?
@@ -23,14 +25,25 @@ class UploadViewController: UIViewController, URLSessionDelegate, URLSessionTask
     override func viewDidLoad() {
         super.viewDidLoad()
         Global.setupBannerAd(self, tab: false)
+        
         //set the image to the preview of the selected video
         imageView.image = previewImage
+        
+        //ensures the processing indicator is hidden
+        processingActivityIndicatorView.hidesWhenStopped = true
     }
-
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        //ensures the processing indicator is hidden
+        processingActivityIndicatorView.stopAnimating()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
+    //method to demonstrate how not to write code below:
     @IBAction func uploadButtonTapped(_ sender: UIButton) {
         if videoData != nil{
             //ensure user cannot initiate a second upload or cancel upload
@@ -54,8 +67,7 @@ class UploadViewController: UIViewController, URLSessionDelegate, URLSessionTask
             request.httpBody = body as Data
             
             //create a urlsession that can be referenced to send progress to the progress bar, send post request
-            let session = URLSession(configuration: .default, delegate: self, delegateQueue: .main)
-            let task = session.dataTask(with: request){data, response, error in
+            URLSession(configuration: .default, delegate: self, delegateQueue: .main).dataTask(with: request){data, response, error in
                 if let data = data{
                     let json = JSON(data: data)
                     
@@ -64,38 +76,48 @@ class UploadViewController: UIViewController, URLSessionDelegate, URLSessionTask
                     }
                     
                 }
-            }
-            task.resume()
+            }.resume()
         }else{
             Global.showAlert(title: "No Video Selected", message: "please select a video", here: self)
         }
     }
     
+    //tells the user if the video upload was a succes or not
     func completeUpload(success: String, sender: Any?){
         //alerts the user on whether or not the challenge was uploaded, returns to the user's feed
+        processingActivityIndicatorView.stopAnimating()
         switch success{
-            case "true":
-                let alertController = UIAlertController(title: "Success!", message: "your video has been uploaded to the challenge: \(challenge!.name!)", preferredStyle: .alert)
-                alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: {(UIAlertAction) in
-                    self.performSegue(withIdentifier: "unwindToFeed", sender: sender)
-                }))
-                present(alertController, animated: true, completion: nil)
+        case "true":
+            let alertController = UIAlertController(title: "Success!", message: "your video has been uploaded to the challenge: \(challenge!.name!)", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: {(UIAlertAction) in
+                self.performSegue(withIdentifier: "unwindToFeed", sender: sender)
+            }))
+            present(alertController, animated: true, completion: nil)
             break
-            case "false":
-                
-                let alertController = UIAlertController(title: "Failure!", message: "your video could not be uploaded to the challenge at this time", preferredStyle: .alert)
-                alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: {(UIAlertAction) in
-                    self.performSegue(withIdentifier: "unwindToFeed", sender: sender)
-                }))
-                present(alertController, animated: true, completion: nil)
+        case "false":
+            
+            let alertController = UIAlertController(title: "Failure!", message: "your video could not be uploaded to the challenge at this time", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: {(UIAlertAction) in
+                self.performSegue(withIdentifier: "unwindToFeed", sender: sender)
+            }))
+            present(alertController, animated: true, completion: nil)
         default:
             break
         }
     }
     
     //method that allows the progress of the upload to be sent to the progress bar
+    var processingPresented = false
     func urlSession(_ session: URLSession, task: URLSessionTask, didSendBodyData bytesSent: Int64, totalBytesSent: Int64, totalBytesExpectedToSend: Int64) {
         let uploadProgress = Double(totalBytesSent)/Double(totalBytesExpectedToSend)
         uploadProgressView.progress = Float(uploadProgress)
+        print(uploadProgress)
+        
+        //if the upload is done, show that the server must now process the uploaded video
+        if uploadProgress == 1.0 && !processingPresented{
+            processingPresented = true
+            uploadButton.setTitle("Processing...", for: .normal)
+            processingActivityIndicatorView.startAnimating()
+        }
     }
 }

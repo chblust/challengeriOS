@@ -6,6 +6,10 @@
 //  Copyright © 2017 ChallengerGroup. All rights reserved.
 //
 
+/***
+ holds the information for a user; used to setup home pages and hold login info
+ ***/
+
 import Foundation
 
 class User {

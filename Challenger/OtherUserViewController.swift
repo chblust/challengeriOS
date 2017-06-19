@@ -41,12 +41,15 @@ class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
         Global.setupBannerAd(self, tab: true)
+        
+        //set the image for the follow button depending on whether or not the login is following the user
         if (user.followers!.contains(Global.global.loggedInUser.username!)){
             followButton.setImage(UIImage(named: "following"), for: .normal)
         }else{
             followButton.setImage(UIImage(named: "follow"), for: .normal)
         }
         
+        //i dont know if i still need this; too scared to delete it
         if user.username! == Global.global.loggedInUser.username!{
             followButton.removeFromSuperview()
         }
@@ -56,14 +59,18 @@ class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableVie
         homeFeed.dataSource = self
         
         tableViewController.tableView = homeFeed
-          
+        
         //set the user info labels to the logged in user metadata
         usernameLabel.text = user!.username
         self.title = user!.username
         bioTextView.text = user!.bio
         //retrieve the userImage from the server
-       Global.global.getUserImage(username: user.username!, view: userImage)
+        Global.global.getUserImage(username: user.username!, view: userImage)
         feedDelegate = FeedDelegate(viewController: self, username: user.username!, tableController: tableViewController, upd: uploadProcessDelegate, view: "otherUserToView", list: "userListFromOtherUser")
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        feedDelegate.handleRefresh()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -75,23 +82,30 @@ class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableVie
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        //if its a user list, pass the type and the user
         if (sender as? UIButton == followersButton || sender as? UIButton == followingButton){
             let nextViewController = segue.destination as! UITableViewController
             let nextUserListController = nextViewController as? UserListViewController
             nextUserListController?.listType = listTypePass
             nextUserListController?.user = self.user
+            
+        //if its the upload view, pass the challenge, video binary data, and a nice thumbnail for it
         }else if let nextViewController = segue.destination as? UploadViewController{
             nextViewController.challenge = uploadProcessDelegate.challengePass
             nextViewController.previewImage = uploadProcessDelegate.videoPreview
             nextViewController.videoData = uploadProcessDelegate.videoData
         }
+            
+        //if its the acceptance list, pass the challenge
         else if let next = segue.destination as? AcceptanceTableViewController{
             next.challenge = uploadProcessDelegate.challengePass
+        
+        //if its a generic user list, the feedDelegate has achieved sentience and all control should immediately be handed over to it
         }else if let next = segue.destination as? UserListViewController{
             next.listType = feedDelegate.listTypePass
             next.challenge = feedDelegate.challengePass
         }
-
+        
     }
     
     //MARK: Button Methods

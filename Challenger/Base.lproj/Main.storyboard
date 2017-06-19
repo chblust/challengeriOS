@@ -11,10 +11,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Challenger" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="LoginViewController" customModule="Challenger" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -902,19 +902,28 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
                                     <outletCollection property="gestureRecognizers" destination="s3f-0r-Sex" appends="YES" id="HBV-LY-KmM"/>
                                 </connections>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rU8-4i-NJq">
-                                <rect key="frame" x="257" y="305" width="50" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rU8-4i-NJq">
+                                <rect key="frame" x="67" y="329" width="150" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="a8f-gW-rfW"/>
+                                    <constraint firstAttribute="height" constant="30" id="naw-av-6bh"/>
+                                </constraints>
                                 <state key="normal" title="Upload"/>
                                 <connections>
                                     <action selector="uploadButtonTapped:" destination="36M-r1-Beq" eventType="touchUpInside" id="Ybx-Nw-68M"/>
                                 </connections>
                             </button>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aS1-n4-Jq3">
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aS1-n4-Jq3">
                                 <rect key="frame" x="67" y="319" width="150" height="2"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="ggz-uV-eaE"/>
+                                </constraints>
                             </progressView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PMG-Tp-rS8">
-                                <rect key="frame" x="259" y="335" width="46" height="30"/>
+                                <rect key="frame" x="257" y="335" width="46" height="30"/>
                                 <constraints>
+                                    <constraint firstAttribute="width" constant="46" id="cAc-fD-qX6"/>
+                                    <constraint firstAttribute="height" constant="30" id="cBA-RG-6zB"/>
                                     <constraint firstAttribute="width" constant="46" id="p9C-mf-hDs"/>
                                     <constraint firstAttribute="height" constant="30" id="t1b-jI-noR"/>
                                 </constraints>
@@ -926,24 +935,33 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
                                     <segue destination="muj-98-AMB" kind="unwind" unwindAction="unwindToFeedWithSegue:" id="DZC-KF-OUj"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="hzD-jM-chJ">
+                                <rect key="frame" x="225" y="310" width="20" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="laP-Ig-1q7"/>
+                                    <constraint firstAttribute="width" constant="20" id="wv2-kU-pii"/>
+                                </constraints>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="rU8-4i-NJq" firstAttribute="top" secondItem="aS1-n4-Jq3" secondAttribute="bottom" constant="8" id="8cz-3d-jay"/>
                             <constraint firstItem="uAN-Ir-czq" firstAttribute="top" secondItem="CkH-0L-3qz" secondAttribute="bottom" constant="37" id="BdF-eE-q4O"/>
-                            <constraint firstItem="PMG-Tp-rS8" firstAttribute="centerX" secondItem="rU8-4i-NJq" secondAttribute="centerX" id="K7S-KA-Iqr"/>
+                            <constraint firstItem="hzD-jM-chJ" firstAttribute="top" secondItem="uAN-Ir-czq" secondAttribute="bottom" constant="13" id="L5K-Qe-d9K"/>
                             <constraint firstItem="aS1-n4-Jq3" firstAttribute="leading" secondItem="woJ-os-3Bx" secondAttribute="leadingMargin" constant="51" id="N8X-xu-cEv"/>
-                            <constraint firstItem="rU8-4i-NJq" firstAttribute="trailing" secondItem="uAN-Ir-czq" secondAttribute="trailing" id="U7F-fg-hec"/>
-                            <constraint firstItem="PMG-Tp-rS8" firstAttribute="top" secondItem="rU8-4i-NJq" secondAttribute="bottom" id="Us7-4e-QPh"/>
+                            <constraint firstItem="hzD-jM-chJ" firstAttribute="leading" secondItem="woJ-os-3Bx" secondAttribute="leadingMargin" constant="209" id="SVT-Kv-N9w"/>
                             <constraint firstAttribute="trailingMargin" secondItem="uAN-Ir-czq" secondAttribute="trailing" constant="52" id="a5l-ig-65R"/>
                             <constraint firstItem="uAN-Ir-czq" firstAttribute="leading" secondItem="woJ-os-3Bx" secondAttribute="leadingMargin" constant="51" id="a8O-qn-DSh"/>
-                            <constraint firstItem="rU8-4i-NJq" firstAttribute="leading" secondItem="aS1-n4-Jq3" secondAttribute="trailing" constant="40" id="kvn-1q-bxr"/>
-                            <constraint firstItem="rU8-4i-NJq" firstAttribute="top" secondItem="uAN-Ir-czq" secondAttribute="bottom" constant="8" id="oKU-3G-P9q"/>
+                            <constraint firstItem="PMG-Tp-rS8" firstAttribute="leading" secondItem="rU8-4i-NJq" secondAttribute="trailing" constant="40" id="hrb-iM-Fgf"/>
+                            <constraint firstItem="rU8-4i-NJq" firstAttribute="leading" secondItem="woJ-os-3Bx" secondAttribute="leadingMargin" constant="51" id="lul-3E-O9x"/>
                             <constraint firstItem="aS1-n4-Jq3" firstAttribute="top" secondItem="uAN-Ir-czq" secondAttribute="bottom" constant="22" id="sf7-F7-ccD"/>
+                            <constraint firstItem="PMG-Tp-rS8" firstAttribute="top" secondItem="uAN-Ir-czq" secondAttribute="bottom" constant="38" id="uJc-B2-AQH"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="cancelButton" destination="PMG-Tp-rS8" id="2nH-sp-9ZU"/>
                         <outlet property="imageView" destination="uAN-Ir-czq" id="meS-gk-mMZ"/>
+                        <outlet property="processingActivityIndicatorView" destination="hzD-jM-chJ" id="s0x-cQ-v2t"/>
                         <outlet property="uploadButton" destination="rU8-4i-NJq" id="dRf-mu-AmC"/>
                         <outlet property="uploadProgressView" destination="aS1-n4-Jq3" id="3Rv-W6-HqF"/>
                         <segue destination="muj-98-AMB" kind="unwind" identifier="unwindToFeed" unwindAction="unwindToFeedWithSegue:" id="4Ve-SV-wVf"/>

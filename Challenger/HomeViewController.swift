@@ -13,46 +13,51 @@ import MobileCoreServices
 import AVFoundation
 import Photos
 class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, URLSessionTaskDelegate{
-    //references to userMetadata views
-    
-    
+    //references to views
     @IBOutlet weak var imageUploadProgressView: UIProgressView!
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
-    
     @IBOutlet weak var bioTextView: UITextView!
     @IBOutlet weak var followersButton: UIButton!
     @IBOutlet weak var followingButton: UIButton!
+    @IBOutlet weak var homeFeed: UITableView!
     
     //variable passed to user list indicating what kindof list is to follow
     var listTypePass: String?
     
     //references to the tableview and its data sources
-    @IBOutlet weak var homeFeed: UITableView!
     let cellId = "fc"
     var challenges = [Challenge]()
     var tableViewController = UITableViewController()
-
+    
+    //that thing that controls the upload process from feeds
     var uploadProcessDelegate: UploadProcessDelegate!
+    //that thing i wrote that controls feeds uniformly
     var feedDelegate: FeedDelegate!
     
     //bool to prevent double user load in beginning
     var userSet: Bool!
-    //MARK: functions to set user metadata
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         Global.setupBannerAd(self, tab: true)
+        //this only appears when setting your image
         imageUploadProgressView.isHidden = true
+        
         uploadProcessDelegate = UploadProcessDelegate(self, "homeToUpload")
         homeFeed.dataSource = self
         tableViewController.tableView = homeFeed
         
         feedDelegate = FeedDelegate(viewController: self, username: Global.global.loggedInUser.username!, tableController: tableViewController, upd: uploadProcessDelegate, view: "homeToView", list: "userListFromHome")
+       
         //set the user info labels to the logged in user metadata
         setupHome()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        //ensure correct feed
+        feedDelegate.handleRefresh()
+        //this override exists so that the home metadata is updated on each tab click
         super.viewWillAppear(animated)
         if !userSet{
             let getLoginParams = [
@@ -70,6 +75,7 @@ class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataS
         }
     }
     
+    //takes care of setting all the home metadata
     func setupHome(){
         self.title = Global.global.loggedInUser.username!
         usernameLabel.text = Global.global.loggedInUser.username
@@ -79,38 +85,34 @@ class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataS
         userSet = false
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return feedDelegate.getNumRows()
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
-        return feedDelegate.getChallengeCell(indexPath: indexPath)
-    }
-
-
     //determines what information needs to be passed to the next segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        //if its a user list, pass the type and the logged in user
         if (sender as? UIButton == followersButton || sender as? UIButton == followingButton){
             let nextViewController = segue.destination as! UITableViewController
             let nextUserListController = nextViewController as? UserListViewController
             nextUserListController?.listType = listTypePass
             nextUserListController?.user = Global.global.loggedInUser
+            
+        //if its the upload page, pass the challenge, the video binary data, and a nice thumbnail for the video
         }else if let nextViewController = segue.destination as? UploadViewController{
-                nextViewController.challenge = uploadProcessDelegate.challengePass
-                nextViewController.videoData = uploadProcessDelegate.videoData
-                nextViewController.previewImage = uploadProcessDelegate.videoPreview
-        }
-        else if let next = segue.destination as? AcceptanceTableViewController{
+            nextViewController.challenge = uploadProcessDelegate.challengePass
+            nextViewController.videoData = uploadProcessDelegate.videoData
+            nextViewController.previewImage = uploadProcessDelegate.videoPreview
+            
+        //if its the list of acceptances, then pass the challenge
+        }else if let next = segue.destination as? AcceptanceTableViewController{
             next.challenge = uploadProcessDelegate.challengePass
         }
+            
+        //if its a generic user list, dont panic, the feed delegate initiated it, so just give it the info the feedDelegate has for it
         else if let next = segue.destination as? UserListViewController{
-        next.listType = feedDelegate.listTypePass
-        next.challenge = feedDelegate.challengePass
+            next.listType = feedDelegate.listTypePass
+            next.challenge = feedDelegate.challengePass
         }
     }
     
-    //MARK: metadata Button Methods
-
+    //functions that initiate a segue to a user list
     @IBAction func followerButtonPressed(_ sender: UIButton) {
         listTypePass = "followers"
         performSegue(withIdentifier: "userListFromHome", sender: sender)
@@ -120,14 +122,23 @@ class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataS
         performSegue(withIdentifier: "userListFromHome", sender: sender)
     }
     
-    //MARK: image setting functions
+    @IBAction func userImageTapped(_ sender: UITapGestureRecognizer) {
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.delegate = self
+        self.present(imagePicker, animated: true, completion: {})
+    }
+    
+    //image setting functions
+    
+    //huge conveluded bucket of upload junk i need to encapsulate
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         guard let selectedImage = info[UIImagePickerControllerOriginalImage] as? UIImage else{
             fatalError("error retrieving selected image")
         }
-       
+        
         let imageData = UIImageJPEGRepresentation(selectedImage, 0.5)
-
+        
         var request = URLRequest(url: Global.url!)
         request.httpMethod = "POST"
         let body = NSMutableData()
@@ -155,11 +166,10 @@ class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataS
         
     }
     
-    
     public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
-    
+    //handles it if the server couldn't deal with the image for whatever reason
     func completeSettingImage(_ json: JSON){
         switch json["success"].stringValue{
         case "false":
@@ -170,7 +180,6 @@ class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataS
             Global.global.userImages.removeValue(forKey: Global.global.loggedInUser.username!)
             setupHome()
             break
-            
         }
     }
     
@@ -182,15 +191,16 @@ class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataS
         userImage.image = nil
     }
     
-    @IBAction func userImageTapped(_ sender: UITapGestureRecognizer) {
-        let imagePicker = UIImagePickerController()
-        imagePicker.sourceType = .photoLibrary
-        imagePicker.delegate = self
-        self.present(imagePicker, animated: true, completion: {})
-    }
-    
     func urlSession(_ session: URLSession, task: URLSessionTask, didSendBodyData bytesSent: Int64, totalBytesSent: Int64, totalBytesExpectedToSend: Int64) {
         let uploadProgress = Double(totalBytesSent)/Double(totalBytesExpectedToSend)
         imageUploadProgressView.progress = Float(uploadProgress)
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return feedDelegate.getNumRows()
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
+        return feedDelegate.getChallengeCell(indexPath: indexPath)
     }
 }

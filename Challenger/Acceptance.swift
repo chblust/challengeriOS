@@ -6,6 +6,9 @@
 //  Copyright © 2017 ChallengerGroup. All rights reserved.
 //
 
+/***
+ this object holds the information for an acceptance as displayed when viewing the list of challenge acceptances
+ ***/
 import Foundation
 import SwiftyJSON
 class Acceptance {

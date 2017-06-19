@@ -11,8 +11,8 @@ import SwiftyJSON
 import AVFoundation
 import MobileCoreServices
 class FeedViewController: UITableViewController{
-
     
+    //variable that does most of the feed stuff behind the scenes
     var feedDelegate: FeedDelegate!
     
     
@@ -21,25 +21,16 @@ class FeedViewController: UITableViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         uploadProcessDelegate = UploadProcessDelegate(self, "feedToUpload")
         feedDelegate = FeedDelegate(viewController: self, username: "", tableController: self, upd: uploadProcessDelegate, view: "feedToView", list: "feedToUserList")
     }
     
-   
-
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return feedDelegate.getChallengeCell(indexPath: indexPath)
-    }
-
     //makes sure the upload viewcontorller knows which challenge to upload to
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-
         if let nextViewController = segue.destination as? UploadViewController{
-        nextViewController.challenge = uploadProcessDelegate.challengePass
-        nextViewController.previewImage = uploadProcessDelegate.videoPreview
-        nextViewController.videoData = uploadProcessDelegate.videoData
+            nextViewController.challenge = uploadProcessDelegate.challengePass
+            nextViewController.previewImage = uploadProcessDelegate.videoPreview
+            nextViewController.videoData = uploadProcessDelegate.videoData
         }
         else if let next = segue.destination as? AcceptanceTableViewController{
             next.challenge = uploadProcessDelegate.challengePass
@@ -48,7 +39,7 @@ class FeedViewController: UITableViewController{
             next.listType = feedDelegate.listTypePass
             next.challenge = feedDelegate.challengePass
         }
-            
+        
     }
     
     //misc methods
@@ -65,5 +56,8 @@ class FeedViewController: UITableViewController{
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return feedDelegate.getNumRows()
+    }
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return feedDelegate.getChallengeCell(indexPath: indexPath)
     }
 }
