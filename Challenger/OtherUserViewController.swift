@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import SwiftyJSON
 
-class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableViewDataSource {
+class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableViewDataSource, UITableViewDelegate {
     //the user that's page is being displayed, set ahead of time by previous view controller
     var user: User!
     
@@ -62,6 +62,7 @@ class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableVie
         uploadProcessDelegate = UploadProcessDelegate(self)
         
         homeFeed.dataSource = self
+        homeFeed.delegate = self
         
         tableViewController.tableView = homeFeed
         
@@ -166,5 +167,16 @@ class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableVie
             alert.dismiss(animated: true, completion: {})
         }))
         present(alert, animated: true, completion: {})
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row < feedDelegate.challenges.count{
+            switch feedDelegate.challenges[indexPath.row].feedType!{
+            case "acceptance":
+                return 62
+            default:
+                return 199
+            }
+        }
+        return 62
     }
 }

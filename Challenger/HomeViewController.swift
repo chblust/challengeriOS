@@ -12,7 +12,7 @@ import UIKit
 import MobileCoreServices
 import AVFoundation
 import Photos
-class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, URLSessionTaskDelegate{
+class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, URLSessionTaskDelegate, UITableViewDelegate{
     //references to views
     @IBOutlet weak var imageUploadProgressView: UIProgressView!
     @IBOutlet weak var userImage: UIImageView!
@@ -49,6 +49,7 @@ class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataS
         uploadProcessDelegate = UploadProcessDelegate(self)
         homeFeed.dataSource = self
         tableViewController.tableView = homeFeed
+        tableViewController.tableView.delegate = self
         
         feedDelegate = FeedDelegate(viewController: self, username: Global.global.loggedInUser.username!, tableController: tableViewController, upd: uploadProcessDelegate, view: "homeToView", list: "userListFromHome")
        
@@ -58,7 +59,7 @@ class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataS
     
     override func viewWillAppear(_ animated: Bool) {
         //ensure correct feed
-        feedDelegate.handleRefresh()
+        //feedDelegate.handleRefresh()
         //this override exists so that the home metadata is updated on each tab click
         super.viewWillAppear(animated)
         if !userSet{
@@ -197,5 +198,17 @@ class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataS
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         return feedDelegate.getChallengeCell(indexPath: indexPath)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row < feedDelegate.challenges.count{
+            switch feedDelegate.challenges[indexPath.row].feedType!{
+            case "acceptance":
+                return 62
+            default:
+                return 199
+            }
+        }
+        return 62
     }
 }

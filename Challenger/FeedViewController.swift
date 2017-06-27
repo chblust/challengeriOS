@@ -62,5 +62,17 @@ class FeedViewController: UITableViewController{
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return feedDelegate.getChallengeCell(indexPath: indexPath)
     }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row < feedDelegate.challenges.count{
+        switch feedDelegate.challenges[indexPath.row].feedType!{
+            case "acceptance":
+            return 62
+        default:
+            return 199
+            }
+        }
+        return 62
+    }
    
 }

@@ -26,6 +26,8 @@ class FeedDelegate{
     var tableViewController: UITableViewController!
     var viewController: UIViewController!
     var feedPosition = 1
+    //tells feed whether or not to display loadMore
+    var end = false
     
     //variables passed to future view controllers through segues
     var listTypePass:String!
@@ -81,19 +83,26 @@ class FeedDelegate{
                 ]
             }
             params["setLimit"] = "\(feedPosition)"
-            feedPosition = feedPosition + 5
+            self.feedPosition = self.feedPosition + 30
             //gets those challenges, puts them in the model array
             URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "getChallenges")){data, response, error in
                 self.refreshing = false
                 if let data = data{
                     let json = JSON(data: data)
-                    //reversed to keep latest posted challenges on top of feed
-                    for i in (0..<json.count).reversed(){
-                        self.challenges.append(Global.jsonToChallenge(json: json[i].dictionaryValue))
-                    }
+                   
                     OperationQueue.main.addOperation {
+                            for i in 0..<json["challenges"].arrayValue.count{
+                                self.challenges.append(Global.jsonToChallenge(json: json["challenges"][i].dictionaryValue))
+                            }
+                        if json["end"].stringValue == "true"{
+                            self.end = true
+                        }else{
+                            self.end = false
+                        }
+
+                        
                         self.tableViewController.tableView.reloadData()
-                        self.tableViewController.tableView.setContentOffset(self.tableViewController.tableView.contentOffset, animated: false)
+                        
                     }
                     
                 }
@@ -103,19 +112,19 @@ class FeedDelegate{
     
     func getChallengeCell(indexPath: IndexPath)->UITableViewCell{
         if indexPath.row == challenges.count{
-            self.tableViewController.tableView.rowHeight = 62
             let cell = tableViewController.tableView.dequeueReusableCell(withIdentifier: "lm", for: indexPath) as! LoadMoreTableViewCell
             cell.buttonAction = {[weak self] (cell) in self?.loadMore()}
             
             //programmed constraints
-            cell.button.frame.origin.y = (cell.frame.height/2) //+ cell.button.frame.height
-            cell.button.frame.origin.x = cell.frame.width/2
+
+            cell.button.frame.origin.y = (cell.frame.height/2) - 15
+            cell.button.frame.origin.x = (cell.frame.width/2) - 36.5
+            cell.button.isHidden = end
             return cell
         }else {
             let challenge = challenges[indexPath.row]
             if challenge.feedType! == "acceptance"{
-                //set the cell to the correct height
-                self.tableViewController.tableView.rowHeight = 62
+
                 //get the correct kindof cell
                 let cell = tableViewController.tableView.dequeueReusableCell(withIdentifier: "ac", for: indexPath) as! FollowingAcceptanceTableViewCell
                 cell.selectionStyle = .none
@@ -129,8 +138,6 @@ class FeedDelegate{
                 
                 return cell
             }else{
-                //set the cell to the correct height
-                self.tableViewController.tableView.rowHeight = 199
                 //get the correct kindof cell
                 let cell = tableViewController.tableView.dequeueReusableCell(withIdentifier: "fc", for: indexPath) as! FeedTableViewCell
                 cell.selectionStyle = .none
@@ -259,6 +266,7 @@ class FeedDelegate{
         cell.acceptButton.frame.origin.x = cellwidth - cell.acceptButton.frame.width - 10 - cell.acceptCountLabel.frame.width - 10
         cell.acceptCountLabel.frame.origin.x = cellwidth - cell.acceptCountLabel.frame.width - 10
         cell.viewButton.frame.origin.x = cellwidth - cell.viewButton.frame.width - 10
+        
         return cell
     }
     
@@ -268,8 +276,6 @@ class FeedDelegate{
     }
     
     func viewButtonTapped(challenge: Challenge, sender: Any?){
-        //        uploadProcessDelegate.challengePass = challenge
-        //        viewController.performSegue(withIdentifier: viewSegueName, sender: sender)
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         let acceptanceViewController = storyBoard.instantiateViewController(withIdentifier: "acceptanceViewController") as! AcceptanceTableViewController
         acceptanceViewController.challenge = challenge

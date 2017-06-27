@@ -23,9 +23,11 @@ import AVKit
 class AcceptanceTableViewController: UITableViewController, URLSessionDelegate{
     var challenge: Challenge!
     var playerViewController: AVPlayerViewController!
-    var users: JSON?
+    var acceptances = [Acceptance]()
     let cellId = "ac"
     var userPass: User?
+    var feedPosition = 1
+    var end = false //tells feed whether or not to display loadMore
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,55 +36,77 @@ class AcceptanceTableViewController: UITableViewController, URLSessionDelegate{
         var items = [UIBarButtonItem]()
         items.append(UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped)))
         self.setToolbarItems(items, animated: true)
+        
+        fillTable()
+    }
+    
+    func fillTable(){
         //get the users that have accepted that challenge from the server
         let params = [
             "challengeName": challenge.name!,
-            "type": "get"
+            "type": "get",
+            "setLimit": "\(feedPosition)"
         ]
+        feedPosition = feedPosition + 50
         URLSession(configuration: .default, delegate: self, delegateQueue: .main).dataTask(with: Global.createServerRequest(params: params, intent: "acceptance")){data, response, error in
             if let data = data{
-                let json = JSON(data: data)
-                self.users = json
+                let jsonArray = JSON(data: data)
+                for json in jsonArray["acceptances"].arrayValue{
+                    self.acceptances.append(Acceptance(json))
+                }
+                switch jsonArray["end"].stringValue{
+                    case "true": self.end = true
+                    break
+                    
+                default: self.end = false
+                }
                 self.tableView.reloadData()
             }
             }.resume()
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as? AcceptanceTableViewCell else{
-            fatalError("Cell was not an AcceptanceTableViewCell")
-        }
-        let user: Acceptance!
-        if (indexPath.row < users!.arrayValue.count){
-            user = Acceptance(users![indexPath.row])
-            cell.usernameButton.setTitle(user.username, for: .normal)
-            cell.likeCountLabel.text = String(user.likers!.count)
-            cell.usernameButtonAction = { [weak self] (cell) in self?.cellTapped(user: user.username!, sender: cell)}
-            cell.likeButtonAction = { [weak self] (cell) in self?.likeButtonTapped(user: user, cell: cell)}
+        if indexPath.row == acceptances.count{
+            let cell = tableView.dequeueReusableCell(withIdentifier: "lm", for: indexPath) as! LoadMoreTableViewCell
+            cell.buttonAction = { [weak self] (cell) in self?.loadMore()}
+            //programmed constraints
+            cell.button.frame.origin.y = (cell.frame.height/2) - 15
+            cell.button.frame.origin.x = (cell.frame.width/2) - 36.5
+            cell.button.isHidden = end
+            return cell
+        }//else if (indexPath.row < users!.arrayValue.count){
+        else{
             
-            if(user.likers!.contains(Global.global.loggedInUser.username!)){
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! AcceptanceTableViewCell
+            let acceptance = acceptances[indexPath.row]
+            cell.usernameButton.setTitle(acceptance.username, for: .normal)
+            cell.likeCountLabel.text = String(acceptance.likers!.count)
+            cell.usernameButtonAction = { [weak self] (cell) in self?.cellTapped(user: acceptance.username!, sender: cell)}
+            cell.likeButtonAction = { [weak self] (cell) in self?.likeButtonTapped(user: acceptance, cell: cell)}
+            
+            if(acceptance.likers!.contains(Global.global.loggedInUser.username!)){
                 cell.likeButton.setImage(UIImage(named: "liked"), for: .normal)
             }else{
                 cell.likeButton.setImage(UIImage(named: "like"), for: .normal)
             }
             
-            if user.username! == Global.global.loggedInUser.username! || challenge.author! == Global.global.loggedInUser.username!{
+            if acceptance.username! == Global.global.loggedInUser.username! || challenge.author! == Global.global.loggedInUser.username!{
                 cell.removeButton.setTitle("remove", for: .normal)
             }else{
                 cell.removeButton.setTitle("report", for: .normal)
             }
             
-            cell.removeButtonAction = {[weak self] (cell) in self?.removeButtonTapped(user: user, cell: cell)}
+            cell.removeButtonAction = {[weak self] (cell) in self?.removeButtonTapped(user: acceptance, cell: cell)}
             
-            Global.global.getUserImage(username: user.username!, view: cell.userImage)
+            Global.global.getUserImage(username: acceptance.username!, view: cell.userImage)
             
             //constraints for cell
             let cellwidth = cell.frame.width
             cell.removeButton.frame.origin.x = cellwidth - cell.removeButton.frame.width - cell.likeCountLabel.frame.width - cell.likeButton.frame.width - 25
             cell.likeCountLabel.frame.origin.x = cellwidth - cell.likeCountLabel.frame.width - cell.likeButton.frame.width - 15
             cell.likeButton.frame.origin.x = cellwidth - cell.likeButton.frame.width - 5
+            return cell
         }
-        return cell
     }
     
     func cellTapped(user: String, sender: UITableViewCell){
@@ -105,6 +129,10 @@ class AcceptanceTableViewController: UITableViewController, URLSessionDelegate{
                                                name: .AVPlayerItemDidPlayToEndTime,
                                                object: player.currentItem)
         
+    }
+    
+    func loadMore(){
+        fillTable()
     }
     
     func playerDidFinish(_ player: AVPlayer){
@@ -181,11 +209,7 @@ class AcceptanceTableViewController: UITableViewController, URLSessionDelegate{
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if users == nil{
-            return 0
-        }else{
-            return users!.arrayValue.count
-        }
+        return acceptances.count + 1
     }
     
     override func didReceiveMemoryWarning() {
