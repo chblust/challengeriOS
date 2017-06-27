@@ -25,6 +25,7 @@ class FeedDelegate{
     var refreshControl: UIRefreshControl!
     var tableViewController: UITableViewController!
     var viewController: UIViewController!
+    var feedPosition = 1
     
     //variables passed to future view controllers through segues
     var listTypePass:String!
@@ -55,68 +56,88 @@ class FeedDelegate{
     func fillTable(){
         if !refreshing{
             refreshing = true
-        //sets up the params to get the correct kindof challenges from the server
-        var params = [String: String]()
-        if username == ""{
-            //retrieves the logged in user's feed
-            params = [
-                "type":"feed",
-                "username":Global.global.loggedInUser.username!
-            ]
-        }else if username == "[]"{
-            params = [
-                "type": "top",
-                "username": Global.global.loggedInUser.username!
-            ]
-        }else if username == "="{
-            params = [
-                "type":"accepted",
-                "username":Global.global.loggedInUser.username!
-            ]
-        }else{
-            params = [
-                "type":"home",
-                "username": username
-            ]
-        }
-        //gets those challenges, puts them in the model array
-        URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "getChallenges")){data, response, error in
-            if let data = data{
-                let json = JSON(data: data)
-                //reversed to keep latest posted challenges on top of feed
-                for i in (0..<json.count).reversed(){
-                    self.challenges.append(Global.jsonToChallenge(json: json[i].dictionaryValue))
-                }
-                OperationQueue.main.addOperation {
-                    self.refreshing = false
-                    self.tableViewController.tableView.reloadData()
-                }
-                
+            //sets up the params to get the correct kindof challenges from the server
+            var params = [String: String]()
+            if username == ""{
+                //retrieves the logged in user's feed
+                params = [
+                    "type":"feed",
+                    "username":Global.global.loggedInUser.username!
+                ]
+            }else if username == "[]"{
+                params = [
+                    "type": "top",
+                    "username": Global.global.loggedInUser.username!
+                ]
+            }else if username == "="{
+                params = [
+                    "type":"accepted",
+                    "username":Global.global.loggedInUser.username!
+                ]
+            }else{
+                params = [
+                    "type":"home",
+                    "username": username
+                ]
             }
-            }.resume()
+            params["setLimit"] = "\(feedPosition)"
+            feedPosition = feedPosition + 5
+            //gets those challenges, puts them in the model array
+            URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "getChallenges")){data, response, error in
+                self.refreshing = false
+                if let data = data{
+                    let json = JSON(data: data)
+                    //reversed to keep latest posted challenges on top of feed
+                    for i in (0..<json.count).reversed(){
+                        self.challenges.append(Global.jsonToChallenge(json: json[i].dictionaryValue))
+                    }
+                    OperationQueue.main.addOperation {
+                        self.tableViewController.tableView.reloadData()
+                        self.tableViewController.tableView.setContentOffset(self.tableViewController.tableView.contentOffset, animated: false)
+                    }
+                    
+                }
+                }.resume()
         }
     }
     
     func getChallengeCell(indexPath: IndexPath)->UITableViewCell{
-        let challenge = challenges[indexPath.row]
-        if challenge.feedType! == "acceptance"{
+        if indexPath.row == challenges.count{
+            self.tableViewController.tableView.rowHeight = 62
+            let cell = tableViewController.tableView.dequeueReusableCell(withIdentifier: "lm", for: indexPath) as! LoadMoreTableViewCell
+            cell.buttonAction = {[weak self] (cell) in self?.loadMore()}
+            
+            //programmed constraints
+            cell.button.frame.origin.y = (cell.frame.height/2) //+ cell.button.frame.height
+            cell.button.frame.origin.x = cell.frame.width/2
+            return cell
+        }else {
+            let challenge = challenges[indexPath.row]
+            if challenge.feedType! == "acceptance"{
                 //set the cell to the correct height
                 self.tableViewController.tableView.rowHeight = 62
                 //get the correct kindof cell
                 let cell = tableViewController.tableView.dequeueReusableCell(withIdentifier: "ac", for: indexPath) as! FollowingAcceptanceTableViewCell
-            
+                cell.selectionStyle = .none
+                cell.layer.cornerRadius = 10
+                cell.layer.borderColor = UIColor.black.cgColor
+                cell.layer.borderWidth = 2
                 //set the data and tap action
                 cell.messageButton.setTitle("\(challenge.poster!) has accepted the challenge: \(challenge.name!)", for: .normal)
                 cell.messageButtonAction = {[weak self] (cell) in self?.messageButtonTapped(challenge: challenge, cell: cell)}
                 Global.global.getUserImage(username: challenge.poster!, view: cell.userImage)
-            
+                
                 return cell
-        }else{
-            //set the cell to the correct height
+            }else{
+                //set the cell to the correct height
                 self.tableViewController.tableView.rowHeight = 199
-            //get the correct kindof cell
+                //get the correct kindof cell
                 let cell = tableViewController.tableView.dequeueReusableCell(withIdentifier: "fc", for: indexPath) as! FeedTableViewCell
-            //set the cell metadata correctly
+                cell.selectionStyle = .none
+                cell.layer.cornerRadius = 10
+                cell.layer.borderColor = UIColor.black.cgColor
+                cell.layer.borderWidth = 2
+                //set the cell metadata correctly
                 cell.challengeNameLabel.text = challenge.name
                 cell.challengeInstructionsLabel.text = challenge.instructions
                 cell.usernameLabel.text = challenge.author
@@ -124,22 +145,22 @@ class FeedDelegate{
                 cell.viewLikersButton.setTitle("\(challenge.likers!.count)", for: .normal)
                 cell.viewRechallengersButton.setTitle(String(challenge.rechallengers!.count), for: .normal)
                 cell.acceptCountLabel.text = challenge.acceptedCount!
-            
-            //determine which like button should show based on the login's likes
+                
+                //determine which like button should show based on the login's likes
                 if challenge.likers!.contains(Global.global.loggedInUser.username!){
                     cell.likeButton.setImage(UIImage(named: "liked"), for: .normal)
                 }else{
                     cell.likeButton.setImage(UIImage(named: "like"), for: .normal)
                 }
-            
-            //determine which rechallenge button should show based on the login's rechallenges
+                
+                //determine which rechallenge button should show based on the login's rechallenges
                 if challenge.rechallengers!.contains(Global.global.loggedInUser.username!){
                     cell.rechallengeButton.setImage(UIImage(named: "rechallenged"), for: .normal);
                 }else{
                     cell.rechallengeButton.setImage(UIImage(named: "rechallenge"), for: .normal)
                 }
-            
-            //determine which destructive button should appear based on if the login posted the video or the challenge
+                
+                //determine which destructive button should appear based on if the login posted the video or the challenge
                 if challenge.author! == Global.global.loggedInUser.username!{
                     cell.reportButton.setTitle("remove", for: .normal)
                     cell.reportButtonAction = {[weak self] (cell) in self?.deleteChallenge(challenge: challenge)}
@@ -147,8 +168,8 @@ class FeedDelegate{
                     cell.reportButton.setTitle("report", for: .normal)
                     cell.reportButtonAction = {[weak self] (cell) in self?.reportChallenge(challenge: challenge)}
                 }
-            
-            //differentiate if the challenge is a rechallenge or a challenge
+                
+                //differentiate if the challenge is a rechallenge or a challenge
                 if challenge.feedType! == "challenge"{
                     cell.rechallengerLabel.text = ""
                     cell.rechallengeImageView.image = nil
@@ -160,8 +181,8 @@ class FeedDelegate{
                     cell.backgroundColor = UIColor(colorLiteralRed: 0, green: 237, blue: 255, alpha: 1)
                     cell.challengeInstructionsLabel.backgroundColor = UIColor(colorLiteralRed: 0, green: 237, blue: 255, alpha: 1)
                 }
-            
-            //set all the button actions
+                
+                //set all the button actions
                 cell.acceptButtonAction = {[weak self] (cell) in self?.acceptButtonTapped(challenge: challenge, sender: cell)}
                 cell.viewButtonAction = {[weak self] (cell) in self?.viewButtonTapped(challenge: challenge, sender: cell)}
                 cell.likeButtonAction = {[weak self] (cell) in self?.likeButtonTapped(challenge: challenge, cell: cell)}
@@ -169,7 +190,7 @@ class FeedDelegate{
                 cell.rechallengeButtonAction = {[weak self] (cell) in self?.rechallengeButtonTapped(challenge: challenge, cell: cell)}
                 cell.viewRechallengersButtonAction = {[weak self] (cell) in self?.viewRechallengersButtonTapped(challenge: challenge, sender: cell)}
                 Global.global.getUserImage(username: challenge.author!, view: cell.userImage)
-            
+                
                 //below are manual cell constraints
                 let cellwidth = cell.frame.width
                 cell.rechallengeButton.frame.origin.x = cellwidth - cell.rechallengeButton.frame.width - cell.viewRechallengersButton.frame.width
@@ -179,15 +200,21 @@ class FeedDelegate{
                 cell.acceptButton.frame.origin.x = cellwidth - cell.acceptButton.frame.width - 10 - cell.acceptCountLabel.frame.width - 10
                 cell.acceptCountLabel.frame.origin.x = cellwidth - cell.acceptCountLabel.frame.width - 10
                 cell.viewButton.frame.origin.x = cellwidth - cell.viewButton.frame.width - 10
-                        
+                
                 return cell
+            }
+
         }
     }
     
     func getSingleChallengeCell(challenge: Challenge, tableView: UITableView, indexPath: IndexPath)->FeedTableViewCell{
         //get cell
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! FeedTableViewCell
-       //set cell metadata
+        cell.selectionStyle = .none
+        cell.layer.cornerRadius = 10
+        cell.layer.borderColor = UIColor.black.cgColor
+        cell.layer.borderWidth = 2
+        //set cell metadata
         cell.challengeNameLabel.text = challenge.name
         cell.challengeInstructionsLabel.text = challenge.instructions
         cell.usernameLabel.text = challenge.author
@@ -195,7 +222,7 @@ class FeedDelegate{
         cell.viewLikersButton.setTitle("\(challenge.likers!.count)", for: .normal)
         cell.viewRechallengersButton.setTitle(String(challenge.rechallengers!.count), for: .normal)
         cell.acceptCountLabel.text = challenge.acceptedCount!
-       
+        
         //determine which like button should show based on the login's likes
         if challenge.likers!.contains(Global.global.loggedInUser.username!){
             cell.likeButton.setImage(UIImage(named: "liked"), for: .normal)
@@ -241,8 +268,14 @@ class FeedDelegate{
     }
     
     func viewButtonTapped(challenge: Challenge, sender: Any?){
-        uploadProcessDelegate.challengePass = challenge
-        viewController.performSegue(withIdentifier: viewSegueName, sender: sender)
+        //        uploadProcessDelegate.challengePass = challenge
+        //        viewController.performSegue(withIdentifier: viewSegueName, sender: sender)
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        let acceptanceViewController = storyBoard.instantiateViewController(withIdentifier: "acceptanceViewController") as! AcceptanceTableViewController
+        acceptanceViewController.challenge = challenge
+        let nav = UINavigationController.init(rootViewController: acceptanceViewController)
+        
+        viewController.present(nav, animated: true, completion: nil)
     }
     
     func likeButtonTapped(challenge: Challenge, cell: UITableViewCell){
@@ -258,12 +291,11 @@ class FeedDelegate{
         cell.viewLikersButton.setTitle(String(challenge.likers!.count), for: .normal)
         
         //update like count on server
-        let params = [
+        URLSession.shared.dataTask(with: Global.createServerRequest(params: [
             "username":Global.global.loggedInUser.username!,
             "type":"challenge",
             "challengeName":challenge.name!
-        ]
-        URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "like")){data, response, error in
+            ], intent: "like")){data, response, error in
             }.resume()
     }
     
@@ -282,28 +314,23 @@ class FeedDelegate{
             }
             cell.viewRechallengersButton.setTitle(String(challenge.rechallengers!.count), for: .normal)
             
-            let params = [
+            URLSession.shared.dataTask(with: Global.createServerRequest(params: [
                 "username":Global.global.loggedInUser.username!,
                 "challengeName":challenge.name!
-            ]
-            URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "rechallenge")){
-                data, response, error in
+                ], intent: "rechallenge")){
+                    data, response, error in
                 }.resume()
         }
     }
     
     //show a user list of the challenge likers
     func viewLikersButtonTapped(challenge: Challenge, sender: Any?){
-        listTypePass = "challengeLikers"
-        challengePass = challenge
-        viewController.performSegue(withIdentifier: listSegueName, sender: sender)
+        viewController.presentUserList(challenge: challenge, type: "challengeLikers")
     }
     
     //show a user list of the challenge rechallengers
     func viewRechallengersButtonTapped(challenge: Challenge, sender: Any?){
-        listTypePass = "rechallengers"
-        challengePass = challenge
-        viewController.performSegue(withIdentifier: listSegueName, sender: sender)
+        viewController.presentUserList(challenge: challenge, type: "rechallengers")
     }
     var playerViewController: AVPlayerViewController!
     //shows the video associated with an acceptance feed entry
@@ -365,9 +392,13 @@ class FeedDelegate{
         }))
         viewController.present(alert, animated: true, completion: {})
     }
+    func loadMore(){
+        fillTable()
+    }
     
     //method called on table view refresh
     @objc func handleRefresh(){
+        feedPosition = 1
         challenges = [Challenge]()
         fillTable()
         tableViewController.tableView.reloadData()
@@ -376,11 +407,12 @@ class FeedDelegate{
     
     //misc methods
     func getNumRows()->Int{
-        return challenges.count
+        return challenges.count + 1
     }
     
     func getNumSections()->Int{
         return 1
     }
+    
     
 }

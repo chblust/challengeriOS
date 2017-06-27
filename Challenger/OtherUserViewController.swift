@@ -16,11 +16,13 @@ class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableVie
     
     //userMetaData view references
     @IBOutlet weak var userImage: UIImageView!
-    @IBOutlet weak var usernameLabel: UILabel!
+//    @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var followersButton: UIButton!
     @IBOutlet weak var followingButton: UIButton!
     @IBOutlet weak var followButton: UIButton!
     @IBOutlet weak var bioTextView: UITextView!
+    @IBOutlet weak var followerCountButton: UIButton!
+    @IBOutlet weak var followingCountButton: UIButton!
     
     
     
@@ -41,12 +43,15 @@ class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
         Global.setupBannerAd(self, tab: true)
-        
+        followerCountButton.setTitle("\(user.followers!.count)", for: .normal)
+        followingCountButton.setTitle("\(user.following!.count)", for: .normal)
         //set the image for the follow button depending on whether or not the login is following the user
         if (user.followers!.contains(Global.global.loggedInUser.username!)){
-            followButton.setImage(UIImage(named: "following"), for: .normal)
+            followButton.setTitle("Following", for: .normal)
+            followButton.backgroundColor = UIColor.green
         }else{
-            followButton.setImage(UIImage(named: "follow"), for: .normal)
+            followButton.setTitle("Follow", for: .normal)
+            followButton.backgroundColor = UIColor.yellow
         }
         
         //i dont know if i still need this; too scared to delete it
@@ -54,14 +59,14 @@ class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableVie
             followButton.removeFromSuperview()
         }
         
-        uploadProcessDelegate = UploadProcessDelegate(self, "otherUserToUpload")
+        uploadProcessDelegate = UploadProcessDelegate(self)
         
         homeFeed.dataSource = self
         
         tableViewController.tableView = homeFeed
         
         //set the user info labels to the logged in user metadata
-        usernameLabel.text = user!.username
+//        usernameLabel.text = user!.username
         self.title = user!.username
         bioTextView.text = user!.bio
         //retrieve the userImage from the server
@@ -88,18 +93,7 @@ class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableVie
             let nextUserListController = nextViewController as? UserListViewController
             nextUserListController?.listType = listTypePass
             nextUserListController?.user = self.user
-            
-        //if its the upload view, pass the challenge, video binary data, and a nice thumbnail for it
-        }else if let nextViewController = segue.destination as? UploadViewController{
-            nextViewController.challenge = uploadProcessDelegate.challengePass
-            nextViewController.previewImage = uploadProcessDelegate.videoPreview
-            nextViewController.videoData = uploadProcessDelegate.videoData
-        }
-            
-        //if its the acceptance list, pass the challenge
-        else if let next = segue.destination as? AcceptanceTableViewController{
-            next.challenge = uploadProcessDelegate.challengePass
-        
+
         //if its a generic user list, the feedDelegate has achieved sentience and all control should immediately be handed over to it
         }else if let next = segue.destination as? UserListViewController{
             next.listType = feedDelegate.listTypePass
@@ -111,12 +105,10 @@ class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableVie
     //MARK: Button Methods
     
     @IBAction func followerButtonPressed(_ sender: UIButton) {
-        listTypePass = "followers"
-        performSegue(withIdentifier: "userListFromOtherUser", sender: sender)
+        self.presentUserList(user: user, type: "followers")
     }
     @IBAction func followingButtonPressed(_ sender: UIButton) {
-        listTypePass = "following"
-        performSegue(withIdentifier: "userListFromOtherUser", sender: sender)
+        self.presentUserList(user: user, type: "following")
     }
     
     override func didReceiveMemoryWarning() {
@@ -126,13 +118,19 @@ class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableVie
     }
     @IBAction func followButtonPressed(_ sender: UIButton) {
         if user.followers!.contains(Global.global.loggedInUser.username!){
-            followButton.setImage(UIImage(named: "follow"), for: .normal)
+//            followButton.setImage(UIImage(named: "follow"), for: .normal)
+            followButton.setTitle("Follow", for: .normal)
+            followButton.backgroundColor = UIColor.yellow
             user.followers!.remove(at: user.followers!.index(of: Global.global.loggedInUser.username!)!)
+            followerCountButton.setTitle("\(user.followers!.count)", for: .normal)
             Global.global.loggedInUser.following!.remove(at: Global.global.loggedInUser.following!.index(of: user.username!)!)
             
         }else{
-            followButton.setImage(UIImage(named: "following"), for: .normal)
+            //followButton.setImage(UIImage(named: "following"), for: .normal)
+            followButton.setTitle("Following", for: .normal)
+            followButton.backgroundColor = UIColor.green
             user.followers!.append(Global.global.loggedInUser.username!)
+            followerCountButton.setTitle("\(user.followers!.count)", for: .normal)
             Global.global.loggedInUser.following!.append(user.username!)
         }
         self.updateFollowStatus()

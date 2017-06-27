@@ -18,7 +18,8 @@ class AcceptedTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        uploadProcessDelegate = UploadProcessDelegate(self, "acceptedToUpload")
+        self.tableView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
+        uploadProcessDelegate = UploadProcessDelegate(self)
         feedDelegate = FeedDelegate(viewController: self, username: "=", tableController: self, upd: uploadProcessDelegate, view: "acceptedToView", list: "acceptedToUserList")
     }
     
@@ -41,13 +42,13 @@ class AcceptedTableViewController: UITableViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?){
-        if let nextViewController = segue.destination as? UploadViewController{
-            nextViewController.challenge = uploadProcessDelegate.challengePass
-            nextViewController.previewImage = uploadProcessDelegate.videoPreview
-            nextViewController.videoData = uploadProcessDelegate.videoData
-        }else if let next = segue.destination as? AcceptanceTableViewController{
-            next.challenge = uploadProcessDelegate.challengePass
-        }else if let next = segue.destination as? UserListViewController{
+//        if let nextViewController = segue.destination as? UploadViewController{
+//            nextViewController.challenge = uploadProcessDelegate.challengePass
+//            nextViewController.previewImage = uploadProcessDelegate.videoPreview
+//            nextViewController.videoData = uploadProcessDelegate.videoData
+//        }else if let next = segue.destination as? AcceptanceTableViewController{
+//            next.challenge = uploadProcessDelegate.challengePass
+        if let next = segue.destination as? UserListViewController{
             next.listType = feedDelegate.listTypePass
             next.challenge = feedDelegate.challengePass
         }

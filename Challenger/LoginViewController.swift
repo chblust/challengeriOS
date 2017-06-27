@@ -112,6 +112,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate, URLSessionDele
         if let next = segue.destination as? HomeViewController{
             //tell the home view controller that it doesnt need to get the logged in user metadata again
             next.userSet = true
+        }else if let next = segue.destination as? UITabBarController{
+            print("ay\n\n\n\n\n")
+            next.selectedIndex = 2
         }
     }
     

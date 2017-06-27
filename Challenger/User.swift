@@ -26,4 +26,12 @@ class User {
         self.followers = followers
         self.following = following
     }
+    
+    init(){
+        self.username = "User has been Removed"
+        self.bio = "This user no longer exists"
+        self.email = ""
+        self.followers = [String]()
+        self.following = [String]()
+    }
 }

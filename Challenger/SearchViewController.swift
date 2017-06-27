@@ -57,7 +57,6 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
                         for username in json.arrayValue{
                             self.results.append(username.stringValue)
                         }
-                        
                         self.tableView.reloadData()
                     }
                 }
@@ -83,7 +82,8 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
             break
         //challenge case
         case 1:
-            cell.userImage.image = UIImage(named: "challengeImage")
+            //cell.userImage.image = UIImage(named: "challengeImage")
+            Global.global.setUserImage(image: UIImage(named: "challengeImage")!, imageView: cell.userImage)
             cell.tapAction = {[weak self] (cell) in self?.challengeCellTapped(name: name, cell: cell)}
             break
         default:break

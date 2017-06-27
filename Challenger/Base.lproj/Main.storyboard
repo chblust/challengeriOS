@@ -96,7 +96,7 @@
                         <outlet property="loginButton" destination="bBK-my-b1E" id="6bD-c2-9fI"/>
                         <outlet property="passwordField" destination="5bz-yb-jkh" id="DX3-Oa-xsD"/>
                         <outlet property="usernameField" destination="qD0-nn-JI7" id="Ld0-RK-wyr"/>
-                        <segue destination="h9t-2O-scD" kind="show" identifier="login" id="FyM-li-ggo"/>
+                        <segue destination="Glz-zx-pGD" kind="show" identifier="login" id="V4m-oh-Yex"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -341,7 +341,7 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
                         <outlet property="passwordTextField" destination="VcI-Gw-TTR" id="9xE-t6-66R"/>
                         <outlet property="repeatPasswordTextField" destination="AcR-XW-zVF" id="UJl-36-SPI"/>
                         <outlet property="usernameTextField" destination="7mp-if-jsQ" id="FG6-62-pOv"/>
-                        <segue destination="h9t-2O-scD" kind="show" identifier="createUserToHome" id="YtV-pz-feb"/>
+                        <segue destination="Glz-zx-pGD" kind="show" identifier="createUserToHome" id="uCq-c3-mSh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nPH-2x-qjt" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -352,23 +352,7 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1109.5999999999999" y="853.22338830584715"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="RXE-9D-DhU">
-            <objects>
-                <navigationController id="h9t-2O-scD" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="CET-sL-aWR">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="Glz-zx-pGD" kind="relationship" identifier="start" relationship="rootViewController" id="V5L-oo-4MU"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="i6n-MX-taH" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="745" y="-265"/>
+            <point key="canvasLocation" x="1194" y="749"/>
         </scene>
         <!--Post-->
         <scene sceneID="k7w-7I-baH">
@@ -708,8 +692,8 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
         <!--Top 50 Challenges-->
         <scene sceneID="cza-fz-yW0">
             <objects>
-                <tableViewController title="Top 50 Challenges" id="0m0-Nx-uMp" customClass="TopChallengesViewController" customModule="Challenger" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="44" id="6SQ-vA-gf5">
+                <tableViewController restorationIdentifier="feed" title="Top 50 Challenges" id="0m0-Nx-uMp" customClass="TopChallengesViewController" customModule="Challenger" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="feed" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="44" id="6SQ-vA-gf5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -862,6 +846,31 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
                                     <outlet property="viewRechallengersButton" destination="o8c-Be-kSw" id="7jZ-DR-dTn"/>
                                 </connections>
                             </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="lm" rowHeight="62" id="E1E-xT-Q4E" customClass="LoadMoreTableViewCell" customModule="Challenger" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="227" width="375" height="62"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="E1E-xT-Q4E" id="PbI-Pz-Got" customClass="FeedTableViewCell" customModule="Challenger" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="61.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TY0-hX-G5G">
+                                            <rect key="frame" x="-30" y="77" width="30" height="128"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gNJ-DN-mcG">
+                                            <rect key="frame" x="8" y="15" width="73" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Load More"/>
+                                            <connections>
+                                                <action selector="buttonAction:" destination="E1E-xT-Q4E" eventType="touchUpInside" id="4c3-JT-o4u"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="button" destination="gNJ-DN-mcG" id="WDN-tY-gOl"/>
+                                </connections>
+                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="0m0-Nx-uMp" id="8Ks-YZ-gmz"/>
@@ -871,8 +880,6 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
                     <tabBarItem key="tabBarItem" title="Top 50" image="top" id="8Hp-CK-98h"/>
                     <connections>
                         <segue destination="0dq-Pp-cQU" kind="show" identifier="topToUserList" id="Mjt-df-7dv"/>
-                        <segue destination="36M-r1-Beq" kind="show" identifier="topToUpload" id="PL9-de-U1U"/>
-                        <segue destination="Bvg-H3-m2q" kind="show" identifier="topToView" id="aQ0-O0-MgT"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j8w-5j-PpY" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -882,7 +889,7 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
         <!--Upload View Controller-->
         <scene sceneID="7r4-sa-kxy">
             <objects>
-                <viewController id="36M-r1-Beq" customClass="UploadViewController" customModule="Challenger" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="uploadViewController" id="36M-r1-Beq" customClass="UploadViewController" customModule="Challenger" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="CkH-0L-3qz"/>
                         <viewControllerLayoutGuide type="bottom" id="Hwz-ig-Wg2"/>
@@ -1161,6 +1168,31 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
                                     <outlet property="viewRechallengersButton" destination="xqk-JK-5a8" id="wDR-pl-4gx"/>
                                 </connections>
                             </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="lm" rowHeight="62" id="dMQ-5E-Ugc" customClass="LoadMoreTableViewCell" customModule="Challenger" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="289" width="375" height="62"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dMQ-5E-Ugc" id="qIY-dM-CTr" customClass="FeedTableViewCell" customModule="Challenger" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="61.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1ld-iF-Dcb">
+                                            <rect key="frame" x="-30" y="77" width="30" height="128"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ibm-Om-fYE">
+                                            <rect key="frame" x="8" y="15" width="73" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Load More"/>
+                                            <connections>
+                                                <action selector="buttonAction:" destination="dMQ-5E-Ugc" eventType="touchUpInside" id="45H-Mh-6V4"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="button" destination="Ibm-Om-fYE" id="Vbq-MZ-NHP"/>
+                                </connections>
+                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="lf6-Uv-ahz" id="FwL-Yd-nH4"/>
@@ -1173,7 +1205,6 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
                         <autoresizingMask key="autoresizingMask"/>
                     </refreshControl>
                     <connections>
-                        <segue destination="36M-r1-Beq" kind="presentation" identifier="feedToUpload" id="q7d-ru-Skw"/>
                         <segue destination="Bvg-H3-m2q" kind="show" identifier="feedToView" id="iNe-cV-8fN"/>
                         <segue destination="0dq-Pp-cQU" kind="show" identifier="feedToUserList" id="3CP-hk-qQa"/>
                     </connections>
@@ -1339,6 +1370,31 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
                                     <outlet property="viewRechallengersButton" destination="xB6-Ji-CW2" id="jme-84-z8g"/>
                                 </connections>
                             </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="lm" rowHeight="62" id="hTO-my-Day" customClass="LoadMoreTableViewCell" customModule="Challenger" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="227" width="375" height="62"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hTO-my-Day" id="4Tk-be-iUx" customClass="FeedTableViewCell" customModule="Challenger" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="61.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="al7-xw-hxb">
+                                            <rect key="frame" x="-30" y="77" width="30" height="128"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gyn-Pm-aRG">
+                                            <rect key="frame" x="8" y="15" width="73" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Load More"/>
+                                            <connections>
+                                                <action selector="buttonAction:" destination="hTO-my-Day" eventType="touchUpInside" id="wOs-SA-fP2"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="button" destination="gyn-Pm-aRG" id="N9s-cT-CDl"/>
+                                </connections>
+                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="LYM-gz-vFe" id="NHp-dq-zgc"/>
@@ -1347,7 +1403,6 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Accepted" image="accepted" id="WYb-Rj-Xj9"/>
                     <connections>
-                        <segue destination="36M-r1-Beq" kind="presentation" identifier="acceptedToUpload" id="80L-Gs-aEl"/>
                         <segue destination="Bvg-H3-m2q" kind="show" identifier="acceptedToView" id="pgD-e8-404"/>
                         <segue destination="0dq-Pp-cQU" kind="show" identifier="acceptedToUserList" id="orT-l9-vlk"/>
                     </connections>
@@ -1359,7 +1414,7 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
         <!--User List View Controller-->
         <scene sceneID="DoE-gt-w6s">
             <objects>
-                <tableViewController id="0dq-Pp-cQU" customClass="UserListViewController" customModule="Challenger" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="userList" id="0dq-Pp-cQU" customClass="UserListViewController" customModule="Challenger" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="44" id="uoc-VN-948">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1398,6 +1453,7 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
                                         <constraint firstItem="hyH-zG-drS" firstAttribute="top" secondItem="d22-hM-Fbd" secondAttribute="top" constant="3" id="H3z-Th-bgM"/>
                                         <constraint firstItem="fC0-Z3-aEV" firstAttribute="top" secondItem="d22-hM-Fbd" secondAttribute="top" id="rFc-1W-mOY"/>
                                         <constraint firstAttribute="trailing" secondItem="hyH-zG-drS" secondAttribute="trailing" constant="39" id="spB-oM-hmY"/>
+                                        <constraint firstItem="fC0-Z3-aEV" firstAttribute="leading" secondItem="d22-hM-Fbd" secondAttribute="leading" constant="8" id="tDg-TR-YEA"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <gestureRecognizers/>
@@ -1419,7 +1475,6 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
                     </navigationItem>
                     <connections>
                         <segue destination="9HE-HE-38c" kind="show" identifier="otherUserFromUserList" id="Jz3-iB-RvD"/>
-                        <segue destination="Bvg-H3-m2q" kind="show" identifier="otherUserToView" id="UB3-TA-Has"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lIZ-ej-yC4" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1439,22 +1494,8 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qcX-Mb-d0S">
-                                <rect key="frame" x="16" y="72" width="114" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6XL-HV-sN0">
-                                <rect key="frame" x="158" y="182" width="65" height="30"/>
-                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="Following"/>
-                                <connections>
-                                    <action selector="followingButtonPressed:" destination="JZU-IZ-cN5" eventType="touchUpInside" id="vnA-hU-pwd"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XAt-Rs-ymQ">
-                                <rect key="frame" x="281" y="182" width="65" height="30"/>
+                                <rect key="frame" x="16" y="64" width="113" height="30"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <state key="normal" title="Followers"/>
                                 <connections>
@@ -1462,22 +1503,24 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
                                 </connections>
                             </button>
                             <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="defaultUserImage" translatesAutoresizingMaskIntoConstraints="NO" id="U06-Z2-5SI">
-                                <rect key="frame" x="295" y="110" width="64" height="64"/>
+                                <rect key="frame" x="137" y="72" width="100" height="100"/>
                                 <gestureRecognizers/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="64" id="Ray-Oh-LJi"/>
-                                    <constraint firstAttribute="height" constant="64" id="qyC-Pg-1UW"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="DJq-gd-l92"/>
+                                    <constraint firstAttribute="height" constant="100" id="Rtd-Vd-iFg"/>
+                                    <constraint firstAttribute="width" constant="100" id="dDZ-34-ju0"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="100" id="hOJ-11-F1P"/>
                                 </constraints>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="g74-BP-LkP" appends="YES" id="J7v-2h-uds"/>
                                 </connections>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="233" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="199" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="bPx-WE-2Hl">
-                                <rect key="frame" x="0.0" y="220" width="375" height="336"/>
+                                <rect key="frame" x="0.0" y="259" width="375" height="297"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="270" id="M61-dx-eP6"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="WGC-bt-gq6"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="233" id="kus-Vb-gkH"/>
                                 </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="fc" rowHeight="199" id="pkU-Oa-SSl" customClass="FeedTableViewCell" customModule="Challenger" customModuleProvider="target">
@@ -1659,59 +1702,130 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
                                             <outlet property="userImage" destination="0m7-GH-W18" id="e4Y-bd-u2d"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="lm" rowHeight="62" id="20L-jX-D5F" customClass="LoadMoreTableViewCell" customModule="Challenger" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="289" width="375" height="62"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="20L-jX-D5F" id="gx7-pE-bl4" customClass="FeedTableViewCell" customModule="Challenger" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="61.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kxf-pZ-trQ">
+                                                    <rect key="frame" x="-30" y="77" width="30" height="128"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LXJ-Da-WsI">
+                                                    <rect key="frame" x="8" y="15" width="73" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" title="Load More"/>
+                                                    <connections>
+                                                        <action selector="buttonAction:" destination="20L-jX-D5F" eventType="touchUpInside" id="JdD-vT-lYK"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="button" destination="LXJ-Da-WsI" id="fxO-6G-408"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </prototypes>
                             </tableView>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Lsm-gS-N7T">
-                                <rect key="frame" x="295" y="103" width="64" height="2"/>
+                                <rect key="frame" x="137" y="186" width="100" height="2"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="64" id="IeP-pT-rEU"/>
+                                    <constraint firstAttribute="height" constant="2" id="nCv-6I-llQ"/>
+                                    <constraint firstAttribute="width" constant="100" id="pTs-zn-H2Z"/>
                                 </constraints>
                             </progressView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="bio" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hgm-Fa-4wG">
-                                <rect key="frame" x="16" y="103" width="207" height="71"/>
+                                <rect key="frame" x="16" y="196" width="343" height="48"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="71" id="Rra-i0-bKa"/>
-                                    <constraint firstAttribute="width" constant="207" id="tE0-TI-GmA"/>
+                                    <constraint firstAttribute="height" constant="48" id="Kp4-ay-1uC"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6XL-HV-sN0">
+                                <rect key="frame" x="245" y="64" width="114" height="30"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Following"/>
+                                <connections>
+                                    <action selector="followingButtonPressed:" destination="JZU-IZ-cN5" eventType="touchUpInside" id="vnA-hU-pwd"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x0A-wg-lcn">
+                                <rect key="frame" x="16" y="107" width="113" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="Sae-aK-bHE"/>
+                                    <constraint firstAttribute="width" constant="113" id="hFT-Wm-b8X"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="fers">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="followerButtonPressed:" destination="JZU-IZ-cN5" eventType="touchUpInside" id="XDt-Kb-UdR"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DfH-sf-49e">
+                                <rect key="frame" x="245" y="107" width="113" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="113" id="24E-5J-08z"/>
+                                    <constraint firstAttribute="height" constant="30" id="3eU-33-MOF"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="fing">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="followingButtonPressed:" destination="JZU-IZ-cN5" eventType="touchUpInside" id="q7d-U2-ejp"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Lsm-gS-N7T" firstAttribute="trailing" secondItem="6et-8d-tOJ" secondAttribute="trailingMargin" id="253-b5-0s6"/>
-                            <constraint firstAttribute="trailing" secondItem="bPx-WE-2Hl" secondAttribute="trailing" id="4Fd-oS-UlG"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="XAt-Rs-ymQ" secondAttribute="trailing" constant="13" id="5uy-fc-MAf"/>
-                            <constraint firstItem="Hgm-Fa-4wG" firstAttribute="leading" secondItem="6et-8d-tOJ" secondAttribute="leadingMargin" id="83Y-VN-p7h"/>
-                            <constraint firstItem="bPx-WE-2Hl" firstAttribute="leading" secondItem="6et-8d-tOJ" secondAttribute="leading" id="B7x-3x-kDp"/>
-                            <constraint firstItem="XAt-Rs-ymQ" firstAttribute="top" secondItem="U06-Z2-5SI" secondAttribute="bottom" constant="8" id="Ddw-cn-ay0"/>
-                            <constraint firstItem="qcX-Mb-d0S" firstAttribute="top" secondItem="21B-x6-wdJ" secondAttribute="bottom" constant="8" id="HXt-AU-uqe"/>
-                            <constraint firstItem="XAt-Rs-ymQ" firstAttribute="bottom" secondItem="6XL-HV-sN0" secondAttribute="bottom" id="L0r-JB-gIx"/>
-                            <constraint firstItem="U06-Z2-5SI" firstAttribute="top" secondItem="Lsm-gS-N7T" secondAttribute="bottom" constant="5" id="Qv9-2S-ATr"/>
-                            <constraint firstItem="qcX-Mb-d0S" firstAttribute="leading" secondItem="6et-8d-tOJ" secondAttribute="leadingMargin" id="SJx-xG-8eV"/>
-                            <constraint firstItem="6XL-HV-sN0" firstAttribute="top" secondItem="U06-Z2-5SI" secondAttribute="bottom" constant="8" id="XjV-jW-f4W"/>
-                            <constraint firstItem="Hgm-Fa-4wG" firstAttribute="top" secondItem="qcX-Mb-d0S" secondAttribute="bottom" constant="1" id="dZA-RD-GNP"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="6XL-HV-sN0" secondAttribute="trailing" constant="136" id="djb-BY-DtK"/>
-                            <constraint firstItem="U06-Z2-5SI" firstAttribute="trailing" secondItem="6et-8d-tOJ" secondAttribute="trailingMargin" id="f7f-l4-fTh"/>
-                            <constraint firstItem="6XL-HV-sN0" firstAttribute="top" secondItem="Hgm-Fa-4wG" secondAttribute="bottom" constant="8" id="gum-tS-BoT"/>
-                            <constraint firstItem="bPx-WE-2Hl" firstAttribute="top" secondItem="XAt-Rs-ymQ" secondAttribute="bottom" constant="8" id="nP2-TN-dUj"/>
-                            <constraint firstItem="ptW-hW-J5x" firstAttribute="top" secondItem="bPx-WE-2Hl" secondAttribute="bottom" constant="62" id="sTh-vV-S2Y"/>
+                            <constraint firstItem="XAt-Rs-ymQ" firstAttribute="top" secondItem="21B-x6-wdJ" secondAttribute="bottom" id="2eu-xe-tNq"/>
+                            <constraint firstItem="bPx-WE-2Hl" firstAttribute="top" secondItem="Hgm-Fa-4wG" secondAttribute="bottom" constant="15" id="5mB-Sa-iUh"/>
+                            <constraint firstItem="6XL-HV-sN0" firstAttribute="top" secondItem="21B-x6-wdJ" secondAttribute="bottom" id="5xD-bV-vTC"/>
+                            <constraint firstItem="DfH-sf-49e" firstAttribute="top" secondItem="6XL-HV-sN0" secondAttribute="bottom" constant="13" id="ELt-Xm-Yge"/>
+                            <constraint firstItem="U06-Z2-5SI" firstAttribute="centerX" secondItem="6et-8d-tOJ" secondAttribute="centerX" id="ERU-b7-cme"/>
+                            <constraint firstItem="Hgm-Fa-4wG" firstAttribute="top" secondItem="Lsm-gS-N7T" secondAttribute="bottom" constant="8" id="Fa4-ga-Jkt"/>
+                            <constraint firstItem="x0A-wg-lcn" firstAttribute="top" secondItem="XAt-Rs-ymQ" secondAttribute="bottom" constant="13" id="G9g-NV-Om8"/>
+                            <constraint firstItem="Lsm-gS-N7T" firstAttribute="top" secondItem="U06-Z2-5SI" secondAttribute="bottom" constant="14" id="GGm-kE-4q6"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="DfH-sf-49e" secondAttribute="trailing" constant="1" id="MHe-pb-nz7"/>
+                            <constraint firstItem="Hgm-Fa-4wG" firstAttribute="trailing" secondItem="6et-8d-tOJ" secondAttribute="trailingMargin" id="NMO-bR-X3Z"/>
+                            <constraint firstItem="ptW-hW-J5x" firstAttribute="top" secondItem="bPx-WE-2Hl" secondAttribute="bottom" constant="62" id="PN6-QA-HxY"/>
+                            <constraint firstItem="Hgm-Fa-4wG" firstAttribute="leading" secondItem="6et-8d-tOJ" secondAttribute="leadingMargin" id="RTP-4H-vNW"/>
+                            <constraint firstItem="U06-Z2-5SI" firstAttribute="top" secondItem="21B-x6-wdJ" secondAttribute="bottom" constant="8" id="RZK-Pr-9ds"/>
+                            <constraint firstItem="Hgm-Fa-4wG" firstAttribute="top" secondItem="XAt-Rs-ymQ" secondAttribute="bottom" constant="102" id="S4W-lo-kNy"/>
+                            <constraint firstItem="Hgm-Fa-4wG" firstAttribute="top" secondItem="Lsm-gS-N7T" secondAttribute="bottom" constant="8" id="X8D-F8-YN2"/>
+                            <constraint firstItem="Hgm-Fa-4wG" firstAttribute="top" secondItem="6XL-HV-sN0" secondAttribute="bottom" constant="102" id="XU8-S5-Pmx"/>
+                            <constraint firstItem="bPx-WE-2Hl" firstAttribute="leading" secondItem="6et-8d-tOJ" secondAttribute="leading" id="Yse-j8-Ymz"/>
+                            <constraint firstItem="Lsm-gS-N7T" firstAttribute="leading" secondItem="6et-8d-tOJ" secondAttribute="leadingMargin" constant="121" id="a8Z-Ae-9NB"/>
+                            <constraint firstItem="6XL-HV-sN0" firstAttribute="leading" secondItem="U06-Z2-5SI" secondAttribute="trailing" constant="8" id="aCu-hJ-xjH"/>
+                            <constraint firstItem="Hgm-Fa-4wG" firstAttribute="top" secondItem="DfH-sf-49e" secondAttribute="bottom" constant="59" id="bXa-eT-vW8"/>
+                            <constraint firstItem="Lsm-gS-N7T" firstAttribute="top" secondItem="U06-Z2-5SI" secondAttribute="bottom" constant="14" id="c7x-su-x9l"/>
+                            <constraint firstItem="XAt-Rs-ymQ" firstAttribute="leading" secondItem="6et-8d-tOJ" secondAttribute="leadingMargin" id="dFn-3x-9Sp"/>
+                            <constraint firstItem="Hgm-Fa-4wG" firstAttribute="top" secondItem="x0A-wg-lcn" secondAttribute="bottom" constant="59" id="eQj-Yu-mdh"/>
+                            <constraint firstItem="6XL-HV-sN0" firstAttribute="trailing" secondItem="6et-8d-tOJ" secondAttribute="trailingMargin" id="fOc-Wp-hrI"/>
+                            <constraint firstItem="x0A-wg-lcn" firstAttribute="leading" secondItem="6et-8d-tOJ" secondAttribute="leadingMargin" id="gTF-BK-Gg7"/>
+                            <constraint firstAttribute="trailing" secondItem="bPx-WE-2Hl" secondAttribute="trailing" id="lUZ-ch-eB6"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Lsm-gS-N7T" secondAttribute="trailing" constant="122" id="mOW-CG-UO6"/>
+                            <constraint firstItem="U06-Z2-5SI" firstAttribute="leading" secondItem="XAt-Rs-ymQ" secondAttribute="trailing" constant="8" id="yQh-uM-rcI"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Home" image="home" id="wrJ-Tp-Xwi"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="bioTextView" destination="Hgm-Fa-4wG" id="tX0-r3-CXh"/>
+                        <outlet property="followerCountButton" destination="x0A-wg-lcn" id="jnu-Qj-j0i"/>
                         <outlet property="followersButton" destination="XAt-Rs-ymQ" id="mig-CL-SWE"/>
                         <outlet property="followingButton" destination="6XL-HV-sN0" id="4fn-so-oZ9"/>
+                        <outlet property="followingCountButton" destination="DfH-sf-49e" id="tNf-sx-NWD"/>
                         <outlet property="homeFeed" destination="bPx-WE-2Hl" id="ppd-3O-Rx2"/>
                         <outlet property="imageUploadProgressView" destination="Lsm-gS-N7T" id="JGA-RM-6u7"/>
                         <outlet property="userImage" destination="U06-Z2-5SI" id="Lvb-MZ-GcJ"/>
-                        <outlet property="usernameLabel" destination="qcX-Mb-d0S" id="Bq0-kD-DIg"/>
                         <segue destination="0dq-Pp-cQU" kind="show" identifier="userListFromHome" id="cg0-Af-xRt"/>
-                        <segue destination="36M-r1-Beq" kind="presentation" identifier="homeToUpload" id="yvp-ze-jox"/>
-                        <segue destination="Bvg-H3-m2q" kind="show" identifier="homeToView" id="TON-1M-Wog"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NE6-9Y-1c4" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1735,6 +1849,11 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="selectedIndex">
+                            <integer key="value" value="3"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
                     <connections>
                         <segue destination="JZU-IZ-cN5" kind="relationship" identifier="1" relationship="viewControllers" id="PbG-YS-umV"/>
                         <segue destination="nKy-B4-0NU" kind="relationship" identifier="2" relationship="viewControllers" id="PDP-Ia-Stx"/>
@@ -1761,18 +1880,11 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="85U-GW-eZ3">
-                                <rect key="frame" x="16" y="72" width="200" height="65"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lUu-8D-fNd">
-                                <rect key="frame" x="264" y="206" width="87" height="30"/>
+                                <rect key="frame" x="0.0" y="64" width="129" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="87" id="dvI-M9-nMj"/>
-                                    <constraint firstAttribute="height" constant="30" id="lfs-XH-ak7"/>
+                                    <constraint firstAttribute="height" constant="30" id="3GE-Ga-mWm"/>
+                                    <constraint firstAttribute="width" constant="129" id="3jG-4v-KCo"/>
                                 </constraints>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <state key="normal" title="Followers"/>
@@ -1781,14 +1893,14 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="defaultUserImage" translatesAutoresizingMaskIntoConstraints="NO" id="lX7-Wf-5Dr">
-                                <rect key="frame" x="295" y="73" width="64" height="64"/>
+                                <rect key="frame" x="137" y="72" width="100" height="100"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="64" id="XqO-HH-ytE"/>
-                                    <constraint firstAttribute="width" constant="64" id="a19-b4-6g1"/>
+                                    <constraint firstAttribute="height" constant="100" id="4Ad-ob-WZu"/>
+                                    <constraint firstAttribute="width" constant="100" id="KDK-hP-f8P"/>
                                 </constraints>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="199" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="XDK-zl-hSe">
-                                <rect key="frame" x="0.0" y="323" width="375" height="283"/>
+                                <rect key="frame" x="0.0" y="289" width="375" height="268"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="234" id="bv8-DA-pQC"/>
@@ -1974,78 +2086,138 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
                                             <outlet property="userImage" destination="ApT-yC-egV" id="4DT-dU-trE"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="lm" rowHeight="62" id="9Je-MP-XH0" customClass="LoadMoreTableViewCell" customModule="Challenger" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="289" width="375" height="62"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9Je-MP-XH0" id="j4M-Sk-bZh" customClass="FeedTableViewCell" customModule="Challenger" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="61.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iog-uz-1I5">
+                                                    <rect key="frame" x="-30" y="77" width="30" height="128"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IO4-zB-Wvg">
+                                                    <rect key="frame" x="8" y="15" width="73" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" title="Load More"/>
+                                                    <connections>
+                                                        <action selector="buttonAction:" destination="9Je-MP-XH0" eventType="touchUpInside" id="SI1-te-dBn"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="button" destination="IO4-zB-Wvg" id="fjF-wx-wCS"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VXF-ml-5ft">
-                                <rect key="frame" x="319" y="145" width="40" height="38"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="38" id="Hta-gG-pbi"/>
-                                    <constraint firstAttribute="width" constant="40" id="MX9-HE-hTQ"/>
-                                </constraints>
-                                <state key="normal" image="follow">
-                                    <color key="titleColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
-                                </state>
-                                <connections>
-                                    <action selector="followButtonPressed:" destination="9HE-HE-38c" eventType="touchUpInside" id="bqe-cx-5Ub"/>
-                                </connections>
-                            </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="bio" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qM1-M5-jc5">
-                                <rect key="frame" x="16" y="130" width="258" height="68"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="bio" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qM1-M5-jc5">
+                                <rect key="frame" x="16" y="226" width="343" height="48"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="7oR-QV-IRQ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rQz-iw-Ox7">
-                                <rect key="frame" x="328" y="182" width="23" height="24"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="23" id="R9c-9f-0Hk"/>
-                                    <constraint firstAttribute="height" constant="24" id="bbl-TT-xzl"/>
-                                </constraints>
-                                <state key="normal" title="Button" image="reportImage"/>
-                                <connections>
-                                    <action selector="reportButtonPressed:" destination="9HE-HE-38c" eventType="touchUpInside" id="IwI-WM-wb0"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0JZ-mY-CD4">
-                                <rect key="frame" x="184" y="206" width="65" height="30"/>
+                                <rect key="frame" x="245" y="64" width="130" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="4QB-mW-hUo"/>
+                                    <constraint firstAttribute="width" constant="130" id="9xb-Jq-boH"/>
+                                </constraints>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Following"/>
                                 <connections>
                                     <action selector="followingButtonPressed:" destination="9HE-HE-38c" eventType="touchUpInside" id="LCi-Xj-7zr"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VXF-ml-5ft">
+                                <rect key="frame" x="16" y="180" width="343" height="34"/>
+                                <color key="backgroundColor" red="1" green="1" blue="0.0" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="IVt-wS-GTT"/>
+                                </constraints>
+                                <state key="normal" title="Follow">
+                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="followButtonPressed:" destination="9HE-HE-38c" eventType="touchUpInside" id="bqe-cx-5Ub"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m8u-Nk-gUW">
+                                <rect key="frame" x="8" y="107" width="113" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="113" id="66B-2m-Ie1"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="113" id="OTy-bL-YBX"/>
+                                    <constraint firstAttribute="height" constant="30" id="UvS-ss-03H"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="t2Y-qE-LZV"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="fers">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="followerButtonPressed:" destination="9HE-HE-38c" eventType="touchUpInside" id="PrQ-cE-zIY"/>
+                                    <action selector="followerButtonPressed:" destination="JZU-IZ-cN5" eventType="touchUpInside" id="TWa-9R-pPX"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7LM-zf-wmw">
+                                <rect key="frame" x="254" y="107" width="113" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="Dtp-eE-PvP"/>
+                                    <constraint firstAttribute="width" constant="113" id="qax-du-5k6"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="fing">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="followerButtonPressed:" destination="JZU-IZ-cN5" eventType="touchUpInside" id="7wj-Bm-zdi"/>
+                                    <action selector="followingButtonPressed:" destination="9HE-HE-38c" eventType="touchUpInside" id="sFJ-Yn-Qmp"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="rQz-iw-Ox7" firstAttribute="top" secondItem="lX7-Wf-5Dr" secondAttribute="bottom" constant="45" id="04l-4g-TnB"/>
-                            <constraint firstItem="lUu-8D-fNd" firstAttribute="top" secondItem="rQz-iw-Ox7" secondAttribute="bottom" id="Ems-BS-55p"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="rQz-iw-Ox7" secondAttribute="trailing" constant="8" id="Fko-pl-pqg"/>
-                            <constraint firstItem="XDK-zl-hSe" firstAttribute="top" secondItem="lUu-8D-fNd" secondAttribute="bottom" constant="87" id="HFy-aJ-Mei"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="lUu-8D-fNd" secondAttribute="trailing" constant="8" id="IHJ-Ib-APL"/>
+                            <constraint firstItem="lUu-8D-fNd" firstAttribute="top" secondItem="eeN-aR-URx" secondAttribute="bottom" id="1tR-6V-zQh"/>
+                            <constraint firstItem="7LM-zf-wmw" firstAttribute="top" secondItem="0JZ-mY-CD4" secondAttribute="bottom" constant="13" id="3ZK-1S-yOD"/>
+                            <constraint firstItem="lX7-Wf-5Dr" firstAttribute="centerX" secondItem="u9C-Ng-nSZ" secondAttribute="centerX" id="CO0-CN-Obt"/>
+                            <constraint firstItem="VXF-ml-5ft" firstAttribute="leading" secondItem="u9C-Ng-nSZ" secondAttribute="leadingMargin" id="DgS-qH-HM8"/>
+                            <constraint firstItem="qM1-M5-jc5" firstAttribute="trailing" secondItem="u9C-Ng-nSZ" secondAttribute="trailingMargin" id="Do4-HV-HWt"/>
+                            <constraint firstItem="VXF-ml-5ft" firstAttribute="top" secondItem="lX7-Wf-5Dr" secondAttribute="bottom" constant="8" id="JjI-4q-fh6"/>
+                            <constraint firstItem="0JZ-mY-CD4" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="lX7-Wf-5Dr" secondAttribute="trailing" constant="8" id="N3g-KS-gOI"/>
                             <constraint firstAttribute="trailing" secondItem="XDK-zl-hSe" secondAttribute="trailing" id="NvG-Ii-YuY"/>
+                            <constraint firstItem="qM1-M5-jc5" firstAttribute="top" secondItem="VXF-ml-5ft" secondAttribute="bottom" constant="12" id="QJO-Eb-qNe"/>
+                            <constraint firstItem="qM1-M5-jc5" firstAttribute="leading" secondItem="u9C-Ng-nSZ" secondAttribute="leadingMargin" id="WiM-5g-Z8R"/>
                             <constraint firstItem="vtF-P3-elB" firstAttribute="top" secondItem="XDK-zl-hSe" secondAttribute="bottom" constant="61" id="WmB-Yw-5dZ"/>
-                            <constraint firstItem="lUu-8D-fNd" firstAttribute="leading" secondItem="0JZ-mY-CD4" secondAttribute="trailing" constant="15" id="bxM-8d-7Un"/>
-                            <constraint firstItem="VXF-ml-5ft" firstAttribute="trailing" secondItem="u9C-Ng-nSZ" secondAttribute="trailingMargin" id="ib2-0q-LvA"/>
-                            <constraint firstItem="0JZ-mY-CD4" firstAttribute="top" secondItem="rQz-iw-Ox7" secondAttribute="bottom" id="joc-yT-nvV"/>
-                            <constraint firstItem="VXF-ml-5ft" firstAttribute="top" secondItem="lX7-Wf-5Dr" secondAttribute="bottom" constant="8" id="kfD-Lf-yGd"/>
-                            <constraint firstItem="lX7-Wf-5Dr" firstAttribute="trailing" secondItem="u9C-Ng-nSZ" secondAttribute="trailingMargin" id="ptf-6U-nuE"/>
-                            <constraint firstItem="lX7-Wf-5Dr" firstAttribute="top" secondItem="eeN-aR-URx" secondAttribute="bottom" constant="9" id="wef-8g-FnJ"/>
+                            <constraint firstItem="lUu-8D-fNd" firstAttribute="leading" secondItem="u9C-Ng-nSZ" secondAttribute="leading" id="ZuC-Ko-aGF"/>
+                            <constraint firstItem="XDK-zl-hSe" firstAttribute="top" secondItem="qM1-M5-jc5" secondAttribute="bottom" constant="15" id="d32-EY-UbR"/>
+                            <constraint firstItem="lX7-Wf-5Dr" firstAttribute="top" secondItem="eeN-aR-URx" secondAttribute="bottom" constant="8" id="dGC-iy-T7g"/>
+                            <constraint firstAttribute="trailing" secondItem="0JZ-mY-CD4" secondAttribute="trailing" id="eDv-LO-Dcd"/>
+                            <constraint firstItem="m8u-Nk-gUW" firstAttribute="top" secondItem="lUu-8D-fNd" secondAttribute="bottom" constant="13" id="kzc-Le-Tc1"/>
+                            <constraint firstItem="0JZ-mY-CD4" firstAttribute="top" secondItem="eeN-aR-URx" secondAttribute="bottom" id="mJZ-Hp-gl1"/>
+                            <constraint firstItem="lX7-Wf-5Dr" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="lUu-8D-fNd" secondAttribute="trailing" constant="8" id="rQA-wQ-fAa"/>
+                            <constraint firstAttribute="trailing" secondItem="7LM-zf-wmw" secondAttribute="trailing" constant="8" id="s0H-ws-Q5P"/>
+                            <constraint firstItem="m8u-Nk-gUW" firstAttribute="leading" secondItem="u9C-Ng-nSZ" secondAttribute="leading" constant="8" id="vTu-Ws-M2x"/>
                             <constraint firstItem="XDK-zl-hSe" firstAttribute="leading" secondItem="u9C-Ng-nSZ" secondAttribute="leading" id="wxs-zl-c2m"/>
+                            <constraint firstItem="VXF-ml-5ft" firstAttribute="trailing" secondItem="u9C-Ng-nSZ" secondAttribute="trailingMargin" id="yVf-xk-ETa"/>
+                            <constraint firstItem="VXF-ml-5ft" firstAttribute="top" secondItem="m8u-Nk-gUW" secondAttribute="bottom" constant="43" id="zPh-8r-5VK"/>
                         </constraints>
                     </view>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="bioTextView" destination="qM1-M5-jc5" id="plg-uW-Tet"/>
                         <outlet property="followButton" destination="VXF-ml-5ft" id="qf9-7l-5yl"/>
+                        <outlet property="followerCountButton" destination="m8u-Nk-gUW" id="wNf-3V-IoW"/>
                         <outlet property="followersButton" destination="lUu-8D-fNd" id="GaP-Hy-6Mx"/>
                         <outlet property="followingButton" destination="0JZ-mY-CD4" id="Qtu-gN-QwA"/>
+                        <outlet property="followingCountButton" destination="7LM-zf-wmw" id="atg-Lz-5Ee"/>
                         <outlet property="homeFeed" destination="XDK-zl-hSe" id="snd-tL-U1q"/>
                         <outlet property="userImage" destination="lX7-Wf-5Dr" id="fa5-3C-kaX"/>
-                        <outlet property="usernameLabel" destination="85U-GW-eZ3" id="DYg-HU-BHC"/>
                         <segue destination="0dq-Pp-cQU" kind="show" identifier="userListFromOtherUser" id="M2V-tH-Taq"/>
-                        <segue destination="36M-r1-Beq" kind="presentation" identifier="otherUserToUpload" id="UF7-VR-gO8"/>
-                        <segue destination="Bvg-H3-m2q" kind="show" identifier="otherUserToView" id="PhF-YZ-yaZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U20-r0-ZmC" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2065,7 +2237,7 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="199" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="UxM-P8-sib">
-                                <rect key="frame" x="0.0" y="72" width="375" height="295"/>
+                                <rect key="frame" x="0.0" y="28" width="375" height="295"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="375" id="G6z-wV-osW"/>
@@ -2232,8 +2404,6 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
                     </view>
                     <connections>
                         <outlet property="tableView" destination="UxM-P8-sib" id="chF-Gf-slH"/>
-                        <segue destination="36M-r1-Beq" kind="show" identifier="challengeToUpload" id="fjZ-FX-rHv"/>
-                        <segue destination="Bvg-H3-m2q" kind="show" identifier="challengeToView" id="oI2-Jy-hra"/>
                         <segue destination="0dq-Pp-cQU" kind="show" identifier="challengeToUserList" id="MIi-Fu-W5L"/>
                     </connections>
                 </viewController>
@@ -2244,7 +2414,7 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
         <!--Acceptance Table View Controller-->
         <scene sceneID="QeL-7p-pes">
             <objects>
-                <tableViewController id="Bvg-H3-m2q" customClass="AcceptanceTableViewController" customModule="Challenger" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="acceptanceViewController" id="Bvg-H3-m2q" customClass="AcceptanceTableViewController" customModule="Challenger" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="44" id="044-bY-cDl">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2331,23 +2501,20 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
         <image name="accepted" width="24" height="24"/>
         <image name="defaultUserImage" width="128" height="128"/>
         <image name="feed" width="24" height="24"/>
-        <image name="follow" width="24" height="24"/>
         <image name="home" width="24" height="24"/>
         <image name="like" width="24" height="24"/>
         <image name="post" width="24" height="24"/>
         <image name="rechallenge" width="24" height="24"/>
         <image name="rechallenged" width="24" height="24"/>
-        <image name="reportImage" width="24" height="24"/>
         <image name="search" width="24" height="24"/>
         <image name="settings" width="24" height="24"/>
         <image name="top" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="FyM-li-ggo"/>
-        <segue reference="Fwb-4k-mzf"/>
-        <segue reference="cg0-Af-xRt"/>
-        <segue reference="yvp-ze-jox"/>
-        <segue reference="TON-1M-Wog"/>
-        <segue reference="Jz3-iB-RvD"/>
+        <segue reference="uCq-c3-mSh"/>
+        <segue reference="PbG-YS-umV"/>
+        <segue reference="Mjt-df-7dv"/>
+        <segue reference="pgD-e8-404"/>
+        <segue reference="2hZ-ld-dBy"/>
     </inferredMetricsTieBreakers>
 </document>

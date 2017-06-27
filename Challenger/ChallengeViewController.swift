@@ -19,7 +19,7 @@ class ChallengeViewController: UIViewController, UITableViewDataSource, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
         Global.setupBannerAd(self, tab: false)
-        uploadProcessDelegate = UploadProcessDelegate(self, "challengeToUpload")
+        uploadProcessDelegate = UploadProcessDelegate(self)
         tableViewController = UITableViewController()
         tableViewController.tableView = tableView
         tableViewController.tableView.dataSource = self
@@ -30,15 +30,15 @@ class ChallengeViewController: UIViewController, UITableViewDataSource, UITableV
     
    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let nextViewController = segue.destination as? UploadViewController{
-            nextViewController.challenge = uploadProcessDelegate.challengePass
-            nextViewController.previewImage = uploadProcessDelegate.videoPreview
-            nextViewController.videoData = uploadProcessDelegate.videoData
-        }
-        else if let next = segue.destination as? AcceptanceTableViewController{
-            next.challenge = uploadProcessDelegate.challengePass
-        }
-        else if let next = segue.destination as? UserListViewController{
+//        if let nextViewController = segue.destination as? UploadViewController{
+//            nextViewController.challenge = uploadProcessDelegate.challengePass
+//            nextViewController.previewImage = uploadProcessDelegate.videoPreview
+//            nextViewController.videoData = uploadProcessDelegate.videoData
+//        }
+//        else if let next = segue.destination as? AcceptanceTableViewController{
+//            next.challenge = uploadProcessDelegate.challengePass
+//        }
+        if let next = segue.destination as? UserListViewController{
             next.listType = feedDelegate.listTypePass
             next.challenge = feedDelegate.challengePass
         }

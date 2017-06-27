@@ -16,11 +16,13 @@ class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataS
     //references to views
     @IBOutlet weak var imageUploadProgressView: UIProgressView!
     @IBOutlet weak var userImage: UIImageView!
-    @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var bioTextView: UITextView!
     @IBOutlet weak var followersButton: UIButton!
     @IBOutlet weak var followingButton: UIButton!
     @IBOutlet weak var homeFeed: UITableView!
+    @IBOutlet weak var followingCountButton: UIButton!
+    @IBOutlet weak var followerCountButton: UIButton!
+  
     
     //variable passed to user list indicating what kindof list is to follow
     var listTypePass: String?
@@ -44,7 +46,7 @@ class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataS
         //this only appears when setting your image
         imageUploadProgressView.isHidden = true
         
-        uploadProcessDelegate = UploadProcessDelegate(self, "homeToUpload")
+        uploadProcessDelegate = UploadProcessDelegate(self)
         homeFeed.dataSource = self
         tableViewController.tableView = homeFeed
         
@@ -78,7 +80,10 @@ class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataS
     //takes care of setting all the home metadata
     func setupHome(){
         self.title = Global.global.loggedInUser.username!
-        usernameLabel.text = Global.global.loggedInUser.username
+        self.navigationController?.title = Global.global.loggedInUser.username!
+        //usernameLabel.text = Global.global.loggedInUser.username
+        followerCountButton.setTitle("\(Global.global.loggedInUser.followers!.count)", for: .normal)
+        followingCountButton.setTitle("\(Global.global.loggedInUser.following!.count)", for: .normal)
         bioTextView.text = Global.global.loggedInUser.bio
         
         Global.global.getUserImage(username: Global.global.loggedInUser.username!, view: userImage)
@@ -88,25 +93,15 @@ class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataS
     //determines what information needs to be passed to the next segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         //if its a user list, pass the type and the logged in user
-        if (sender as? UIButton == followersButton || sender as? UIButton == followingButton){
+        let sender = sender as! UIButton
+        if (sender == followersButton || sender == followingButton || sender == followerCountButton || sender == followingCountButton){
             let nextViewController = segue.destination as! UITableViewController
             let nextUserListController = nextViewController as? UserListViewController
             nextUserListController?.listType = listTypePass
             nextUserListController?.user = Global.global.loggedInUser
             
-        //if its the upload page, pass the challenge, the video binary data, and a nice thumbnail for the video
-        }else if let nextViewController = segue.destination as? UploadViewController{
-            nextViewController.challenge = uploadProcessDelegate.challengePass
-            nextViewController.videoData = uploadProcessDelegate.videoData
-            nextViewController.previewImage = uploadProcessDelegate.videoPreview
-            
-        //if its the list of acceptances, then pass the challenge
-        }else if let next = segue.destination as? AcceptanceTableViewController{
-            next.challenge = uploadProcessDelegate.challengePass
-        }
-            
         //if its a generic user list, dont panic, the feed delegate initiated it, so just give it the info the feedDelegate has for it
-        else if let next = segue.destination as? UserListViewController{
+        }else if let next = segue.destination as? UserListViewController{
             next.listType = feedDelegate.listTypePass
             next.challenge = feedDelegate.challengePass
         }
@@ -114,12 +109,12 @@ class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataS
     
     //functions that initiate a segue to a user list
     @IBAction func followerButtonPressed(_ sender: UIButton) {
-        listTypePass = "followers"
-        performSegue(withIdentifier: "userListFromHome", sender: sender)
+        self.presentUserList(user: Global.global.loggedInUser!, type: "followers")
     }
     @IBAction func followingButtonPressed(_ sender: UIButton) {
-        listTypePass = "following"
-        performSegue(withIdentifier: "userListFromHome", sender: sender)
+//        listTypePass = "following"
+//        performSegue(withIdentifier: "userListFromHome", sender: sender)
+        self.presentUserList(user: Global.global.loggedInUser, type: "following")
     }
     
     @IBAction func userImageTapped(_ sender: UITapGestureRecognizer) {

@@ -125,6 +125,25 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         performSegue(withIdentifier: "unwindToLogin", sender: sender)
     }
     
+    //sets the character limits on the individual text fields
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let str = textField.text
+        if textField == bioTextField{
+            if str!.characters.count <= 100 {
+                return true
+            }
+            textField.text = str!.substring(to: str!.index(str!.startIndex, offsetBy: 100))
+        }else{
+            if str!.characters.count <= 40 {
+                return true
+            }
+            textField.text = str!.substring(to: str!.index(str!.startIndex, offsetBy: 40))
+        }
+        
+        return false
+    }
+
+    
     //misc methods
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

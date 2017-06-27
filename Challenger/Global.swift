@@ -63,7 +63,9 @@ class Global: NSObject{
     
     //takes in json formatted data from the server and translates it into a user object
     static func jsonToUser(json: [String: JSON])->User{
+        
         return User(username: json["username"]!.stringValue, bio: json["bio"]!.stringValue, email: json["email"]!.stringValue, followers: json["followers"]!.arrayObject as! [String], following: json["following"]!.arrayObject as! [String])
+         
     }
     
     //takes in json formatted data from the server and translates it into a challenge object
@@ -119,7 +121,7 @@ class Global: NSObject{
      ***/
     func getUserImage(username: String, view: UIImageView){
         if userImages.keys.contains(username){
-            setUserImage(image: userImages[username]!, view: view)
+            setUserImage(image: userImages[username]!, imageView: view)
         }else{
             if imageQueues.keys.contains(username){
                 imageQueues[username]!.append(view)
@@ -151,13 +153,18 @@ class Global: NSObject{
     func completeQueue(image: UIImage, username: String){
         let views = self.imageQueues[username]!
         for imageView in views{
-            imageView.image = image
+            setUserImage(image: image, imageView: imageView)
         }
         self.imageQueues.removeValue(forKey: username)
     }
     
-    func setUserImage(image: UIImage, view: UIImageView){
-        view.image = image
+    func setUserImage(image: UIImage, imageView: UIImageView){
+        imageView.layer.borderWidth = 1
+        imageView.layer.masksToBounds = false
+        imageView.layer.borderColor = UIColor.black.cgColor
+        imageView.layer.cornerRadius = imageView.frame.height/2
+        imageView.clipsToBounds = true
+        imageView.image = image
     }
     
     //sets up the admob banner at the bottom of a view, with a bool to indicate the banner must appear above tabs
@@ -166,7 +173,8 @@ class Global: NSObject{
         let bannerView = GADBannerView(adSize: kGADAdSizeFullBanner)
         bannerView.frame.origin.x = 0
         if tab{
-            bannerView.frame.origin.y = viewController.view.frame.height -  viewController.navigationController!.toolbar.frame.height - bannerView.frame.height
+            //49 is the tab bar height
+            bannerView.frame.origin.y = viewController.view.frame.height -  49 - bannerView.frame.height
             viewController.view.addSubview(bannerView)
             
         }else{

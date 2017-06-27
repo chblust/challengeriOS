@@ -29,6 +29,11 @@ class AcceptanceTableViewController: UITableViewController, URLSessionDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.setToolbarHidden(false, animated: true)
+        
+        var items = [UIBarButtonItem]()
+        items.append(UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped)))
+        self.setToolbarItems(items, animated: true)
         //get the users that have accepted that challenge from the server
         let params = [
             "challengeName": challenge.name!,
@@ -140,12 +145,9 @@ class AcceptanceTableViewController: UITableViewController, URLSessionDelegate{
                     "challengeName": self.challenge.name!
                 ]
                 URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "removeVideo")){data, response, error in
-//                    if let data = data{
-//                        self.navigationController!.popViewController(animated: true)
-//                    }
-                    
+
                     }.resume()
-                self.navigationController!.popViewController(animated: true)
+                self.doneButtonTapped()
             }))
             alert.addAction(UIAlertAction(title: "No", style: .default, handler: {(UIAlertAction) in alert.dismiss(animated: true, completion: {})}))
             present(alert, animated: true, completion: {})
@@ -189,6 +191,10 @@ class AcceptanceTableViewController: UITableViewController, URLSessionDelegate{
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         
+    }
+    
+    func doneButtonTapped(){
+        self.dismiss(animated: true, completion: nil)
     }
     
 }

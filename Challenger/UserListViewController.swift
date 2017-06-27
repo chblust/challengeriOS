@@ -26,6 +26,10 @@ class UserListViewController: UITableViewController, URLSessionDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.setToolbarHidden(false, animated: true)
+        var items = [UIBarButtonItem]()
+        items.append(UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped)))
+        self.setToolbarItems(items, animated: true)
         //setup the post request based on the type of user list to be displayed
         var getUsersParams = [String:String]()
         
@@ -65,7 +69,14 @@ class UserListViewController: UITableViewController, URLSessionDelegate {
             if let data = data{
                 let json = JSON(data: data)
                 for index in 0..<json.count{
-                    self.users.append(Global.jsonToUser(json: json[index].dictionaryValue))
+                    //handles the situation where the user has been deleted from the server
+                    if let a = json[index]["username"].string{
+                        self.users.append(Global.jsonToUser(json: json[index].dictionaryValue))
+                    }else{
+                        print("adding this to the thing\n\n\n\n\n\n\n\n")
+                        self.users.append(User())
+                        print(self.users)
+                    }
                 }
                 
                 self.tableView.reloadData()
@@ -82,12 +93,10 @@ class UserListViewController: UITableViewController, URLSessionDelegate {
     //Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         switch listType!{
         case "followers":
             return user!.followers!.count
@@ -113,22 +122,23 @@ class UserListViewController: UITableViewController, URLSessionDelegate {
             fatalError("Cell was not a UserTableViewCell")
         }
         let user: User?
-        if (indexPath.row < users.count && users[indexPath.row].username != nil){
+        if (indexPath.row < users.count){
+            print(self.users)
             user = users[indexPath.row]
-            cell.usernameButton.setTitle(user?.username!, for: .normal)
+            
+//            if user!.isEmpty{
+//                cell.usernameButton.setTitle("User has been Removed", for: .normal)
+//            }else{
+                cell.usernameButton.setTitle(user?.username!, for: .normal)
             
             
-            cell.tapAction = { [weak self] (cell) in self?.cellTapped(user: user!, sender: cell)}
+                cell.tapAction = { [weak self] (cell) in self?.cellTapped(user: user!, sender: cell)}
             
-            Global.global.getUserImage(username: (user?.username)!, view: cell.userImage)
+                Global.global.getUserImage(username: user!.username!, view: cell.userImage)
+//            }
         }
         return cell
     }
-    
-    
-//    func completeCellWithUserImage(data: Data, imageView: UIImageView){
-//        imageView.image = UIImage(data: data)
-//    }
     
     //misc methods
     func cellTapped(user: User, sender: Any?){
@@ -141,5 +151,8 @@ class UserListViewController: UITableViewController, URLSessionDelegate {
         let nextViewController = segue.destination as! OtherUserViewController
         nextViewController.user = userPass
         
+    }
+    func doneButtonTapped(){
+        self.dismiss(animated: true, completion: nil)
     }
 }

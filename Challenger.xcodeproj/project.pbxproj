@@ -28,11 +28,13 @@
 		9361E0881EDB29950080F788 /* FeedDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9361E0871EDB29950080F788 /* FeedDelegate.swift */; };
 		9376C7901EF1E38800B93C87 /* AcceptedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9376C78F1EF1E38800B93C87 /* AcceptedTableViewController.swift */; };
 		9376C7921EF21EFA00B93C87 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9376C7911EF21EFA00B93C87 /* SettingsViewController.swift */; };
+		93781FB31F01B9C500C565F9 /* LoadMoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93781FB21F01B9C500C565F9 /* LoadMoreTableViewCell.swift */; };
 		937E19BF1ECE1682006232F7 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931A64C91ECB7D3100B419DD /* HomeViewController.swift */; };
 		937E19C11ECE2668006232F7 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937E19C01ECE2668006232F7 /* PostViewController.swift */; };
 		938272871ED4F21100EC8404 /* UploadProcessDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938272861ED4F21100EC8404 /* UploadProcessDelegate.swift */; };
 		938272891ED5169C00EC8404 /* AcceptanceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938272881ED5169C00EC8404 /* AcceptanceTableViewController.swift */; };
 		9382728D1ED7ACA300EC8404 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9382728C1ED7ACA300EC8404 /* SearchViewController.swift */; };
+		93C0122E1EFAE7260043395A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C0122D1EFAE7260043395A /* Extensions.swift */; };
 		93F027021EF0636F00E91D75 /* CrashList.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 93F027011EF0636F00E91D75 /* CrashList.rtf */; };
 		93F9EEDC1EDF6841005D4F7B /* TopChallengesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F9EEDB1EDF6841005D4F7B /* TopChallengesViewController.swift */; };
 		93FC07901EDA93150008B7F4 /* CreateUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FC078F1EDA93150008B7F4 /* CreateUserViewController.swift */; };
@@ -65,10 +67,12 @@
 		9361E0871EDB29950080F788 /* FeedDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedDelegate.swift; sourceTree = "<group>"; };
 		9376C78F1EF1E38800B93C87 /* AcceptedTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptedTableViewController.swift; sourceTree = "<group>"; };
 		9376C7911EF21EFA00B93C87 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		93781FB21F01B9C500C565F9 /* LoadMoreTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadMoreTableViewCell.swift; sourceTree = "<group>"; };
 		937E19C01ECE2668006232F7 /* PostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		938272861ED4F21100EC8404 /* UploadProcessDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadProcessDelegate.swift; sourceTree = "<group>"; };
 		938272881ED5169C00EC8404 /* AcceptanceTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptanceTableViewController.swift; sourceTree = "<group>"; };
 		9382728C1ED7ACA300EC8404 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		93C0122D1EFAE7260043395A /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		93F027011EF0636F00E91D75 /* CrashList.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = CrashList.rtf; sourceTree = "<group>"; };
 		93F9EEDB1EDF6841005D4F7B /* TopChallengesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopChallengesViewController.swift; sourceTree = "<group>"; };
 		93FC078F1EDA93150008B7F4 /* CreateUserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateUserViewController.swift; sourceTree = "<group>"; };
@@ -148,6 +152,8 @@
 				93F9EEDB1EDF6841005D4F7B /* TopChallengesViewController.swift */,
 				9376C78F1EF1E38800B93C87 /* AcceptedTableViewController.swift */,
 				9376C7911EF21EFA00B93C87 /* SettingsViewController.swift */,
+				93C0122D1EFAE7260043395A /* Extensions.swift */,
+				93781FB21F01B9C500C565F9 /* LoadMoreTableViewCell.swift */,
 			);
 			path = Challenger;
 			sourceTree = "<group>";
@@ -291,6 +297,7 @@
 				9338AC5F1EDCC0C70071BA29 /* Acceptance.swift in Sources */,
 				934A01AF1ED00EB000E82BFC /* OtherUserViewController.swift in Sources */,
 				934A01AB1ECE870500E82BFC /* FeedViewController.swift in Sources */,
+				93781FB31F01B9C500C565F9 /* LoadMoreTableViewCell.swift in Sources */,
 				9376C7901EF1E38800B93C87 /* AcceptedTableViewController.swift in Sources */,
 				937E19C11ECE2668006232F7 /* PostViewController.swift in Sources */,
 				937E19BF1ECE1682006232F7 /* HomeViewController.swift in Sources */,
@@ -306,6 +313,7 @@
 				938272891ED5169C00EC8404 /* AcceptanceTableViewController.swift in Sources */,
 				931A64C81ECAB40200B419DD /* Global.swift in Sources */,
 				934A01AA1ECE701E00E82BFC /* Challenge.swift in Sources */,
+				93C0122E1EFAE7260043395A /* Extensions.swift in Sources */,
 				931A64D41ECBD4A200B419DD /* UserListViewController.swift in Sources */,
 				9376C7921EF21EFA00B93C87 /* SettingsViewController.swift in Sources */,
 				9338AC5D1EDC72A70071BA29 /* AcceptanceTableViewCell.swift in Sources */,
