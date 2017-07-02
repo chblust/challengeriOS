@@ -18,7 +18,12 @@ class ChallengeViewController: UIViewController, UITableViewDataSource, UITableV
     var uploadProcessDelegate: UploadProcessDelegate!
     override func viewDidLoad() {
         super.viewDidLoad()
-        Global.setupBannerAd(self, tab: false)
+        self.navigationController?.setToolbarHidden(false, animated: true)
+        var items = [UIBarButtonItem]()
+        items.append(UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped)))
+        self.setToolbarItems(items, animated: true)
+
+        Global.setupBannerAd(self, tab: true)
         uploadProcessDelegate = UploadProcessDelegate(self)
         tableViewController = UITableViewController()
         tableViewController.tableView = tableView
@@ -59,5 +64,8 @@ class ChallengeViewController: UIViewController, UITableViewDataSource, UITableV
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
+    }
+    func doneButtonTapped(){
+        self.dismiss(animated: true, completion: nil)
     }
 }

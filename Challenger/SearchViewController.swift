@@ -94,18 +94,9 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
     func userCellTapped(username: String, cell: UITableViewCell){
         //if its the logged in user, go to home. if not, get selected user metadata from server and go to other user view
         if username != Global.global.loggedInUser.username!{
-                URLSession.shared.dataTask(with: Global.createServerRequest(params: [
-                    "usernames[0]": username
-                    ], intent: "getUsers")){data, response, error in
-                if let data = data{
-                    OperationQueue.main.addOperation {
-                        self.userPass = Global.jsonToUser(json: JSON(data: data)[0].dictionaryValue)
-                        self.performSegue(withIdentifier: "searchToOtherUser", sender: cell)
-                    }
-                }
-                }.resume()
+            self.presentOtherUser(username: username)
         }else{
-            self.performSegue(withIdentifier: "searchToHome", sender: cell)
+            self.tabBarController?.selectedIndex = 0
         }
     }
     
@@ -117,8 +108,11 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
                 ], intent: "getChallenges")){data, response, error in
             if let data = data{
                 OperationQueue.main.addOperation {
-                    self.challengePass = Global.jsonToChallenge(json: JSON(data: data)[0].dictionaryValue)
-                    self.performSegue(withIdentifier: "searchToChallenge", sender: cell)
+                    let challengeViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "challengeViewController") as! ChallengeViewController
+                    challengeViewController.challenge = Global.jsonToChallenge(json: JSON(data: data)["challenges"][0].dictionaryValue)
+                    let nav = UINavigationController.init(rootViewController: challengeViewController)
+                    
+                    self.present(nav, animated: true, completion: nil)
                 }
             }
             }.resume()

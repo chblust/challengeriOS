@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-
+import SwiftyJSON
 
 class ChallengeImagePickerController: UIImagePickerController{
     var challenge: Challenge?
@@ -30,6 +30,35 @@ extension UIViewController{
         userListViewController.user = user
         let nav = UINavigationController.init(rootViewController: userListViewController)
         
+        self.present(nav, animated: true, completion: nil)
+    }
+    
+    func presentOtherUser(username: String){
+        URLSession.shared.dataTask(with: Global.createServerRequest(params: [
+            "usernames[0]": username
+            ], intent: "getUsers")){data, response, error in
+                if let data = data{
+                    OperationQueue.main.addOperation {
+                        let json = JSON(data: data)
+                        if json[0]["username"].exists(){
+                            let otherUserViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "otherUserViewController") as! OtherUserViewController
+                            otherUserViewController.user = Global.jsonToUser(json: json[0].dictionaryValue)
+                            let nav = UINavigationController(rootViewController: otherUserViewController)
+                            self.present(nav, animated: true, completion: nil)
+                        }else{
+                            print(json)
+                            Global.showAlert(title: "User Removed!", message: "This user no longer exists.", here: self)
+                        }
+                    }
+                }
+            }.resume()
+
+    }
+    
+    func presentOtherUser(user: User){
+        let otherUserViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "otherUserViewController") as! OtherUserViewController
+        otherUserViewController.user = user
+        let nav = UINavigationController(rootViewController: otherUserViewController)
         self.present(nav, animated: true, completion: nil)
 
     }

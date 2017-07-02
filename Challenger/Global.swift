@@ -93,6 +93,7 @@ class Global: NSObject{
         }
         if (textField.text!.contains("&") || textField.text!.contains("=")){
             showAlert(title: "Invalid Entry", message: "text entered contains illegal characters", here: here)
+            return false
         }
         return true
     }

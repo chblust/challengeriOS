@@ -89,7 +89,6 @@ class FeedDelegate{
                 self.refreshing = false
                 if let data = data{
                     let json = JSON(data: data)
-                   
                     OperationQueue.main.addOperation {
                             for i in 0..<json["challenges"].arrayValue.count{
                                 self.challenges.append(Global.jsonToChallenge(json: json["challenges"][i].dictionaryValue))
@@ -200,13 +199,16 @@ class FeedDelegate{
                 
                 //below are manual cell constraints
                 let cellwidth = cell.frame.width
-                cell.rechallengeButton.frame.origin.x = cellwidth - cell.rechallengeButton.frame.width - cell.viewRechallengersButton.frame.width
-                cell.viewRechallengersButton.frame.origin.x = cellwidth - cell.viewRechallengersButton.frame.width
-                cell.likeButton.frame.origin.x = cellwidth - cell.likeButton.frame.width - cell.viewLikersButton.frame.width
-                cell.viewLikersButton.frame.origin.x = cellwidth - cell.viewLikersButton.frame.width
-                cell.acceptButton.frame.origin.x = cellwidth - cell.acceptButton.frame.width - 10 - cell.acceptCountLabel.frame.width - 10
-                cell.acceptCountLabel.frame.origin.x = cellwidth - cell.acceptCountLabel.frame.width - 10
-                cell.viewButton.frame.origin.x = cellwidth - cell.viewButton.frame.width - 10
+                cell.reportButton.frame.origin.x = cellwidth - 10 - cell.reportButton.frame.width
+                cell.challengeInstructionsLabel.frame = CGRect(x: cell.challengeInstructionsLabel.frame.origin.x, y: cell.challengeInstructionsLabel.frame.origin.y, width: cellwidth - 16, height: cell.challengeInstructionsLabel.frame.height)
+//                let cellwidth = cell.frame.width
+//                cell.rechallengeButton.frame.origin.x = cellwidth - cell.rechallengeButton.frame.width - cell.viewRechallengersButton.frame.width
+//                cell.viewRechallengersButton.frame.origin.x = cellwidth - cell.viewRechallengersButton.frame.width
+//                cell.likeButton.frame.origin.x = cellwidth - cell.likeButton.frame.width - cell.viewLikersButton.frame.width
+//                cell.viewLikersButton.frame.origin.x = cellwidth - cell.viewLikersButton.frame.width
+//                cell.acceptButton.frame.origin.x = cellwidth - cell.acceptButton.frame.width - 10 - cell.acceptCountLabel.frame.width - 10
+//                cell.acceptCountLabel.frame.origin.x = cellwidth - cell.acceptCountLabel.frame.width - 10
+//                cell.viewButton.frame.origin.x = cellwidth - cell.viewButton.frame.width - 10
                 
                 return cell
             }
@@ -259,13 +261,17 @@ class FeedDelegate{
         
         //below are manual cell constraints
         let cellwidth = cell.frame.width
-        cell.rechallengeButton.frame.origin.x = cellwidth - cell.rechallengeButton.frame.width - cell.viewRechallengersButton.frame.width
-        cell.viewRechallengersButton.frame.origin.x = cellwidth - cell.viewRechallengersButton.frame.width
-        cell.likeButton.frame.origin.x = cellwidth - cell.likeButton.frame.width - cell.viewLikersButton.frame.width
-        cell.viewLikersButton.frame.origin.x = cellwidth - cell.viewLikersButton.frame.width
-        cell.acceptButton.frame.origin.x = cellwidth - cell.acceptButton.frame.width - 10 - cell.acceptCountLabel.frame.width - 10
-        cell.acceptCountLabel.frame.origin.x = cellwidth - cell.acceptCountLabel.frame.width - 10
-        cell.viewButton.frame.origin.x = cellwidth - cell.viewButton.frame.width - 10
+        cell.reportButton.frame.origin.x = cellwidth - 10 - cell.reportButton.frame.width
+        cell.challengeInstructionsLabel.frame = CGRect(x: cell.challengeInstructionsLabel.frame.origin.x, y: cell.challengeInstructionsLabel.frame.origin.y, width: cellwidth - 16, height: cell.challengeInstructionsLabel.frame.height)
+
+//        let cellwidth = cell.frame.width
+//        cell.rechallengeButton.frame.origin.x = cellwidth - cell.rechallengeButton.frame.width - cell.viewRechallengersButton.frame.width
+//        cell.viewRechallengersButton.frame.origin.x = cellwidth - cell.viewRechallengersButton.frame.width
+//        cell.likeButton.frame.origin.x = cellwidth - cell.likeButton.frame.width - cell.viewLikersButton.frame.width
+//        cell.viewLikersButton.frame.origin.x = cellwidth - cell.viewLikersButton.frame.width
+//        cell.acceptButton.frame.origin.x = cellwidth - cell.acceptButton.frame.width - 10 - cell.acceptCountLabel.frame.width - 10
+//        cell.acceptCountLabel.frame.origin.x = cellwidth - cell.acceptCountLabel.frame.width - 10
+//        cell.viewButton.frame.origin.x = cellwidth - cell.viewButton.frame.width - 10
         
         return cell
     }
@@ -370,8 +376,11 @@ class FeedDelegate{
             let params = [
                 "challengeName":challenge.name!
             ]
-            URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "removeChallenge")).resume()
-            self.handleRefresh()
+            URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "removeChallenge")){data, response, error in
+                if data != nil{
+                    self.handleRefresh()
+                }
+                }.resume()
         }))
         alert.addAction(UIAlertAction(title: "No", style: .default, handler: {(UIAlertAction) in alert.dismiss(animated: true, completion: {})}))
         viewController.present(alert, animated: true, completion: {})

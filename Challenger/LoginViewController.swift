@@ -12,18 +12,37 @@ import GoogleMobileAds
 class LoginViewController: UIViewController, UITextFieldDelegate, URLSessionDelegate {
     //references to views
     @IBOutlet weak var usernameField: UITextField!
+    @IBOutlet weak var welcomeToChallengerLabel: UILabel!
     
     @IBOutlet weak var passwordField: UITextField!
     
     @IBOutlet weak var loginButton: UIButton!
     
+    @IBOutlet weak var createUserButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         
         Global.setupBannerAd(self, tab: false)
         
         self.navigationController?.setToolbarHidden(true, animated: true)
+        self.usernameField.center.x -= self.view.bounds.width
+        self.passwordField.center.x -= self.view.bounds.width
+        self.loginButton.center.x -= self.view.bounds.width
+        self.createUserButton.center.x -= self.view.bounds.width
+        welcomeToChallengerLabel.center.x -= self.view.bounds.width
         
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {  self.welcomeToChallengerLabel.center.x += self.view.bounds.width}, completion: nil)
+        UIView.animate(withDuration: 0.5, delay: 0.1,
+                       options: [.curveEaseIn],
+                       animations: {
+                        self.usernameField.center.x += self.view.bounds.width
+                        
+        },
+                       completion: nil
+        )
+        UIView.animate(withDuration: 0.5, delay: 0.2, options: .curveEaseInOut, animations: { self.passwordField.center.x += self.view.bounds.width}, completion: nil)
+        UIView.animate(withDuration: 0.5, delay: 0.3, options: .curveEaseInOut, animations: {  self.loginButton.center.x += self.view.bounds.width}, completion: nil)
+        UIView.animate(withDuration: 0.5, delay: 0.4, options: .curveEaseInOut, animations: {  self.createUserButton.center.x += self.view.bounds.width}, completion: nil)
         //establish control over text fields
         usernameField.delegate = self
         passwordField.delegate = self
@@ -52,6 +71,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate, URLSessionDele
                 }
                 }.resume()
         }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        
     }
     
     @IBAction func loginButtonPressed(_ sender: UIButton) {

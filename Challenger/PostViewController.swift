@@ -8,23 +8,29 @@
 
 import UIKit
 import SwiftyJSON
-class PostViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
+class PostViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var challengeNameTextField: UITextField!
-    @IBOutlet weak var challengeInstructionsTextView: UITextView!
+    @IBOutlet weak var challengeInstructionsTextField: UITextField!
+    @IBOutlet weak var postButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         Global.setupBannerAd(self, tab: true)
         challengeNameTextField.delegate = self
-        challengeInstructionsTextView.delegate = self
+        challengeInstructionsTextField.delegate = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
     
     @IBAction func postButtonPressed(_ sender: UIButton) {
         //get information to send to server
-        if (Global.textIsSafe(textField: challengeNameTextField, here: self) && Global.textIsSafe(textView: challengeInstructionsTextView, here: self)){
+        
+        if (Global.textIsSafe(textField: challengeNameTextField, here: self) && Global.textIsSafe(textField: challengeInstructionsTextField, here: self)){
                 URLSession.shared.dataTask(with: Global.createServerRequest(params: [
                     "name": challengeNameTextField.text!,
-                    "instructions":challengeInstructionsTextView.text!,
+                    "instructions":challengeInstructionsTextField.text!,
                     "username":Global.global.loggedInUser.username!
                     ], intent: "createChallenge")){data, response, error in
                 if let data = data{
@@ -42,8 +48,11 @@ class PostViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
         switch json["success"]{
         case "true":
             challengeNameTextField.text = ""
-            challengeInstructionsTextView.text = ""
-            Global.showAlert(title: "Challenge Posted", message: "your challenge is now public!", here: self)
+            challengeInstructionsTextField.text = ""
+           tabBarController?.selectedIndex = 2
+           if let next = tabBarController?.viewControllers?[2] as? FeedViewController{
+                next.feedDelegate.handleRefresh()
+           }
             break
         case "false":
             Global.showAlert(title: "Challenge name Taken!", message: "a challenge already exists with this name", here: self)
@@ -55,23 +64,17 @@ class PostViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
     //methods that limit the character input of the field and view
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let str = textField.text
-        
-        if str!.characters.count <= 30 {
-            return true
+        if textField == challengeNameTextField{
+            if str!.characters.count <= 30 {
+                return true
+            }
+            textField.text = str!.substring(to: str!.index(str!.startIndex, offsetBy: 30))
+        }else if textField == challengeInstructionsTextField{
+            if str!.characters.count <= 200{
+                return true
+            }
+            textField.text = str!.substring(to: str!.index(str!.startIndex, offsetBy: 200))
         }
-        textField.text = str!.substring(to: str!.index(str!.startIndex, offsetBy: 30))
-        
-        
-        return false
-    }
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        let str = textView.text
-        
-        if str!.characters.count <= 200 {
-            return true
-        }
-        textView.text = str!.substring(to: str!.index(str!.startIndex, offsetBy: 200))
-        
         
         return false
     }
@@ -81,15 +84,15 @@ class PostViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
         textField.resignFirstResponder()
         return true
     }
-    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
-        textView.resignFirstResponder()
-        return true
-    }
+//    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
+//        textView.resignFirstResponder()
+//        return true
+//    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     @IBAction func viewTapped(_ sender: UITapGestureRecognizer) {
-        challengeInstructionsTextView.resignFirstResponder()
+        challengeInstructionsTextField.resignFirstResponder()
         challengeNameTextField.resignFirstResponder()
     }
 }

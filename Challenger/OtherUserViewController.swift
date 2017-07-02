@@ -38,20 +38,26 @@ class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableVie
     
     //object that handles uploading from the home feed
     var uploadProcessDelegate: UploadProcessDelegate!
-    
+    let followingColor = UIColor(red: 91/255, green: 153/255, blue: 44/255, alpha: 1)
     //methods that set up metadata views
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.setToolbarHidden(false, animated: true)
+        var items = [UIBarButtonItem]()
+        items.append(UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped)))
+        self.setToolbarItems(items, animated: true)
         Global.setupBannerAd(self, tab: true)
         followerCountButton.setTitle("\(user.followers!.count)", for: .normal)
         followingCountButton.setTitle("\(user.following!.count)", for: .normal)
+        followButton.layer.borderWidth = 1
         //set the image for the follow button depending on whether or not the login is following the user
         if (user.followers!.contains(Global.global.loggedInUser.username!)){
             followButton.setTitle("Following", for: .normal)
-            followButton.backgroundColor = UIColor.green
+            
+            followButton.backgroundColor = followingColor
         }else{
             followButton.setTitle("Follow", for: .normal)
-            followButton.backgroundColor = UIColor.yellow
+            followButton.backgroundColor = UIColor.gray
         }
         
         //i dont know if i still need this; too scared to delete it
@@ -121,7 +127,7 @@ class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableVie
         if user.followers!.contains(Global.global.loggedInUser.username!){
 //            followButton.setImage(UIImage(named: "follow"), for: .normal)
             followButton.setTitle("Follow", for: .normal)
-            followButton.backgroundColor = UIColor.yellow
+            followButton.backgroundColor = UIColor.gray
             user.followers!.remove(at: user.followers!.index(of: Global.global.loggedInUser.username!)!)
             followerCountButton.setTitle("\(user.followers!.count)", for: .normal)
             Global.global.loggedInUser.following!.remove(at: Global.global.loggedInUser.following!.index(of: user.username!)!)
@@ -129,7 +135,7 @@ class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableVie
         }else{
             //followButton.setImage(UIImage(named: "following"), for: .normal)
             followButton.setTitle("Following", for: .normal)
-            followButton.backgroundColor = UIColor.green
+            followButton.backgroundColor = followingColor
             user.followers!.append(Global.global.loggedInUser.username!)
             followerCountButton.setTitle("\(user.followers!.count)", for: .normal)
             Global.global.loggedInUser.following!.append(user.username!)
@@ -178,5 +184,8 @@ class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableVie
             }
         }
         return 62
+    }
+    func doneButtonTapped(){
+        self.dismiss(animated: true, completion: nil)
     }
 }

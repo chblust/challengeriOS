@@ -70,12 +70,10 @@ class UserListViewController: UITableViewController, URLSessionDelegate {
                 let json = JSON(data: data)
                 for index in 0..<json.count{
                     //handles the situation where the user has been deleted from the server
-                    if let a = json[index]["username"].string{
+                    if json[index]["username"].exists(){
                         self.users.append(Global.jsonToUser(json: json[index].dictionaryValue))
                     }else{
-                        print("adding this to the thing\n\n\n\n\n\n\n\n")
                         self.users.append(User())
-                        print(self.users)
                     }
                 }
                 
@@ -126,24 +124,26 @@ class UserListViewController: UITableViewController, URLSessionDelegate {
             print(self.users)
             user = users[indexPath.row]
             
-//            if user!.isEmpty{
-//                cell.usernameButton.setTitle("User has been Removed", for: .normal)
-//            }else{
                 cell.usernameButton.setTitle(user?.username!, for: .normal)
             
             
                 cell.tapAction = { [weak self] (cell) in self?.cellTapped(user: user!, sender: cell)}
             
                 Global.global.getUserImage(username: user!.username!, view: cell.userImage)
-//            }
         }
         return cell
     }
     
     //misc methods
     func cellTapped(user: User, sender: Any?){
-        userPass = user
-        performSegue(withIdentifier: "otherUserFromUserList", sender: sender)
+        //userPass = user
+        //performSegue(withIdentifier: "otherUserFromUserList", sender: sender)
+//        let otherUserViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "otherUserViewController") as! OtherUserViewController
+//        otherUserViewController.user = user
+//        let nav = UINavigationController(rootViewController: otherUserViewController)
+//        self.present(nav, animated: true, completion: nil)
+        self.presentOtherUser(user: user)
+
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
