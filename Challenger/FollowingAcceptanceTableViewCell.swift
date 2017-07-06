@@ -10,8 +10,13 @@ import UIKit
 
 class FollowingAcceptanceTableViewCell: UITableViewCell {
     @IBOutlet weak var messageButton: UIButton!
-    @IBOutlet weak var userImage: UIImageView!
+    @IBOutlet weak var userImage: UIImageView!{
+        didSet{
+            userImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(userImageTapped)))
+        }
+    }
     var messageButtonAction: ((UITableViewCell)->Void)?
+    var userImageAction: ((FollowingAcceptanceTableViewCell)->Void)?
     override func awakeFromNib() {
         super.awakeFromNib()
     }
@@ -22,5 +27,7 @@ class FollowingAcceptanceTableViewCell: UITableViewCell {
     @IBAction func messageButtonPressed(_ sender: UIButton) {
         messageButtonAction?(self)
     }
-    
+    func userImageTapped(){
+        userImageAction?(self)
+    }
 }

@@ -83,7 +83,7 @@ class AcceptanceTableViewController: UITableViewController, URLSessionDelegate{
             cell.likeCountLabel.text = String(acceptance.likers!.count)
             cell.usernameButtonAction = { [weak self] (cell) in self?.cellTapped(user: acceptance.username!, sender: cell)}
             cell.likeButtonAction = { [weak self] (cell) in self?.likeButtonTapped(user: acceptance, cell: cell)}
-            
+            cell.userAction = {[weak self] (cell) in self?.userImageTapped(cell.usernameButton.titleLabel!.text!)}
             if(acceptance.likers!.contains(Global.global.loggedInUser.username!)){
                 cell.likeButton.setImage(UIImage(named: "liked"), for: .normal)
             }else{
@@ -129,6 +129,10 @@ class AcceptanceTableViewController: UITableViewController, URLSessionDelegate{
                                                name: .AVPlayerItemDidPlayToEndTime,
                                                object: player.currentItem)
         
+    }
+    
+    func userImageTapped(_ username: String){
+        self.presentOtherUser(username: username)
     }
     
     func loadMore(){

@@ -133,6 +133,7 @@ class FeedDelegate{
                 //set the data and tap action
                 cell.messageButton.setTitle("\(challenge.poster!) has accepted the challenge: \(challenge.name!)", for: .normal)
                 cell.messageButtonAction = {[weak self] (cell) in self?.messageButtonTapped(challenge: challenge, cell: cell)}
+                cell.userImageAction = {[weak self] (cell) in self?.userTapped(challenge.poster!)}
                 Global.global.getUserImage(username: challenge.poster!, view: cell.userImage)
                 
                 return cell
@@ -195,6 +196,9 @@ class FeedDelegate{
                 cell.viewLikersButtonAction = {[weak self] (cell) in self?.viewLikersButtonTapped(challenge: challenge, sender: cell)}
                 cell.rechallengeButtonAction = {[weak self] (cell) in self?.rechallengeButtonTapped(challenge: challenge, cell: cell)}
                 cell.viewRechallengersButtonAction = {[weak self] (cell) in self?.viewRechallengersButtonTapped(challenge: challenge, sender: cell)}
+                cell.userImageAction = {[weak self] (cell) in self?.userTapped(cell.usernameLabel.text!)}
+                cell.rechallengerAction = {[weak self] (cell) in self?.userTapped(cell.rechallengerLabel.text!)}
+                
                 Global.global.getUserImage(username: challenge.author!, view: cell.userImage)
                 
                 //below are manual cell constraints
@@ -257,6 +261,8 @@ class FeedDelegate{
         cell.viewLikersButtonAction = {[weak self] (cell) in self?.viewLikersButtonTapped(challenge: challenge, sender: cell)}
         cell.rechallengeButtonAction = {[weak self] (cell) in self?.rechallengeButtonTapped(challenge: challenge, cell: cell)}
         cell.viewRechallengersButtonAction = {[weak self] (cell) in self?.viewRechallengersButtonTapped(challenge: challenge, sender: cell)}
+        cell.userImageAction = {[weak self] (cell) in self?.userTapped(cell.usernameLabel.text!)}
+        cell.rechallengerAction = {[weak self] (cell) in self?.userTapped(cell.rechallengerLabel.text!)}
         Global.global.getUserImage(username: challenge.author!, view: cell.userImage)
         
         //below are manual cell constraints
@@ -407,6 +413,11 @@ class FeedDelegate{
         }))
         viewController.present(alert, animated: true, completion: {})
     }
+    
+    func userTapped(_ username: String){
+        viewController.presentOtherUser(username: username)
+    }
+    
     func loadMore(){
         fillTable()
     }

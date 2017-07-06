@@ -183,6 +183,7 @@ class Global: NSObject{
             bannerView.frame.origin.y = viewController.view.frame.height - bannerView.frame.height
             viewController.view.addSubview(bannerView)
         }
+        bannerView.frame.size.width = viewController.view.frame.width
         
         bannerView.adUnitID = admobTestAdUnitId
         bannerView.rootViewController = viewController
