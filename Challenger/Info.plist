@@ -28,6 +28,10 @@
 	<string>For the videos recorded to have sound</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>For the user to select a video to upload to the server</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

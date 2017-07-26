@@ -4,7 +4,17 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>BRYXBanner.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-Challenger.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>PusherSwift.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -17,12 +27,22 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>6CFC8D7DB4EB8D596ED56D74F3B997FA</key>
+		<key>0F3B36547C3C2CC3060475E614BCBF32</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>8AAA9DE0D99DFC4E9CF2B570C131FB7C</key>
+		<key>8F0AA8BF5FA4780FCFE06D6BAF976C2F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A98C1B8180645AA1643EF6BF7CC13632</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EA580D0AA49FA7542E55A9B3625F5693</key>
 		<dict>
 			<key>primary</key>
 			<true/>

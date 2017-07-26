@@ -29,20 +29,17 @@ class ChallengeViewController: UIViewController, UITableViewDataSource, UITableV
         tableViewController.tableView = tableView
         tableViewController.tableView.dataSource = self
         tableViewController.tableView.delegate = self
-        feedDelegate = FeedDelegate(uploadProcessDelegate: uploadProcessDelegate, viewController: self, view: "challengeToView", list: "challengeToUserList")
+        feedDelegate = FeedDelegate(uploadProcessDelegate: uploadProcessDelegate, viewController: self)
         tableView.reloadData()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        Global.global.currentViewController = self
     }
     
    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if let nextViewController = segue.destination as? UploadViewController{
-//            nextViewController.challenge = uploadProcessDelegate.challengePass
-//            nextViewController.previewImage = uploadProcessDelegate.videoPreview
-//            nextViewController.videoData = uploadProcessDelegate.videoData
-//        }
-//        else if let next = segue.destination as? AcceptanceTableViewController{
-//            next.challenge = uploadProcessDelegate.challengePass
-//        }
         if let next = segue.destination as? UserListViewController{
             next.listType = feedDelegate.listTypePass
             next.challenge = feedDelegate.challengePass
@@ -50,7 +47,7 @@ class ChallengeViewController: UIViewController, UITableViewDataSource, UITableV
         
     }
     
-    //misc methods
+    //MARK: - misc methods
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }

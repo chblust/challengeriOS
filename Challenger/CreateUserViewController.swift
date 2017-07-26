@@ -18,6 +18,7 @@ class CreateUserViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Global.global.currentViewController = self
         Global.setupBannerAd(self, tab: false)
         //get control of the text fields
         usernameTextField.delegate = self
@@ -67,8 +68,9 @@ class CreateUserViewController: UIViewController, UITextFieldDelegate {
             URLSession.shared.dataTask(with: getLoginRequest){data, response, error in
                 if let data = data{
                     let json = JSON(data: data)
-                    Global.global.loggedInUser = Global.jsonToUser(json: json[0].dictionaryValue)
+                    Global.global.loggedInUser = Global.jsonToUser(json[0].dictionaryValue)
                     OperationQueue.main.addOperation {
+                        Global.pusher.nativePusher.subscribe(interestName: username)
                         self.performSegue(withIdentifier: "createUserToHome", sender: sender)
                     }
                 }
@@ -112,4 +114,19 @@ class CreateUserViewController: UIViewController, UITextFieldDelegate {
         bioTextField.resignFirstResponder()
         emailTextField.resignFirstResponder()
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let next = segue.destination as? HomeViewController{
+            //tell the home view controller that it doesnt need to get the logged in user metadata again
+            
+            
+            next.userSet = true
+        }else if let next = segue.destination as? UITabBarController{
+            //print(next.tabBarController?.viewControllers)
+            Global.global.setupNotificationsBadge(next.tabBar.items![4])
+            next.selectedIndex = 2
+            next.customizableViewControllers = nil
+        }
+    }
+
 }

@@ -51,7 +51,8 @@ class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataS
         tableViewController.tableView = homeFeed
         tableViewController.tableView.delegate = self
         
-        feedDelegate = FeedDelegate(viewController: self, username: Global.global.loggedInUser.username!, tableController: tableViewController, upd: uploadProcessDelegate, view: "homeToView", list: "userListFromHome")
+//        feedDelegate = FeedDelegate(viewController: self, username: Global.global.loggedInUser.username!, tableController: tableViewController, upd: uploadProcessDelegate, view: "homeToView", list: "userListFromHome")
+        feedDelegate = FeedDelegate(viewController: self, username: Global.global.loggedInUser.username!, tableController: tableViewController, upd: uploadProcessDelegate)
        
         //set the user info labels to the logged in user metadata
         setupHome()
@@ -62,6 +63,7 @@ class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataS
         //feedDelegate.handleRefresh()
         //this override exists so that the home metadata is updated on each tab click
         super.viewWillAppear(animated)
+        Global.global.currentViewController = self
         if !userSet{
             let getLoginParams = [
                 "usernames[0]": Global.global.loggedInUser.username!
@@ -70,7 +72,7 @@ class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataS
                 if let data = data{
                     let json = JSON(data: data)
                     OperationQueue.main.addOperation {
-                        Global.global.loggedInUser = Global.jsonToUser(json: json[0].dictionaryValue)
+                        Global.global.loggedInUser = Global.jsonToUser(json[0].dictionaryValue)
                         self.setupHome()
                     }
                 }

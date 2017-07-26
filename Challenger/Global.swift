@@ -10,12 +10,15 @@ import Foundation
 import UIKit
 import SwiftyJSON
 import GoogleMobileAds
+import PusherSwift
 class Global: NSObject{
+    static let NOTIFICATIONS_BADGE_VALUE_KEY = "notificationsBadgeValue"
+    
     //server information
     static let ip = "http://96.249.48.217/"
     static let url = URL(string: Global.ip)
     static let securityKey = "4qfY2ASbr0VTqwItKrrMHSvPKgUj89aJ4QjlbOEHawx8V1Ef9ahy95JREJAZgycxYRCsj9OcgqKDQx75mOcZ0aObgv8Hv1576oJu"
-    
+    static let pusher = Pusher(key: "e0cf251611da3086a1f5")
     //admob ad ids
     static let admobAdUnitId = "ca-app-pub-3025080868728529/9894486690"
     static let admobTestAdUnitId = "ca-app-pub-3940256099942544/6300978111"
@@ -28,6 +31,10 @@ class Global: NSObject{
     var userImages = [String: UIImage]()
     //list of views waiting for a specific user image to return from the server
     var imageQueues = [String: [UIImageView]]()
+    
+    var currentViewController: UIViewController!
+    
+    var notificationsItem: UITabBarItem!
     
     //correctly formats an associative array into post request parameters and returns the binary data
     static func createPostParameters(params: [String: String])->Data{
@@ -62,15 +69,20 @@ class Global: NSObject{
     }
     
     //takes in json formatted data from the server and translates it into a user object
-    static func jsonToUser(json: [String: JSON])->User{
+    static func jsonToUser(_ json: [String: JSON])->User{
         
         return User(username: json["username"]!.stringValue, bio: json["bio"]!.stringValue, email: json["email"]!.stringValue, followers: json["followers"]!.arrayObject as! [String], following: json["following"]!.arrayObject as! [String])
          
     }
     
     //takes in json formatted data from the server and translates it into a challenge object
-    static func jsonToChallenge(json: [String: JSON])->Challenge{
+    static func jsonToChallenge(_ json: [String: JSON])->Challenge{
         return Challenge(name: json["name"]!.stringValue, author: json["author"]!.stringValue, instructions: json["instructions"]!.stringValue, datePosted: json["datePosted"]!.stringValue, likers: json["likers"]!.arrayObject as! [String], rechallengers: json["rechallengers"]!.arrayObject as! [String], feedType: json["feedType"]!.stringValue, poster: json["poster"]!.stringValue, acceptedCount: json["acceptedCount"]!.stringValue)
+    }
+    
+    static func jsonToNotification(_ json: JSON) -> Notification{
+        let dict = json.dictionaryValue
+        return Notification(type: dict["type"]!.stringValue, sender: dict["sender"]!.stringValue, challengeName: dict["challenge"]!.stringValue)
     }
     
     //ensures the passed text field is not empty and does not include characters that will mess with the post request
@@ -84,6 +96,7 @@ class Global: NSObject{
         }
         return true
     }
+    static let banned = ["&","=",";","\"","\'"];
     
     //same as above but with a textView
     static func textIsSafe(textField: UITextField, here: UIViewController)->Bool{
@@ -91,9 +104,11 @@ class Global: NSObject{
             showAlert(title: "Empty Field", message: "please fill out all required information", here: here)
             return false
         }
-        if (textField.text!.contains("&") || textField.text!.contains("=")){
-            showAlert(title: "Invalid Entry", message: "text entered contains illegal characters", here: here)
-            return false
+        for str in banned{
+            if(textField.text!.contains(str)){
+                showAlert(title: "Invalid Entry", message: "text entered contains illegal characters", here: here)
+                return false
+            }
         }
         return true
     }
@@ -188,5 +203,47 @@ class Global: NSObject{
         bannerView.adUnitID = admobTestAdUnitId
         bannerView.rootViewController = viewController
         bannerView.load(GADRequest())
+    }
+    
+    //gets the number of notifications from the server
+    func setupNotificationsBadge(_ item: UITabBarItem){
+        notificationsItem = item
+        URLSession.shared.dataTask(with: Global.createServerRequest(params: [
+            "username": Global.global.loggedInUser.username!,
+            "type": "get"
+            ], intent: "notifications")){data,response,error in
+                if let data = data{
+                    OperationQueue.main.addOperation {
+                        let json = JSON(data: data)
+                        
+                        if json.arrayValue.count == 0{
+                            self.notificationsItem.badgeValue = nil
+                        }else{
+                            self.notificationsItem.badgeValue = String(json.arrayValue.count)
+                        }
+                    }
+                }
+            }.resume()
+
+    }
+    
+    func addToNotificationBadge(){
+        if notificationsItem != nil{
+            if let badgeValue = notificationsItem.badgeValue{
+                notificationsItem.badgeValue = "\(Int(badgeValue)! + 1)"
+            }else{
+                notificationsItem.badgeValue = "\(1)"
+            }
+        }
+    }
+    
+    func subtractFromNotificationBadge(){
+        if let badgeValue = notificationsItem.badgeValue{
+            if Int(badgeValue) == 1{
+                notificationsItem.badgeValue = nil
+            }else{
+                notificationsItem.badgeValue = String(Int(badgeValue)! - 1)
+            }
+        }
     }
 }

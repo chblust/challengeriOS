@@ -22,7 +22,12 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         emailTextField.delegate = self
         passwordTextField.delegate = self
         setupFields()
-        self.navigationController!.navigationBar.isHidden = false
+        //self.navigationController!.navigationBar.isHidden = false
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        Global.global.currentViewController = self
     }
     
     func setupFields(){
@@ -122,6 +127,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func logoutButtonPressed(_ sender: UIButton) {
         UserDefaults.standard.removeObject(forKey: "loginUsername")
+        Global.pusher.nativePusher.unsubscribe(interestName: Global.global.loggedInUser.username!)
         performSegue(withIdentifier: "unwindToLogin", sender: sender)
     }
     

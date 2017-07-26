@@ -17,6 +17,7 @@
 		931A64CC1ECBCC3400B419DD /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931A64CB1ECBCC3400B419DD /* UserTableViewCell.swift */; };
 		931A64D01ECBCF6600B419DD /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931A64CF1ECBCF6600B419DD /* User.swift */; };
 		931A64D41ECBD4A200B419DD /* UserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931A64D31ECBD4A200B419DD /* UserListViewController.swift */; };
+		9333DA5D1F23D3B100595F3A /* NotificationsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9333DA5C1F23D3B100595F3A /* NotificationsTableViewController.swift */; };
 		9338AC5D1EDC72A70071BA29 /* AcceptanceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9338AC5C1EDC72A70071BA29 /* AcceptanceTableViewCell.swift */; };
 		9338AC5F1EDCC0C70071BA29 /* Acceptance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9338AC5E1EDCC0C70071BA29 /* Acceptance.swift */; };
 		9338AC611EDD1BFF0071BA29 /* FollowingAcceptanceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9338AC601EDD1BFF0071BA29 /* FollowingAcceptanceTableViewCell.swift */; };
@@ -29,6 +30,7 @@
 		9376C7901EF1E38800B93C87 /* AcceptedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9376C78F1EF1E38800B93C87 /* AcceptedTableViewController.swift */; };
 		9376C7921EF21EFA00B93C87 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9376C7911EF21EFA00B93C87 /* SettingsViewController.swift */; };
 		93781FB31F01B9C500C565F9 /* LoadMoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93781FB21F01B9C500C565F9 /* LoadMoreTableViewCell.swift */; };
+		937B1E051F2524B80025D881 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937B1E041F2524B80025D881 /* Notification.swift */; };
 		937E19BF1ECE1682006232F7 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931A64C91ECB7D3100B419DD /* HomeViewController.swift */; };
 		937E19C11ECE2668006232F7 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937E19C01ECE2668006232F7 /* PostViewController.swift */; };
 		938272871ED4F21100EC8404 /* UploadProcessDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938272861ED4F21100EC8404 /* UploadProcessDelegate.swift */; };
@@ -56,6 +58,8 @@
 		931A64CB1ECBCC3400B419DD /* UserTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
 		931A64CF1ECBCF6600B419DD /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		931A64D31ECBD4A200B419DD /* UserListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserListViewController.swift; sourceTree = "<group>"; };
+		9330C5931F113CE4006E240E /* Challenger.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Challenger.entitlements; sourceTree = "<group>"; };
+		9333DA5C1F23D3B100595F3A /* NotificationsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsTableViewController.swift; sourceTree = "<group>"; };
 		9338AC5C1EDC72A70071BA29 /* AcceptanceTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptanceTableViewCell.swift; sourceTree = "<group>"; };
 		9338AC5E1EDCC0C70071BA29 /* Acceptance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Acceptance.swift; sourceTree = "<group>"; };
 		9338AC601EDD1BFF0071BA29 /* FollowingAcceptanceTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowingAcceptanceTableViewCell.swift; sourceTree = "<group>"; };
@@ -68,6 +72,7 @@
 		9376C78F1EF1E38800B93C87 /* AcceptedTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptedTableViewController.swift; sourceTree = "<group>"; };
 		9376C7911EF21EFA00B93C87 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		93781FB21F01B9C500C565F9 /* LoadMoreTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadMoreTableViewCell.swift; sourceTree = "<group>"; };
+		937B1E041F2524B80025D881 /* Notification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		937E19C01ECE2668006232F7 /* PostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		938272861ED4F21100EC8404 /* UploadProcessDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadProcessDelegate.swift; sourceTree = "<group>"; };
 		938272881ED5169C00EC8404 /* AcceptanceTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptanceTableViewController.swift; sourceTree = "<group>"; };
@@ -122,38 +127,41 @@
 		931A64B41ECAADDC00B419DD /* Challenger */ = {
 			isa = PBXGroup;
 			children = (
+				9338AC5E1EDCC0C70071BA29 /* Acceptance.swift */,
+				9338AC5C1EDC72A70071BA29 /* AcceptanceTableViewCell.swift */,
+				938272881ED5169C00EC8404 /* AcceptanceTableViewController.swift */,
+				9376C78F1EF1E38800B93C87 /* AcceptedTableViewController.swift */,
 				931A64B51ECAADDC00B419DD /* AppDelegate.swift */,
-				931A64B71ECAADDC00B419DD /* LoginViewController.swift */,
-				931A64B91ECAADDC00B419DD /* Main.storyboard */,
+				931A64BC1ECAADDC00B419DD /* Assets.xcassets */,
+				934A01A91ECE701E00E82BFC /* Challenge.swift */,
+				9330C5931F113CE4006E240E /* Challenger.entitlements */,
+				93FC07911EDA9B790008B7F4 /* ChallengeViewController.swift */,
 				93F027011EF0636F00E91D75 /* CrashList.rtf */,
 				93FC078F1EDA93150008B7F4 /* CreateUserViewController.swift */,
-				9382728C1ED7ACA300EC8404 /* SearchViewController.swift */,
-				931A64BC1ECAADDC00B419DD /* Assets.xcassets */,
-				931A64BE1ECAADDC00B419DD /* LaunchScreen.storyboard */,
-				931A64C11ECAADDC00B419DD /* Info.plist */,
+				93C0122D1EFAE7260043395A /* Extensions.swift */,
+				9361E0871EDB29950080F788 /* FeedDelegate.swift */,
+				934A01A71ECE606D00E82BFC /* FeedTableViewCell.swift */,
+				934A01A51ECE5F0D00E82BFC /* FeedViewController.swift */,
+				9338AC601EDD1BFF0071BA29 /* FollowingAcceptanceTableViewCell.swift */,
 				931A64C71ECAB40200B419DD /* Global.swift */,
 				931A64C91ECB7D3100B419DD /* HomeViewController.swift */,
+				931A64C11ECAADDC00B419DD /* Info.plist */,
+				931A64BE1ECAADDC00B419DD /* LaunchScreen.storyboard */,
+				93781FB21F01B9C500C565F9 /* LoadMoreTableViewCell.swift */,
+				931A64B71ECAADDC00B419DD /* LoginViewController.swift */,
+				931A64B91ECAADDC00B419DD /* Main.storyboard */,
+				937B1E041F2524B80025D881 /* Notification.swift */,
+				9333DA5C1F23D3B100595F3A /* NotificationsTableViewController.swift */,
 				934A01AC1ED00E1100E82BFC /* OtherUserViewController.swift */,
-				931A64CB1ECBCC3400B419DD /* UserTableViewCell.swift */,
+				937E19C01ECE2668006232F7 /* PostViewController.swift */,
+				9382728C1ED7ACA300EC8404 /* SearchViewController.swift */,
+				9376C7911EF21EFA00B93C87 /* SettingsViewController.swift */,
+				93F9EEDB1EDF6841005D4F7B /* TopChallengesViewController.swift */,
+				938272861ED4F21100EC8404 /* UploadProcessDelegate.swift */,
+				934A01B21ED0B1BB00E82BFC /* UploadViewController.swift */,
 				931A64CF1ECBCF6600B419DD /* User.swift */,
 				931A64D31ECBD4A200B419DD /* UserListViewController.swift */,
-				937E19C01ECE2668006232F7 /* PostViewController.swift */,
-				934A01A51ECE5F0D00E82BFC /* FeedViewController.swift */,
-				934A01A71ECE606D00E82BFC /* FeedTableViewCell.swift */,
-				934A01A91ECE701E00E82BFC /* Challenge.swift */,
-				934A01B21ED0B1BB00E82BFC /* UploadViewController.swift */,
-				938272861ED4F21100EC8404 /* UploadProcessDelegate.swift */,
-				938272881ED5169C00EC8404 /* AcceptanceTableViewController.swift */,
-				93FC07911EDA9B790008B7F4 /* ChallengeViewController.swift */,
-				9361E0871EDB29950080F788 /* FeedDelegate.swift */,
-				9338AC5C1EDC72A70071BA29 /* AcceptanceTableViewCell.swift */,
-				9338AC5E1EDCC0C70071BA29 /* Acceptance.swift */,
-				9338AC601EDD1BFF0071BA29 /* FollowingAcceptanceTableViewCell.swift */,
-				93F9EEDB1EDF6841005D4F7B /* TopChallengesViewController.swift */,
-				9376C78F1EF1E38800B93C87 /* AcceptedTableViewController.swift */,
-				9376C7911EF21EFA00B93C87 /* SettingsViewController.swift */,
-				93C0122D1EFAE7260043395A /* Extensions.swift */,
-				93781FB21F01B9C500C565F9 /* LoadMoreTableViewCell.swift */,
+				931A64CB1ECBCC3400B419DD /* UserTableViewCell.swift */,
 			);
 			path = Challenger;
 			sourceTree = "<group>";
@@ -203,6 +211,11 @@
 						CreatedOnToolsVersion = 8.3.2;
 						DevelopmentTeam = 876GEHYRBP;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -297,6 +310,7 @@
 				9338AC5F1EDCC0C70071BA29 /* Acceptance.swift in Sources */,
 				934A01AF1ED00EB000E82BFC /* OtherUserViewController.swift in Sources */,
 				934A01AB1ECE870500E82BFC /* FeedViewController.swift in Sources */,
+				9333DA5D1F23D3B100595F3A /* NotificationsTableViewController.swift in Sources */,
 				93781FB31F01B9C500C565F9 /* LoadMoreTableViewCell.swift in Sources */,
 				9376C7901EF1E38800B93C87 /* AcceptedTableViewController.swift in Sources */,
 				937E19C11ECE2668006232F7 /* PostViewController.swift in Sources */,
@@ -311,6 +325,7 @@
 				93FC07901EDA93150008B7F4 /* CreateUserViewController.swift in Sources */,
 				9382728D1ED7ACA300EC8404 /* SearchViewController.swift in Sources */,
 				938272891ED5169C00EC8404 /* AcceptanceTableViewController.swift in Sources */,
+				937B1E051F2524B80025D881 /* Notification.swift in Sources */,
 				931A64C81ECAB40200B419DD /* Global.swift in Sources */,
 				934A01AA1ECE701E00E82BFC /* Challenge.swift in Sources */,
 				93C0122E1EFAE7260043395A /* Extensions.swift in Sources */,
@@ -441,6 +456,7 @@
 			baseConfigurationReference = 6F9E2F99625C9FFBC39712AE /* Pods-Challenger.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Challenger/Challenger.entitlements;
 				DEVELOPMENT_TEAM = 876GEHYRBP;
 				INFOPLIST_FILE = Challenger/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
@@ -448,7 +464,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisblust.challengergroup.challenger;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -457,6 +473,7 @@
 			baseConfigurationReference = 02183563624BB74A35B752C5 /* Pods-Challenger.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Challenger/Challenger.entitlements;
 				DEVELOPMENT_TEAM = 876GEHYRBP;
 				INFOPLIST_FILE = Challenger/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
@@ -464,7 +481,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisblust.challengergroup.challenger;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

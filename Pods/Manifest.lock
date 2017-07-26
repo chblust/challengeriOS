@@ -1,15 +1,30 @@
 PODS:
+  - BRYXBanner (0.7.3)
   - Google-Mobile-Ads-SDK (7.20.0)
+  - PusherSwift (4.1.0)
   - SwiftyJSON (3.1.4)
 
 DEPENDENCIES:
+  - BRYXBanner (from `https://github.com/bryx-inc/BRYXBanner`)
   - Google-Mobile-Ads-SDK
+  - PusherSwift
   - SwiftyJSON
 
+EXTERNAL SOURCES:
+  BRYXBanner:
+    :git: https://github.com/bryx-inc/BRYXBanner
+
+CHECKOUT OPTIONS:
+  BRYXBanner:
+    :commit: ff763db6e33948507fe246465b932e2e5b4337f6
+    :git: https://github.com/bryx-inc/BRYXBanner
+
 SPEC CHECKSUMS:
+  BRYXBanner: ae84fd0ed6eab72321831cff34cb549831255ec7
   Google-Mobile-Ads-SDK: 168312cdc167fa22746d4ea8e839fc4825dd2966
+  PusherSwift: 13257260d77445f44ee26d7843e9311186b26e79
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
-PODFILE CHECKSUM: ee57f8b5f2e0dee1e8af2b294acf76ef4fcefffd
+PODFILE CHECKSUM: 35b353f30b4545c6fef366363f5f1b56274e6d18
 
 COCOAPODS: 1.2.1

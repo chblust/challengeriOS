@@ -24,6 +24,11 @@ class PostViewController: UIViewController, UITextFieldDelegate {
         super.viewWillAppear(animated)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        Global.global.currentViewController = self
+    }
+    
     @IBAction func postButtonPressed(_ sender: UIButton) {
         //get information to send to server
         

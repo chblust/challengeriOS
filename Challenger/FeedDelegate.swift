@@ -11,7 +11,14 @@ import UIKit
 import SwiftyJSON
 import AVKit
 import AVFoundation
+enum FeedType{
+    case feed
+    case top
+    case accepted
+    case home
+}
 class FeedDelegate{
+    var feedType: FeedType!
     var refreshing = false;
     let cellID = "fc"
     //the modeled list of challenges
@@ -32,27 +39,35 @@ class FeedDelegate{
     //variables passed to future view controllers through segues
     var listTypePass:String!
     var challengePass: Challenge!
-    init(viewController: UIViewController, username: String, tableController:
-        UITableViewController, upd: UploadProcessDelegate, view: String, list: String){
+    init(viewController: UIViewController, username: String, tableController: UITableViewController, upd: UploadProcessDelegate){
         self.viewController = viewController
         tableViewController = tableController
         self.username = username
-        uploadProcessDelegate = upd
-        viewSegueName = view
+        feedType = .home
+        self.uploadProcessDelegate = UploadProcessDelegate(viewController)
         
-        listSegueName = list
         refreshControl = UIRefreshControl()
         tableViewController.refreshControl = refreshControl
         self.refreshControl.addTarget(self, action: #selector(FeedDelegate.handleRefresh), for: .valueChanged)
         fillTable()
     }
     
-    init(uploadProcessDelegate: UploadProcessDelegate, viewController: UIViewController, view: String, list: String){
-        //only to be used for challengeViewController
-        self.uploadProcessDelegate = uploadProcessDelegate
+    init(viewController: UIViewController, tableController: UITableViewController, upd: UploadProcessDelegate, type: FeedType){
         self.viewController = viewController
-        viewSegueName = view
-        listSegueName = list
+        self.tableViewController = tableController
+        self.uploadProcessDelegate = UploadProcessDelegate(viewController)
+        self.feedType = type
+        refreshControl = UIRefreshControl()
+        tableViewController.refreshControl = refreshControl
+        self.refreshControl.addTarget(self, action: #selector(FeedDelegate.handleRefresh), for: .valueChanged)
+        fillTable()
+    }
+    
+    init(uploadProcessDelegate: UploadProcessDelegate, viewController: UIViewController){
+        //only to be used for challengeViewController
+        self.uploadProcessDelegate = UploadProcessDelegate(viewController)
+        self.viewController = viewController
+    
     }
     
     func fillTable(){
@@ -60,28 +75,34 @@ class FeedDelegate{
             refreshing = true
             //sets up the params to get the correct kindof challenges from the server
             var params = [String: String]()
-            if username == ""{
+            switch feedType!{
+            case FeedType.feed:
                 //retrieves the logged in user's feed
                 params = [
                     "type":"feed",
                     "username":Global.global.loggedInUser.username!
                 ]
-            }else if username == "[]"{
+            break
+            case FeedType.top:
                 params = [
                     "type": "top",
                     "username": Global.global.loggedInUser.username!
                 ]
-            }else if username == "="{
+                break
+            case FeedType.accepted:
                 params = [
                     "type":"accepted",
                     "username":Global.global.loggedInUser.username!
                 ]
-            }else{
+            break
+            case FeedType.home:
                 params = [
                     "type":"home",
                     "username": username
                 ]
+                break
             }
+            
             params["setLimit"] = "\(feedPosition)"
             self.feedPosition = self.feedPosition + 30
             //gets those challenges, puts them in the model array
@@ -91,7 +112,7 @@ class FeedDelegate{
                     let json = JSON(data: data)
                     OperationQueue.main.addOperation {
                             for i in 0..<json["challenges"].arrayValue.count{
-                                self.challenges.append(Global.jsonToChallenge(json: json["challenges"][i].dictionaryValue))
+                                self.challenges.append(Global.jsonToChallenge(json["challenges"][i].dictionaryValue))
                             }
                         if json["end"].stringValue == "true"{
                             self.end = true
@@ -119,6 +140,7 @@ class FeedDelegate{
             cell.button.frame.origin.y = (cell.frame.height/2) - 15
             cell.button.frame.origin.x = (cell.frame.width/2) - 36.5
             cell.button.isHidden = end
+            
             return cell
         }else {
             let challenge = challenges[indexPath.row]
@@ -126,24 +148,20 @@ class FeedDelegate{
 
                 //get the correct kindof cell
                 let cell = tableViewController.tableView.dequeueReusableCell(withIdentifier: "ac", for: indexPath) as! FollowingAcceptanceTableViewCell
-                cell.selectionStyle = .none
-                cell.layer.cornerRadius = 10
-                cell.layer.borderColor = UIColor.black.cgColor
-                cell.layer.borderWidth = 2
+                cell.setupDesign()
                 //set the data and tap action
                 cell.messageButton.setTitle("\(challenge.poster!) has accepted the challenge: \(challenge.name!)", for: .normal)
                 cell.messageButtonAction = {[weak self] (cell) in self?.messageButtonTapped(challenge: challenge, cell: cell)}
                 cell.userImageAction = {[weak self] (cell) in self?.userTapped(challenge.poster!)}
+                
                 Global.global.getUserImage(username: challenge.poster!, view: cell.userImage)
                 
                 return cell
             }else{
                 //get the correct kindof cell
                 let cell = tableViewController.tableView.dequeueReusableCell(withIdentifier: "fc", for: indexPath) as! FeedTableViewCell
-                cell.selectionStyle = .none
-                cell.layer.cornerRadius = 10
-                cell.layer.borderColor = UIColor.black.cgColor
-                cell.layer.borderWidth = 2
+                cell.setupDesign()
+
                 //set the cell metadata correctly
                 cell.challengeNameLabel.text = challenge.name
                 cell.challengeInstructionsLabel.text = challenge.instructions
@@ -180,13 +198,13 @@ class FeedDelegate{
                 if challenge.feedType! == "challenge"{
                     cell.rechallengerLabel.text = ""
                     cell.rechallengeImageView.image = nil
-                    cell.backgroundColor = UIColor(colorLiteralRed: 255, green: 255, blue: 255, alpha: 1)
-                    cell.challengeInstructionsLabel.backgroundColor = UIColor(colorLiteralRed: 255, green: 255, blue: 255, alpha: 1)
+                    cell.backgroundColor = UIColor.clear
+                    cell.challengeInstructionsLabel.backgroundColor = UIColor.clear
                 }else{
                     cell.rechallengerLabel.text = challenge.poster!
                     cell.rechallengeImageView.image = UIImage(named: "rechallenged")
-                    cell.backgroundColor = UIColor(colorLiteralRed: 0, green: 237, blue: 255, alpha: 1)
-                    cell.challengeInstructionsLabel.backgroundColor = UIColor(colorLiteralRed: 0, green: 237, blue: 255, alpha: 1)
+                    cell.backgroundColor = UIColor.clear//UIColor(colorLiteralRed: 0, green: 237, blue: 255, alpha: 1)
+                    cell.challengeInstructionsLabel.backgroundColor = UIColor.clear//UIColor(colorLiteralRed: 0, green: 237, blue: 255, alpha: 1)
                 }
                 
                 //set all the button actions
@@ -204,15 +222,7 @@ class FeedDelegate{
                 //below are manual cell constraints
                 let cellwidth = cell.frame.width
                 cell.reportButton.frame.origin.x = cellwidth - 10 - cell.reportButton.frame.width
-                cell.challengeInstructionsLabel.frame = CGRect(x: cell.challengeInstructionsLabel.frame.origin.x, y: cell.challengeInstructionsLabel.frame.origin.y, width: cellwidth - 16, height: cell.challengeInstructionsLabel.frame.height)
-//                let cellwidth = cell.frame.width
-//                cell.rechallengeButton.frame.origin.x = cellwidth - cell.rechallengeButton.frame.width - cell.viewRechallengersButton.frame.width
-//                cell.viewRechallengersButton.frame.origin.x = cellwidth - cell.viewRechallengersButton.frame.width
-//                cell.likeButton.frame.origin.x = cellwidth - cell.likeButton.frame.width - cell.viewLikersButton.frame.width
-//                cell.viewLikersButton.frame.origin.x = cellwidth - cell.viewLikersButton.frame.width
-//                cell.acceptButton.frame.origin.x = cellwidth - cell.acceptButton.frame.width - 10 - cell.acceptCountLabel.frame.width - 10
-//                cell.acceptCountLabel.frame.origin.x = cellwidth - cell.acceptCountLabel.frame.width - 10
-//                cell.viewButton.frame.origin.x = cellwidth - cell.viewButton.frame.width - 10
+                cell.challengeInstructionsLabel.frame = CGRect(x: cell.challengeInstructionsLabel.frame.origin.x, y: cell.challengeInstructionsLabel.frame.origin.y, width: cellwidth - 20, height: cell.challengeInstructionsLabel.frame.height)
                 
                 return cell
             }
@@ -223,10 +233,10 @@ class FeedDelegate{
     func getSingleChallengeCell(challenge: Challenge, tableView: UITableView, indexPath: IndexPath)->FeedTableViewCell{
         //get cell
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! FeedTableViewCell
-        cell.selectionStyle = .none
-        cell.layer.cornerRadius = 10
-        cell.layer.borderColor = UIColor.black.cgColor
-        cell.layer.borderWidth = 2
+        cell.contentView.backgroundColor = UIColor.clear
+        
+        cell.setupDesign()
+        cell.challengeInstructionsLabel.backgroundColor = UIColor.clear
         //set cell metadata
         cell.challengeNameLabel.text = challenge.name
         cell.challengeInstructionsLabel.text = challenge.instructions
@@ -269,15 +279,6 @@ class FeedDelegate{
         let cellwidth = cell.frame.width
         cell.reportButton.frame.origin.x = cellwidth - 10 - cell.reportButton.frame.width
         cell.challengeInstructionsLabel.frame = CGRect(x: cell.challengeInstructionsLabel.frame.origin.x, y: cell.challengeInstructionsLabel.frame.origin.y, width: cellwidth - 16, height: cell.challengeInstructionsLabel.frame.height)
-
-//        let cellwidth = cell.frame.width
-//        cell.rechallengeButton.frame.origin.x = cellwidth - cell.rechallengeButton.frame.width - cell.viewRechallengersButton.frame.width
-//        cell.viewRechallengersButton.frame.origin.x = cellwidth - cell.viewRechallengersButton.frame.width
-//        cell.likeButton.frame.origin.x = cellwidth - cell.likeButton.frame.width - cell.viewLikersButton.frame.width
-//        cell.viewLikersButton.frame.origin.x = cellwidth - cell.viewLikersButton.frame.width
-//        cell.acceptButton.frame.origin.x = cellwidth - cell.acceptButton.frame.width - 10 - cell.acceptCountLabel.frame.width - 10
-//        cell.acceptCountLabel.frame.origin.x = cellwidth - cell.acceptCountLabel.frame.width - 10
-//        cell.viewButton.frame.origin.x = cellwidth - cell.viewButton.frame.width - 10
         
         return cell
     }

@@ -40,6 +40,11 @@ class AcceptanceTableViewController: UITableViewController, URLSessionDelegate{
         fillTable()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        Global.global.currentViewController = self
+    }
+    
     func fillTable(){
         //get the users that have accepted that challenge from the server
         let params = [

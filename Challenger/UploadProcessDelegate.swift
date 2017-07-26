@@ -17,15 +17,8 @@ class UploadProcessDelegate:NSObject, UIImagePickerControllerDelegate, UINavigat
     //variables that are set in the UploadViewController ahead of time
     var viewController: UIViewController!
     var segueIdentifier: String!
-    
-    //var challengePass: Challenge?
-    //var videoPreview: UIImage?
-    //var videoData: Data?
-    //var challenge:  Challenge!
     init(_ viewController: UIViewController){
         self.viewController = viewController
-        //self.segueIdentifier = segue
-        //self.challenge = challenge
     }
     
     //universal method that is called whenever an accept button is tapped
@@ -188,9 +181,6 @@ class UploadProcessDelegate:NSObject, UIImagePickerControllerDelegate, UINavigat
                     }
                     //dismiss controller and execute the segue
                     viewController.dismiss(animated: true, completion: nil)
-//                    if let segueIdentifier = self.segueIdentifier{
-//                        viewController.performSegue(withIdentifier: segueIdentifier, sender: picker)
-//                    }
                     showUploadViewController(challenge: picker.challenge!, previewImage: videoPreview!, videoData: videoData)
 
                 }else{

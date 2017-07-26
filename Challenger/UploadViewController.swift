@@ -37,6 +37,7 @@ class UploadViewController: UIViewController, URLSessionDelegate, URLSessionTask
         super.viewDidAppear(animated)
         //ensures the processing indicator is hidden
         processingActivityIndicatorView.stopAnimating()
+        Global.global.currentViewController = self
     }
     
     override func didReceiveMemoryWarning() {
@@ -111,7 +112,6 @@ class UploadViewController: UIViewController, URLSessionDelegate, URLSessionTask
     func urlSession(_ session: URLSession, task: URLSessionTask, didSendBodyData bytesSent: Int64, totalBytesSent: Int64, totalBytesExpectedToSend: Int64) {
         let uploadProgress = Double(totalBytesSent)/Double(totalBytesExpectedToSend)
         uploadProgressView.progress = Float(uploadProgress)
-        print(uploadProgress)
         
         //if the upload is done, show that the server must now process the uploaded video
         if uploadProgress == 1.0 && !processingPresented{

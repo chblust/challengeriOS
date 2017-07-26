@@ -9,6 +9,7 @@
 import UIKit
 import SwiftyJSON
 import GoogleMobileAds
+import PusherSwift
 class LoginViewController: UIViewController, UITextFieldDelegate, URLSessionDelegate {
     //references to views
     @IBOutlet weak var usernameField: UITextField!
@@ -21,7 +22,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, URLSessionDele
     @IBOutlet weak var createUserButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        Global.global.currentViewController = self
         Global.setupBannerAd(self, tab: false)
         
         self.navigationController?.setToolbarHidden(true, animated: true)
@@ -59,6 +60,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, URLSessionDele
                     switch response!{
                     case "bool(false)\n":
                         OperationQueue.main.addOperation {
+                            Global.pusher.nativePusher.unsubscribe(interestName: username)
                             Global.showAlert(title: "Invalid User", message: "the logged in user no longer exists!", here:  self)
                         }
                         break
@@ -113,9 +115,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate, URLSessionDele
                 if let data = data{
                     let json = JSON(data: data)
                     
-                    Global.global.loggedInUser = Global.jsonToUser(json: json[0].dictionaryValue)
+                    Global.global.loggedInUser = Global.jsonToUser(json[0].dictionaryValue)
                     
                     OperationQueue.main.addOperation {
+                        Global.pusher.nativePusher.subscribe(interestName: Global.global.loggedInUser.username!)
                         self.performSegue(withIdentifier: "login", sender: sender)
                     }
                 }
@@ -135,10 +138,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate, URLSessionDele
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let next = segue.destination as? HomeViewController{
             //tell the home view controller that it doesnt need to get the logged in user metadata again
+            
+            
             next.userSet = true
         }else if let next = segue.destination as? UITabBarController{
-            print("ay\n\n\n\n\n")
+            //print(next.tabBarController?.viewControllers)
+            Global.global.setupNotificationsBadge(next.tabBar.items![4])
             next.selectedIndex = 2
+            next.customizableViewControllers = nil
         }
     }
     

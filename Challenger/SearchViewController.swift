@@ -29,6 +29,11 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
         tableView.dataSource = self
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        Global.global.currentViewController = self
+    }
+    
   
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -109,7 +114,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
             if let data = data{
                 OperationQueue.main.addOperation {
                     let challengeViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "challengeViewController") as! ChallengeViewController
-                    challengeViewController.challenge = Global.jsonToChallenge(json: JSON(data: data)["challenges"][0].dictionaryValue)
+                    challengeViewController.challenge = Global.jsonToChallenge(JSON(data: data)["challenges"][0].dictionaryValue)
                     let nav = UINavigationController.init(rootViewController: challengeViewController)
                     
                     self.present(nav, animated: true, completion: nil)

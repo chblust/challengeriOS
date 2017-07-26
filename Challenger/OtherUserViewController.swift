@@ -78,11 +78,12 @@ class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableVie
         bioTextView.text = user!.bio
         //retrieve the userImage from the server
         Global.global.getUserImage(username: user.username!, view: userImage)
-        feedDelegate = FeedDelegate(viewController: self, username: user.username!, tableController: tableViewController, upd: uploadProcessDelegate, view: "otherUserToView", list: "userListFromOtherUser")
+        feedDelegate = FeedDelegate(viewController: self, username: user.username!, tableController: tableViewController, upd: uploadProcessDelegate)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         feedDelegate.handleRefresh()
+        Global.global.currentViewController = self
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -23,11 +23,13 @@ class TopChallengesViewController: UITableViewController{
         super.viewDidLoad()
         self.tableView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
         uploadProcessDelegate = UploadProcessDelegate(self)
-        feedDelegate = FeedDelegate(viewController: self, username: "[]", tableController: self, upd: uploadProcessDelegate, view: "topToView", list: "topToUserList")
+        feedDelegate = FeedDelegate(viewController: self, tableController: self, upd: uploadProcessDelegate, type: .top)
     }
     
-    
-    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        Global.global.currentViewController = self
+    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return feedDelegate.getChallengeCell(indexPath: indexPath)
@@ -35,15 +37,6 @@ class TopChallengesViewController: UITableViewController{
     
     //makes sure the upload viewcontorller knows which challenge to upload to
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        
-//        if let nextViewController = segue.destination as? UploadViewController{
-//            nextViewController.challenge = uploadProcessDelegate.challengePass
-//            nextViewController.previewImage = uploadProcessDelegate.videoPreview
-//            nextViewController.videoData = uploadProcessDelegate.videoData
-//        }
-//        else if let next = segue.destination as? AcceptanceTableViewController{
-//            next.challenge = uploadProcessDelegate.challengePass
-//        }
         if let next = segue.destination as? UserListViewController{
             next.listType = feedDelegate.listTypePass
             next.challenge = feedDelegate.challengePass

@@ -71,7 +71,7 @@ class UserListViewController: UITableViewController, URLSessionDelegate {
                 for index in 0..<json.count{
                     //handles the situation where the user has been deleted from the server
                     if json[index]["username"].exists(){
-                        self.users.append(Global.jsonToUser(json: json[index].dictionaryValue))
+                        self.users.append(Global.jsonToUser(json[index].dictionaryValue))
                     }else{
                         self.users.append(User())
                     }
@@ -81,6 +81,11 @@ class UserListViewController: UITableViewController, URLSessionDelegate {
             }
         }
         getUsersTask.resume()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        Global.global.currentViewController = self
     }
     
     override func didReceiveMemoryWarning() {
@@ -121,7 +126,6 @@ class UserListViewController: UITableViewController, URLSessionDelegate {
         }
         let user: User?
         if (indexPath.row < users.count){
-            print(self.users)
             user = users[indexPath.row]
             
                 cell.usernameButton.setTitle(user?.username!, for: .normal)

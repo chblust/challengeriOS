@@ -50,10 +50,6 @@ class FeedTableViewCell: UITableViewCell {
     var rechallengerAction: ((FeedTableViewCell)->Void)?
     override func awakeFromNib() {
         super.awakeFromNib()
-        //let tapGesture = UITapGestureRecognizer(target: self, action: #selector(userTapped))
-        //userImage.addGestureRecognizer(tapGesture)
-       // usernameLabel.addGestureRecognizer(tapGesture)
-        
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
