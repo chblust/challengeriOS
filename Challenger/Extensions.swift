@@ -82,6 +82,20 @@ extension UIViewController{
             }.resume()
 
     }
+    
+    func presentComment(_ comment: Comment){
+        let commentViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "commentViewController") as! CommentViewController
+        commentViewController.comment = comment
+        let nav = UINavigationController(rootViewController: commentViewController)
+        Global.global.currentViewController = commentViewController
+        self.present(nav, animated: true, completion: nil)
+    }
+    
+    func jsonToComment(_ json: JSON) -> Comment{
+        let jsonArray = json.dictionaryObject
+        return Comment(uuid: jsonArray!["uuid"] as! String, author: jsonArray!["author"] as! String, challengeName: jsonArray!["challenge"] as! String, message: jsonArray!["message"] as! String, date: jsonArray!["date"] as! String, replyingTo: jsonArray!["replyingTo"] as! String, likers: jsonArray!["likers"] as! [String], replys: jsonArray!["replys"] as! [String])
+    }
+
 }
 
 extension UITableViewCell{

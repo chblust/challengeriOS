@@ -15,7 +15,6 @@ class FeedTableViewCell: UITableViewCell {
     @IBOutlet weak var userImage: UIImageView!{
         didSet{
             userImage.addGestureRecognizer( UITapGestureRecognizer(target: self, action: #selector(userTapped)))
-            print("set")
         }
     }
     @IBOutlet weak var usernameLabel: UILabel!{
@@ -31,6 +30,7 @@ class FeedTableViewCell: UITableViewCell {
     var viewLikersButtonAction: ((UITableViewCell)->Void)?
     var rechallengeButtonAction: ((UITableViewCell)->Void)?
     var viewRechallengersButtonAction: ((UITableViewCell)->Void)?
+    var cellAction: ((UITableViewCell)->Void)?
     
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var viewLikersButton: UIButton!
@@ -50,6 +50,7 @@ class FeedTableViewCell: UITableViewCell {
     var rechallengerAction: ((FeedTableViewCell)->Void)?
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(cellTapped)))
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -78,11 +79,13 @@ class FeedTableViewCell: UITableViewCell {
         reportButtonAction?(self)
     }
     func userTapped(){
-        print("bees!")
         userImageAction?(self)
     }
     func rechallengerTapped(){
         rechallengerAction?(self)
+    }
+    func cellTapped(){
+        cellAction?(self)
     }
     
     

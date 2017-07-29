@@ -216,7 +216,7 @@ class FeedDelegate{
                 cell.viewRechallengersButtonAction = {[weak self] (cell) in self?.viewRechallengersButtonTapped(challenge: challenge, sender: cell)}
                 cell.userImageAction = {[weak self] (cell) in self?.userTapped(cell.usernameLabel.text!)}
                 cell.rechallengerAction = {[weak self] (cell) in self?.userTapped(cell.rechallengerLabel.text!)}
-                
+                cell.cellAction = {[weak self] (cell) in self?.cellAction(challenge: challenge)}
                 Global.global.getUserImage(username: challenge.author!, view: cell.userImage)
                 
                 //below are manual cell constraints
@@ -350,6 +350,10 @@ class FeedDelegate{
     //show a user list of the challenge rechallengers
     func viewRechallengersButtonTapped(challenge: Challenge, sender: Any?){
         viewController.presentUserList(challenge: challenge, type: "rechallengers")
+    }
+    
+    func cellAction(challenge: Challenge){
+        viewController.presentChallenge(challengeName: challenge.name!)
     }
     var playerViewController: AVPlayerViewController!
     //shows the video associated with an acceptance feed entry

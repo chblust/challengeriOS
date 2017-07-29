@@ -17,6 +17,10 @@
 		931A64CC1ECBCC3400B419DD /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931A64CB1ECBCC3400B419DD /* UserTableViewCell.swift */; };
 		931A64D01ECBCF6600B419DD /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931A64CF1ECBCF6600B419DD /* User.swift */; };
 		931A64D41ECBD4A200B419DD /* UserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931A64D31ECBD4A200B419DD /* UserListViewController.swift */; };
+		932270301F2C3FAC0047676E /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9322702F1F2C3FAC0047676E /* Comment.swift */; };
+		93252FB61F2D0F9800000CAF /* CommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93252FB51F2D0F9800000CAF /* CommentViewController.swift */; };
+		9325391A1F293A31007B47E2 /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932539191F293A31007B47E2 /* CommentTableViewCell.swift */; };
+		932539211F2940B9007B47E2 /* CommentTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932539201F2940B9007B47E2 /* CommentTableViewDataSource.swift */; };
 		9333DA5D1F23D3B100595F3A /* NotificationsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9333DA5C1F23D3B100595F3A /* NotificationsTableViewController.swift */; };
 		9338AC5D1EDC72A70071BA29 /* AcceptanceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9338AC5C1EDC72A70071BA29 /* AcceptanceTableViewCell.swift */; };
 		9338AC5F1EDCC0C70071BA29 /* Acceptance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9338AC5E1EDCC0C70071BA29 /* Acceptance.swift */; };
@@ -58,6 +62,10 @@
 		931A64CB1ECBCC3400B419DD /* UserTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
 		931A64CF1ECBCF6600B419DD /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		931A64D31ECBD4A200B419DD /* UserListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserListViewController.swift; sourceTree = "<group>"; };
+		9322702F1F2C3FAC0047676E /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		93252FB51F2D0F9800000CAF /* CommentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentViewController.swift; sourceTree = "<group>"; };
+		932539191F293A31007B47E2 /* CommentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
+		932539201F2940B9007B47E2 /* CommentTableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentTableViewDataSource.swift; sourceTree = "<group>"; };
 		9330C5931F113CE4006E240E /* Challenger.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Challenger.entitlements; sourceTree = "<group>"; };
 		9333DA5C1F23D3B100595F3A /* NotificationsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsTableViewController.swift; sourceTree = "<group>"; };
 		9338AC5C1EDC72A70071BA29 /* AcceptanceTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptanceTableViewCell.swift; sourceTree = "<group>"; };
@@ -136,6 +144,10 @@
 				934A01A91ECE701E00E82BFC /* Challenge.swift */,
 				9330C5931F113CE4006E240E /* Challenger.entitlements */,
 				93FC07911EDA9B790008B7F4 /* ChallengeViewController.swift */,
+				9322702F1F2C3FAC0047676E /* Comment.swift */,
+				932539191F293A31007B47E2 /* CommentTableViewCell.swift */,
+				932539201F2940B9007B47E2 /* CommentTableViewDataSource.swift */,
+				93252FB51F2D0F9800000CAF /* CommentViewController.swift */,
 				93F027011EF0636F00E91D75 /* CrashList.rtf */,
 				93FC078F1EDA93150008B7F4 /* CreateUserViewController.swift */,
 				93C0122D1EFAE7260043395A /* Extensions.swift */,
@@ -305,12 +317,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				934A01B31ED0B1BB00E82BFC /* UploadViewController.swift in Sources */,
+				932539211F2940B9007B47E2 /* CommentTableViewDataSource.swift in Sources */,
 				9361E0881EDB29950080F788 /* FeedDelegate.swift in Sources */,
 				934A01B11ED0ADD000E82BFC /* FeedTableViewCell.swift in Sources */,
 				9338AC5F1EDCC0C70071BA29 /* Acceptance.swift in Sources */,
 				934A01AF1ED00EB000E82BFC /* OtherUserViewController.swift in Sources */,
 				934A01AB1ECE870500E82BFC /* FeedViewController.swift in Sources */,
 				9333DA5D1F23D3B100595F3A /* NotificationsTableViewController.swift in Sources */,
+				9325391A1F293A31007B47E2 /* CommentTableViewCell.swift in Sources */,
 				93781FB31F01B9C500C565F9 /* LoadMoreTableViewCell.swift in Sources */,
 				9376C7901EF1E38800B93C87 /* AcceptedTableViewController.swift in Sources */,
 				937E19C11ECE2668006232F7 /* PostViewController.swift in Sources */,
@@ -329,10 +343,12 @@
 				931A64C81ECAB40200B419DD /* Global.swift in Sources */,
 				934A01AA1ECE701E00E82BFC /* Challenge.swift in Sources */,
 				93C0122E1EFAE7260043395A /* Extensions.swift in Sources */,
+				932270301F2C3FAC0047676E /* Comment.swift in Sources */,
 				931A64D41ECBD4A200B419DD /* UserListViewController.swift in Sources */,
 				9376C7921EF21EFA00B93C87 /* SettingsViewController.swift in Sources */,
 				9338AC5D1EDC72A70071BA29 /* AcceptanceTableViewCell.swift in Sources */,
 				931A64CC1ECBCC3400B419DD /* UserTableViewCell.swift in Sources */,
+				93252FB61F2D0F9800000CAF /* CommentViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
