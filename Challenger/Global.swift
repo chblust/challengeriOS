@@ -96,7 +96,7 @@ class Global: NSObject{
         }
         return true
     }
-    static let banned = ["&","=",";","\"","\'"];
+    private static let banned = ["&","=",";","\"","\'"];
     
     //same as above but with a textView
     static func textIsSafe(textField: UITextField, here: UIViewController)->Bool{
@@ -208,6 +208,10 @@ class Global: NSObject{
     //gets the number of notifications from the server
     func setupNotificationsBadge(_ item: UITabBarItem){
         notificationsItem = item
+        updateNotificationsBadge()
+    }
+    
+    func updateNotificationsBadge(){
         URLSession.shared.dataTask(with: Global.createServerRequest(params: [
             "username": Global.global.loggedInUser.username!,
             "type": "get"
@@ -224,7 +228,14 @@ class Global: NSObject{
                     }
                 }
             }.resume()
-
+    }
+    
+    func setNotificationsBadge(_ i: Int){
+        if i == 0{
+            self.notificationsItem.badgeValue = nil
+        }else{
+            self.notificationsItem.badgeValue = "\(i)"
+        }
     }
     
     func addToNotificationBadge(){

@@ -72,11 +72,19 @@ extension UIViewController{
             ], intent: "getChallenges")){data, response, error in
                 if let data = data{
                     OperationQueue.main.addOperation {
-                        let challengeViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "challengeViewController") as! ChallengeViewController
-                        challengeViewController.challenge = Global.jsonToChallenge(JSON(data: data)["challenges"][0].dictionaryValue)
-                        let nav = UINavigationController.init(rootViewController: challengeViewController)
-                        Global.global.currentViewController = challengeViewController
-                        self.present(nav, animated: true, completion: nil)
+                        let json = JSON(data: data)
+                        
+                        if json["challenges"][0]["name"].exists(){
+                            print("YEEEEEEEE")
+                            print(json)
+                            let challengeViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "challengeViewController") as! ChallengeViewController
+                            challengeViewController.challenge = Global.jsonToChallenge(json["challenges"][0].dictionaryValue)
+                            let nav = UINavigationController.init(rootViewController: challengeViewController)
+                            Global.global.currentViewController = challengeViewController
+                            self.present(nav, animated: true, completion: nil)
+                        }else{
+                            Global.showAlert(title: "Challenge Removed!", message: "This challenge no longer exists.", here: self)
+                        }
                     }
                 }
             }.resume()

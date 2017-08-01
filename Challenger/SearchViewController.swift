@@ -111,13 +111,9 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
                 "type": "list",
                 "feedEntries[0]": name
                 ], intent: "getChallenges")){data, response, error in
-            if let data = data{
+            if data != nil{
                 OperationQueue.main.addOperation {
-                    let challengeViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "challengeViewController") as! ChallengeViewController
-                    challengeViewController.challenge = Global.jsonToChallenge(JSON(data: data)["challenges"][0].dictionaryValue)
-                    let nav = UINavigationController.init(rootViewController: challengeViewController)
-                    
-                    self.present(nav, animated: true, completion: nil)
+                   self.presentChallenge(challengeName: name)
                 }
             }
             }.resume()

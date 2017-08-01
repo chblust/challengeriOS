@@ -474,7 +474,7 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="75A-6e-agG" id="Gdz-jf-2id">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="defaultUserImage" translatesAutoresizingMaskIntoConstraints="NO" id="wUK-i7-qYI">
@@ -2476,7 +2476,7 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
                                         <rect key="frame" x="0.0" y="28" width="375" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Z4X-VR-DOv" id="Tfg-qk-8pL">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="79.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="defaultUserImage" translatesAutoresizingMaskIntoConstraints="NO" id="su4-H8-nAw">
@@ -2636,7 +2636,7 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wLC-E8-ZEw">
-                                <rect key="frame" x="313" y="580" width="36" height="30"/>
+                                <rect key="frame" x="323" y="580" width="36" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="36" id="5wN-5x-aZE"/>
                                     <constraint firstAttribute="height" constant="30" id="qqn-bj-SpP"/>
@@ -2659,7 +2659,7 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
                             <constraint firstAttribute="trailingMargin" secondItem="wLC-E8-ZEw" secondAttribute="trailing" constant="10" id="VBa-hs-i5w"/>
                             <constraint firstItem="UxM-P8-sib" firstAttribute="leading" secondItem="mlG-Dt-473" secondAttribute="leading" id="c1g-M6-kaX"/>
                             <constraint firstAttribute="trailing" secondItem="HPj-7A-SFv" secondAttribute="trailing" id="d6X-jL-9T0"/>
-                            <constraint firstItem="wLC-E8-ZEw" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="fn6-6x-lXk" secondAttribute="trailing" constant="8" id="eMR-v0-wUq"/>
+                            <constraint firstItem="wLC-E8-ZEw" firstAttribute="leading" secondItem="fn6-6x-lXk" secondAttribute="trailing" constant="18" id="eMR-v0-wUq"/>
                             <constraint firstItem="Ypr-h5-PvU" firstAttribute="top" secondItem="fn6-6x-lXk" secondAttribute="bottom" constant="8" id="nES-u6-36x"/>
                             <constraint firstItem="HPj-7A-SFv" firstAttribute="top" secondItem="UxM-P8-sib" secondAttribute="bottom" constant="8" id="xSC-kt-Ofy"/>
                         </constraints>
@@ -2710,7 +2710,7 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
                                         <rect key="frame" x="0.0" y="28" width="375" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Qbv-5H-WbI" id="3Gk-9k-ylC">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="79.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="defaultUserImage" translatesAutoresizingMaskIntoConstraints="NO" id="ubj-AO-EXe">
@@ -2867,7 +2867,7 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
                                         <rect key="frame" x="0.0" y="28" width="375" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0tT-qc-Uod" id="S6w-nV-8ud">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="79.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="defaultUserImage" translatesAutoresizingMaskIntoConstraints="NO" id="uxl-sD-izb">
@@ -3095,7 +3095,7 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dyO-Ur-cvO" id="mma-0w-nuw">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="defaultUserImage" translatesAutoresizingMaskIntoConstraints="NO" id="iDi-T8-7VA">
@@ -3155,7 +3155,7 @@ Media or Data deemed inappropriate includes, but is not limited to, hate speech 
                                 <rect key="frame" x="0.0" y="72" width="375" height="62"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Gzj-sJ-q7i" id="ERB-LC-Dz7" customClass="FeedTableViewCell" customModule="Challenger" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="61.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="61"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GVA-GQ-yJi">

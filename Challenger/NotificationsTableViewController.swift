@@ -35,6 +35,7 @@ class NotificationsTableViewController: UITableViewController {
                 if let data = data{
                     OperationQueue.main.addOperation {
                         let json = JSON(data: data)
+                        Global.global.setNotificationsBadge(json.arrayValue.count)
                         for dictJson in json.arrayValue{
                             self.notifications.append(Global.jsonToNotification(dictJson))
                         }
@@ -94,20 +95,12 @@ class NotificationsTableViewController: UITableViewController {
     
     //MARK: - Cell Actions
     func followCellTapped(_ notification: Notification){
-        if let index = notifications.index(of: notification){
-            notifications.remove(at: index)
-            tableView.reloadData()
-        }
-        notification.remove();
+        cellAction(notification)
         self.presentOtherUser(username: notification.sender)
     }
     
     func acceptanceCellTapped(_ notification: Notification){
-        if let index = notifications.index(of: notification){
-            notifications.remove(at: index)
-            tableView.reloadData()
-        }
-        notification.remove()
+        cellAction(notification)
         //the following brings up a stream of the user's uploaded video
         let path = "\(Global.ip)/uploads/\(Global.getServerSafeName(notification.challengeName))/\(notification.sender)/4-medium/4-medium.m3u8"
        
@@ -130,22 +123,21 @@ class NotificationsTableViewController: UITableViewController {
     }
     
     func likeCellTapped(_ notification: Notification){
-        if let index = notifications.index(of: notification){
-            notifications.remove(at: index)
-            tableView.reloadData()
-        }
-        notification.remove()
+        cellAction(notification)
         presentChallenge(challengeName: notification.challengeName)
     }
     
     func commentCellTapped(_ notification: Notification){
+        cellAction(notification)
+        presentComment(uuid: notification.uuid!)
+    }
+    
+    func cellAction(_ notification: Notification){
         if let index = notifications.index(of: notification){
             notifications.remove(at: index)
             tableView.reloadData()
         }
-        
         notification.remove()
-        presentComment(uuid: notification.uuid!)
     }
     
     func playerDidFinish(_ player: AVPlayer){
