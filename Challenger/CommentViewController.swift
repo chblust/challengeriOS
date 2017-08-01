@@ -16,6 +16,7 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
     let cellId = "cc"
     var comment: Comment!
     var commentDataSource: CommentTableViewDataSource!
+    var refreshControl: UIRefreshControl!
     @IBOutlet weak var commentTableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,10 +34,14 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
         commentDataSource = CommentTableViewDataSource(self)
         replyTableView.dataSource = commentDataSource
         replyTableView.delegate = commentDataSource
+        refreshControl = UIRefreshControl()
+        replyTableView.refreshControl = refreshControl
+        replyTableView.refreshControl?.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
         fillReplyTable()
     }
     
     func fillReplyTable(){
+        self.commentDataSource.comments = [Comment]()
         URLSession.shared.dataTask(with: Global.createServerRequest(params: [
             "type": "replys",
             "uuid": comment.uuid
@@ -45,7 +50,6 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
                     let json = JSON(data: data)
                     
                     for commentJson in json.arrayValue{
-                        print(commentJson)
                         self.commentDataSource.comments.insert(self.jsonToComment(commentJson), at: 0)
                     }
                     OperationQueue.main.addOperation {
@@ -73,8 +77,17 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
         }else{
             cell.likeButton.setImage(UIImage(named: "like"), for: .normal)
         }
+        if comment.author == Global.global.loggedInUser.username!{
+            cell.reportButton.setTitle("remove", for: .normal)
+            cell.reportAction = {[weak self] (cell) in self?.deleteComment(comment: self!.comment)}
+        }else{
+            cell.reportButton.setTitle("report", for: .normal)
+            cell.reportAction = {[weak self] (cell) in self?.reportComment(comment: self!.comment)}
+        }
+
         cell.likeCountButton.setTitle(String(comment.likers.count), for: .normal)
-        cell.replyCountButton.setTitle(String(comment.replys.count), for: .normal)
+        cell.replyCountButton.isHidden = true
+        cell.replyButton.isHidden = true
         
         //cell button actions
         cell.userAction = self.usernameLabelTapped
@@ -104,10 +117,52 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
         URLSession.shared.dataTask(with: Global.createServerRequest(params: [
             "username": Global.global.loggedInUser.username!,
             "type": "comment",
+            "challenge": comment.challengeName,
             "uuid": comment.uuid
             ], intent: "like")).resume()
         
     }
+    
+    func deleteComment(comment: Comment){
+        let alert = UIAlertController(title: "Delete Comment?", message: "Are you sure you want to remove this comment?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "delete", style: .destructive, handler: {(UIAlertAction) in
+            URLSession.shared.dataTask(with: Global.createServerRequest(params: [
+                "type": "remove",
+                "uuid": comment.uuid
+                ], intent: "comments")){data, response, error in
+                    if data != nil{
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                }.resume()
+            
+        }))
+        alert.addAction(UIAlertAction(title: "cancel", style: .default, handler: {(UIAlertAction) in
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func reportComment(comment: Comment){
+        let alert = UIAlertController(title: "Report a Comment", message: "please enter a reason for this comment to be removed below", preferredStyle: .alert)
+        alert.addTextField(configurationHandler: {(textField) in
+            textField.placeholder = "reason"
+        })
+        alert.addAction(UIAlertAction(title: "Report", style: .destructive, handler: {(UIAlertAction) in
+            let params = [
+                "type":"comment",
+                "username":Global.global.loggedInUser.username!,
+                "reason":alert.textFields![0].text!,
+                "uuid":comment.uuid!
+            ]
+            URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "report")).resume()
+            Global.showAlert(title: "Comment Reported", message: "justice has been served!", here: self)
+        }))
+        alert.addAction(UIAlertAction(title: "cancel", style: .default, handler: { (UIAlertAction) in
+            alert.dismiss(animated: true, completion: {})
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     @IBAction func sendButtonTapped(_ sender: UIButton) {
         if Global.textIsSafe(textField: replyTextField, here: self), let message = replyTextField.text{
             replyTextField.text = ""
@@ -174,6 +229,10 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     func doneButtonTapped(){
         self.dismiss(animated: true, completion: nil)
+    }
+    func handleRefresh(){
+        fillReplyTable()
+        refreshControl.endRefreshing()
     }
 
 }

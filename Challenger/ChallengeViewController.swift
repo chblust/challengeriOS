@@ -13,6 +13,7 @@ class ChallengeViewController: UIViewController, UITableViewDataSource, UITableV
     @IBOutlet weak var commentTextField: UITextField!
     var challenge: Challenge!
     var commentsDataSource: CommentTableViewDataSource!
+    var refreshControl: UIRefreshControl!
     @IBOutlet weak var tableView: UITableView!
     
     @IBOutlet weak var commentsTableView: UITableView!
@@ -27,9 +28,6 @@ class ChallengeViewController: UIViewController, UITableViewDataSource, UITableV
         var items = [UIBarButtonItem]()
         items.append(UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped)))
         self.setToolbarItems(items, animated: true)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
-//        Global.setupBannerAd(self, tab: true)
         uploadProcessDelegate = UploadProcessDelegate(self)
         tableViewController = UITableViewController()
         tableViewController.tableView = tableView
@@ -39,8 +37,23 @@ class ChallengeViewController: UIViewController, UITableViewDataSource, UITableV
         tableView.reloadData()
         commentsTableView.dataSource = commentsDataSource
         commentsTableView.delegate = commentsDataSource
+        refreshControl = UIRefreshControl()
+        commentsTableView.refreshControl = refreshControl
+        commentsTableView.refreshControl?.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
         fillCommentsTable()
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillHide, object: nil)
     }
     
     func fillCommentsTable(){
@@ -101,30 +114,34 @@ class ChallengeViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func keyboardWillShow(_ notification: NSNotification){
-        let info = notification.userInfo!
-        let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+        if (commentTextField.isFirstResponder){
+            let info = notification.userInfo!
+            let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
         
-        let keyboardHeight: CGFloat = keyboardSize.height
+            let keyboardHeight: CGFloat = keyboardSize.height
         
-        let _: CGFloat = info[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber as CGFloat
+            let _: CGFloat = info[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber as CGFloat
         
         
-        UIView.animate(withDuration: 0.25, delay: 0.25, options: .curveEaseInOut, animations: {
-            self.commentTextField.frame.origin.y += keyboardHeight
-            self.sendButton.frame.origin.y += keyboardHeight
-        }, completion: nil)
+            UIView.animate(withDuration: 0.25, delay: 0.25, options: .curveEaseInOut, animations: {
+                self.commentTextField.frame.origin.y += keyboardHeight
+                self.sendButton.frame.origin.y += keyboardHeight
+            }, completion: nil)
+        }
 
     }
     
     func keyboardWillHide(_ notification: NSNotification){
-        let info = notification.userInfo!
-        let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
-        let keyboardHeight: CGFloat = keyboardSize.height
-        let _: CGFloat = info[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber as CGFloat
-        UIView.animate(withDuration: 0.25, delay: 0.25, options: .curveEaseInOut, animations:{
-            self.commentTextField.frame.origin.y -= keyboardHeight
-            self.sendButton.frame.origin.y -= keyboardHeight
-        }, completion: nil)
+        if(commentTextField.isFirstResponder){
+            let info = notification.userInfo!
+            let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+            let keyboardHeight: CGFloat = keyboardSize.height
+            let _: CGFloat = info[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber as CGFloat
+            UIView.animate(withDuration: 0.25, delay: 0.25, options: .curveEaseInOut, animations:{
+                self.commentTextField.frame.origin.y -= keyboardHeight
+                self.sendButton.frame.origin.y -= keyboardHeight
+            }, completion: nil)
+        }
     }
     
     
@@ -156,5 +173,9 @@ class ChallengeViewController: UIViewController, UITableViewDataSource, UITableV
     }
     @IBAction func viewTapped(_ sender: UITapGestureRecognizer) {
         commentTextField.resignFirstResponder()
+    }
+    func handleRefresh(){
+        fillCommentsTable()
+        refreshControl.endRefreshing()
     }
 }

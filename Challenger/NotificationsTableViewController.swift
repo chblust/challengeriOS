@@ -78,6 +78,11 @@ class NotificationsTableViewController: UITableViewController {
         case .rechallenge:
             cell.tapAction = {[weak self] (cell) in self?.likeCellTapped(notification)}
             break
+        case .comment,
+             .comment_like,
+             .reply:
+            cell.tapAction = {[weak self] (cell) in self?.commentCellTapped(notification)}
+            break
         }
         cell.usernameButton.setTitle(notification.getBody(), for: .normal)
         Global.global.getUserImage(username: notification.sender, view: cell.userImage)
@@ -102,7 +107,7 @@ class NotificationsTableViewController: UITableViewController {
             notifications.remove(at: index)
             tableView.reloadData()
         }
-        
+        notification.remove()
         //the following brings up a stream of the user's uploaded video
         let path = "\(Global.ip)/uploads/\(Global.getServerSafeName(notification.challengeName))/\(notification.sender)/4-medium/4-medium.m3u8"
        
@@ -131,6 +136,16 @@ class NotificationsTableViewController: UITableViewController {
         }
         notification.remove()
         presentChallenge(challengeName: notification.challengeName)
+    }
+    
+    func commentCellTapped(_ notification: Notification){
+        if let index = notifications.index(of: notification){
+            notifications.remove(at: index)
+            tableView.reloadData()
+        }
+        
+        notification.remove()
+        presentComment(uuid: notification.uuid!)
     }
     
     func playerDidFinish(_ player: AVPlayer){

@@ -83,12 +83,26 @@ extension UIViewController{
 
     }
     
-    func presentComment(_ comment: Comment){
+    func presentComment(comment: Comment){
         let commentViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "commentViewController") as! CommentViewController
         commentViewController.comment = comment
         let nav = UINavigationController(rootViewController: commentViewController)
         Global.global.currentViewController = commentViewController
         self.present(nav, animated: true, completion: nil)
+    }
+    
+    func presentComment(uuid: String){
+        URLSession.shared.dataTask(with: Global.createServerRequest(params: [
+                "uuid": uuid,
+                "type": "single"
+            ], intent: "comments")){data, response, error in
+                if let data = data{
+                    OperationQueue.main.addOperation {
+                        let comment = self.jsonToComment(JSON(data: data).arrayValue[0])
+                        self.presentComment(comment: comment)
+                    }
+                }
+        }.resume()
     }
     
     func jsonToComment(_ json: JSON) -> Comment{

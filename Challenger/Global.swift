@@ -82,7 +82,7 @@ class Global: NSObject{
     
     static func jsonToNotification(_ json: JSON) -> Notification{
         let dict = json.dictionaryValue
-        return Notification(type: dict["type"]!.stringValue, sender: dict["sender"]!.stringValue, challengeName: dict["challenge"]!.stringValue)
+        return Notification(type: dict["type"]!.stringValue, sender: dict["sender"]!.stringValue, challengeName: dict["challenge"]!.stringValue, uuid: dict["uuid"]!.stringValue)
     }
     
     //ensures the passed text field is not empty and does not include characters that will mess with the post request

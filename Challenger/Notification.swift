@@ -9,16 +9,8 @@
 import Foundation
 
 class Notification: Equatable{
-    /// Returns a Boolean value indicating whether two values are equal.
-    ///
-    /// Equality is the inverse of inequality. For any values `a` and `b`,
-    /// `a == b` implies that `a != b` is `false`.
-    ///
-    /// - Parameters:
-    ///   - lhs: A value to compare.
-    ///   - rhs: Another value to compare.
     static func ==(lhs: Notification, rhs: Notification) -> Bool {
-        if lhs.sender == rhs.sender && lhs.type == rhs.type && lhs.challengeName == rhs.challengeName{
+        if lhs.sender == rhs.sender && lhs.type == rhs.type && lhs.challengeName == rhs.challengeName && lhs.uuid == rhs.uuid{
             return true
         }
         return false
@@ -30,15 +22,20 @@ class Notification: Equatable{
         case like = "like"
         case video_like = "vlike"
         case rechallenge = "rechallenge"
+        case comment = "comment"
+        case comment_like = "clike"
+        case reply = "reply"
     }
     var type: String!
     var sender: String!
     var challengeName: String!
+    var uuid: String!
     
-    init(type: String, sender: String, challengeName: String){
+    init(type: String, sender: String, challengeName: String, uuid: String){
         self.type = type
         self.sender = sender
         self.challengeName = challengeName
+        self.uuid = uuid
     }
     
     func remove(){
@@ -47,7 +44,8 @@ class Notification: Equatable{
             "username": Global.global.loggedInUser.username!,
             "notificationType": self.type!,
             "sender": self.sender!,
-            "challenge": self.challengeName!
+            "challenge": self.challengeName!,
+            "uuid": self.uuid!
             ], intent: "notifications")){data, response, error in
                 if let message = String(data: data!, encoding: .utf8){
                     print(message)
@@ -74,6 +72,14 @@ class Notification: Equatable{
             case .rechallenge:
                 return "\(sender!) rechallenged your challenge: \(challengeName!)"
                 
+            case .comment:
+                return "\(sender!) commented on your challenge: \(challengeName!)"
+                
+            case .comment_like:
+                return "\(sender!) liked the comment you posted to \(challengeName!)"
+                
+            case .reply:
+                return "\(sender!) replied to the comment you posted to \(challengeName!)"
             }
         }else{
             fatalError("Notification Type was set to invalid value")

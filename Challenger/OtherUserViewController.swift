@@ -81,7 +81,8 @@ class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableVie
         feedDelegate = FeedDelegate(viewController: self, username: user.username!, tableController: tableViewController, upd: uploadProcessDelegate)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         feedDelegate.handleRefresh()
         Global.global.currentViewController = self
     }

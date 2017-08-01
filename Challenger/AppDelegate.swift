@@ -63,7 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func displayNotification(_ aps: [String: Any], _ image: UIImage, _ completionHandler: @escaping (UIBackgroundFetchResult) -> Void){
             var banner: Banner!
-            let notification = Notification(type: aps["type"] as! String!, sender: aps["sender"] as! String, challengeName: aps["challenge"] as! String)
+        let notification = Notification(type: aps["type"] as! String!, sender: aps["sender"] as! String, challengeName: aps["challenge"] as! String, uuid: aps["uuid"] as! String)
             if let type = Notification.NotificationType(rawValue: notification.type){
                 switch type{
                 case .follow:
@@ -73,7 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     })
                     break
                 case .acceptance:
-                    banner = Banner(title: "Challenge Accepted!", subtitle: "\(notification.sender!) accepted your challenge: \(notification.challengeName!)", image: image, backgroundColor: NOTIFICATION_COLOR, didTapBlock: {
+                    banner = Banner(title: notification.getBody(), image: image, backgroundColor: NOTIFICATION_COLOR, didTapBlock: {
                         notification.remove()
                         
                         //the following brings up a stream of the user's uploaded video
@@ -98,23 +98,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     })
                     break
                 case .like:
-                    banner = Banner(title: "\(notification.sender!) liked your challenge!", subtitle: "", image: image, backgroundColor: NOTIFICATION_COLOR, didTapBlock: {
+                    banner = Banner(title: notification.getBody(), subtitle: "", image: image, backgroundColor: NOTIFICATION_COLOR, didTapBlock: {
                         notification.remove()
                         Global.global.currentViewController.presentChallenge(challengeName: notification.challengeName!)
                     })
                     break
                 case .video_like:
-                    banner = Banner(title: "\(notification.sender!) liked your video you posted to \(notification.challengeName!)", subtitle: "", image: image, backgroundColor: NOTIFICATION_COLOR, didTapBlock: {
+                    banner = Banner(title: notification.getBody(), subtitle: "", image: image, backgroundColor: NOTIFICATION_COLOR, didTapBlock: {
                         notification.remove()
                         Global.global.currentViewController.presentChallenge(challengeName: notification.challengeName!)
                     })
                     break;
                 case .rechallenge:
-                    banner = Banner(title: "Rechallenged!", subtitle: "\(notification.sender!) rechallenged your challenge: \(notification.challengeName!)", image: image, backgroundColor: NOTIFICATION_COLOR, didTapBlock: {
+                    banner = Banner(title: notification.getBody(), image: image, backgroundColor: NOTIFICATION_COLOR, didTapBlock: {
                         notification.remove()
                         Global.global.currentViewController.presentOtherUser(username: notification.sender!)
                     })
                     break
+                case .comment:
+                    banner = Banner(title: notification.getBody(), subtitle: "", image: image, backgroundColor: NOTIFICATION_COLOR, didTapBlock: {
+                        notification.remove()
+                        Global.global.currentViewController.presentComment(uuid: notification.uuid!)
+                    })
+                    break
+                case .comment_like:
+                    banner = Banner(title: notification.getBody(), subtitle: "", image: image, backgroundColor: NOTIFICATION_COLOR, didTapBlock: {
+                        notification.remove()
+                        Global.global.currentViewController.presentComment(uuid: notification.uuid!)
+                    })
+                    break
+                case .reply:
+                    banner = Banner(title: notification.getBody(), subtitle: "", image: image, backgroundColor: NOTIFICATION_COLOR, didTapBlock: {
+                        notification.remove()
+                        Global.global.currentViewController.presentComment(uuid: notification.uuid!)
+                    })
                 }
                 banner.show()
             }else{

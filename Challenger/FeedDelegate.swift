@@ -60,7 +60,7 @@ class FeedDelegate{
         refreshControl = UIRefreshControl()
         tableViewController.refreshControl = refreshControl
         self.refreshControl.addTarget(self, action: #selector(FeedDelegate.handleRefresh), for: .valueChanged)
-        fillTable()
+//        fillTable()
     }
     
     init(uploadProcessDelegate: UploadProcessDelegate, viewController: UIViewController){
@@ -188,7 +188,7 @@ class FeedDelegate{
                 //determine which destructive button should appear based on if the login posted the video or the challenge
                 if challenge.author! == Global.global.loggedInUser.username!{
                     cell.reportButton.setTitle("remove", for: .normal)
-                    cell.reportButtonAction = {[weak self] (cell) in self?.deleteChallenge(challenge: challenge)}
+                    cell.reportButtonAction = {[weak self] (cell) in self?.deleteChallenge(challenge: challenge, refresh: true, dismiss: false)}
                 }else{
                     cell.reportButton.setTitle("report", for: .normal)
                     cell.reportButtonAction = {[weak self] (cell) in self?.reportChallenge(challenge: challenge)}
@@ -258,6 +258,15 @@ class FeedDelegate{
             cell.rechallengeButton.setImage(UIImage(named: "rechallenged"), for: .normal);
         }else{
             cell.rechallengeButton.setImage(UIImage(named: "rechallenge"), for: .normal)
+        }
+        
+        //determine which destructive button should appear based on if the login posted the video or the challenge
+        if challenge.author! == Global.global.loggedInUser.username!{
+            cell.reportButton.setTitle("remove", for: .normal)
+            cell.reportButtonAction = {[weak self] (cell) in self?.deleteChallenge(challenge: challenge, refresh: false, dismiss: true)}
+        }else{
+            cell.reportButton.setTitle("report", for: .normal)
+            cell.reportButtonAction = {[weak self] (cell) in self?.reportChallenge(challenge: challenge)}
         }
         
         //this stuff isn't relevant here
@@ -381,7 +390,7 @@ class FeedDelegate{
     }
     
     //handles a challenge delete
-    func deleteChallenge(challenge: Challenge){
+    func deleteChallenge(challenge: Challenge, refresh: Bool, dismiss: Bool){
         let alert = UIAlertController(title: "Delete Challenge", message: "are you sure you want to permanently remove this challenge?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: {(UIAlertAction) in
             let params = [
@@ -389,7 +398,15 @@ class FeedDelegate{
             ]
             URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "removeChallenge")){data, response, error in
                 if data != nil{
-                    self.handleRefresh()
+                    OperationQueue.main.addOperation {
+                        if refresh{
+                            self.handleRefresh()
+                        }
+                        if dismiss{
+                            self.viewController.dismiss(animated: true, completion: nil)
+                        }
+                    }
+                    
                 }
                 }.resume()
         }))
@@ -399,6 +416,7 @@ class FeedDelegate{
     
     //handles a challenge report
     func reportChallenge(challenge: Challenge){
+        NotificationCenter.default.removeObserver(viewController, name: .UIKeyboardWillShow, object: nil)
         let alert = UIAlertController(title: "Report a Challenge", message: "please enter a reason for this challenge to be removed below", preferredStyle: .alert)
         alert.addTextField(configurationHandler: {(textField) in
             textField.placeholder = "reason"

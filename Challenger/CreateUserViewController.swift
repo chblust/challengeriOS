@@ -45,8 +45,11 @@ class CreateUserViewController: UIViewController, UITextFieldDelegate {
                             "email": emailTextField.text!
                             ], intent: "createUser")){data, response, error in
                         if let data = data{
-                            let json = JSON(data: data)
-                            self.completeUserCreation(json["success"].stringValue, self.usernameTextField.text!, sender)
+                            OperationQueue.main.addOperation {
+                                let json = JSON(data: data)
+                                self.completeUserCreation(json["success"].stringValue, self.usernameTextField.text!, sender)
+                            }
+                           
                         }
                         }.resume()
                 }else{

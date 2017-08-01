@@ -43,6 +43,14 @@ class CommentTableViewDataSource: NSObject,UITableViewDataSource, UITableViewDel
         }else{
             cell.likeButton.setImage(UIImage(named: "like"), for: .normal)
         }
+        
+        if comment.author == Global.global.loggedInUser.username!{
+            cell.reportButton.setTitle("remove", for: .normal)
+            cell.reportAction = {[weak self] (cell) in self?.deleteComment(comment: comment)}
+        }else{
+            cell.reportButton.setTitle("report", for: .normal)
+            cell.reportAction = {[weak self] (cell) in self?.reportComment(comment: comment)}
+        }
         cell.likeCountButton.setTitle(String(comment.likers.count), for: .normal)
         cell.replyCountButton.setTitle(String(comment.replys.count), for: .normal)
         
@@ -50,7 +58,7 @@ class CommentTableViewDataSource: NSObject,UITableViewDataSource, UITableViewDel
         cell.userAction = self.usernameLabelTapped
         cell.likeAction = {[weak self] (cell) in self?.likeButtonTapped(cell: cell, comment: comment)}
         cell.replyAction = {[weak self] (cell) in self?.replyButtonTapped(comment: comment)}
-      
+        
         return cell
     }
     
@@ -74,58 +82,57 @@ class CommentTableViewDataSource: NSObject,UITableViewDataSource, UITableViewDel
         URLSession.shared.dataTask(with: Global.createServerRequest(params: [
             "username": Global.global.loggedInUser.username!,
             "type": "comment",
+            "challenge": comment.challengeName,
             "uuid": comment.uuid
             ], intent: "like")).resume()
         
     }
     
     func replyButtonTapped(comment: Comment){
-        viewController.presentComment(comment)
+        viewController.presentComment(comment: comment)
     }
+    
+    func deleteComment(comment: Comment){
+        let alert = UIAlertController(title: "Delete Comment?", message: "Are you sure you want to remove this comment?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "delete", style: .destructive, handler: {(UIAlertAction) in
+            URLSession.shared.dataTask(with: Global.createServerRequest(params: [
+                "type": "remove",
+                "uuid": comment.uuid
+                ], intent: "comments")){data, response, error in
+                    if data != nil{
+                        if let challengeViewController = self.viewController as? ChallengeViewController{
+                            challengeViewController.handleRefresh()
+                        }else if let commentViewController = self.viewController as? CommentViewController{
+                            commentViewController.handleRefresh()
+                        }
+                    }
+                }.resume()
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+        }))
+        alert.addAction(UIAlertAction(title: "cancel", style: .default, handler: {(UIAlertAction) in
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        viewController.present(alert, animated: true, completion: nil)
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+    
+    func reportComment(comment: Comment){
+        let alert = UIAlertController(title: "Report a Comment", message: "please enter a reason for this comment to be removed below", preferredStyle: .alert)
+        alert.addTextField(configurationHandler: {(textField) in
+            textField.placeholder = "reason"
+        })
+        alert.addAction(UIAlertAction(title: "Report", style: .destructive, handler: {(UIAlertAction) in
+            let params = [
+                "type":"comment",
+                "username":Global.global.loggedInUser.username!,
+                "reason":alert.textFields![0].text!,
+                "uuid":comment.uuid!
+            ]
+            URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "report")).resume()
+            Global.showAlert(title: "Comment Reported", message: "justice has been served!", here: self.viewController)
+        }))
+        alert.addAction(UIAlertAction(title: "cancel", style: .default, handler: { (UIAlertAction) in
+            alert.dismiss(animated: true, completion: {})
+        }))
+        viewController.present(alert, animated: true, completion: nil)
     }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

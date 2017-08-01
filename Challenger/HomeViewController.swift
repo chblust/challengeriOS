@@ -58,6 +58,11 @@ class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataS
         setupHome()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        feedDelegate.handleRefresh()
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         //ensure correct feed
         //feedDelegate.handleRefresh()

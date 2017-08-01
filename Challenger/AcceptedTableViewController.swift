@@ -26,6 +26,7 @@ class AcceptedTableViewController: UITableViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        feedDelegate.handleRefresh()
         Global.global.currentViewController = self
     }
     
