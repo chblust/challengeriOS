@@ -116,23 +116,13 @@ class CommentTableViewDataSource: NSObject,UITableViewDataSource, UITableViewDel
     }
     
     func reportComment(comment: Comment){
-        let alert = UIAlertController(title: "Report a Comment", message: "please enter a reason for this comment to be removed below", preferredStyle: .alert)
-        alert.addTextField(configurationHandler: {(textField) in
-            textField.placeholder = "reason"
-        })
-        alert.addAction(UIAlertAction(title: "Report", style: .destructive, handler: {(UIAlertAction) in
-            let params = [
-                "type":"comment",
-                "username":Global.global.loggedInUser.username!,
-                "reason":alert.textFields![0].text!,
-                "uuid":comment.uuid!
-            ]
-            URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "report")).resume()
-            Global.showAlert(title: "Comment Reported", message: "justice has been served!", here: self.viewController)
-        }))
-        alert.addAction(UIAlertAction(title: "cancel", style: .default, handler: { (UIAlertAction) in
-            alert.dismiss(animated: true, completion: {})
-        }))
-        viewController.present(alert, animated: true, completion: nil)
+        let params = [
+            "type":"comment",
+            "username":Global.global.loggedInUser.username!,
+            "reason":"",
+            "uuid":comment.uuid!
+        ]
+        URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "report")).resume()
+        Global.global.showAlert(title: "Comment Reported", message: "justice has been served!", here: viewController)
     }
 }

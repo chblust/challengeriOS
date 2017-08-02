@@ -110,6 +110,7 @@ class ChallengeViewController: UIViewController, UITableViewDataSource, UITableV
                 }
             }.resume()
             
+        }else{
         }
     }
     
@@ -123,23 +124,25 @@ class ChallengeViewController: UIViewController, UITableViewDataSource, UITableV
             let _: CGFloat = info[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber as CGFloat
         
         
-            UIView.animate(withDuration: 0.25, delay: 0.25, options: .curveEaseInOut, animations: {
-                self.commentTextField.frame.origin.y += keyboardHeight
-                self.sendButton.frame.origin.y += keyboardHeight
+            UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseInOut, animations: {
+                self.commentTextField.frame.origin.y -= keyboardHeight
+                self.sendButton.frame.origin.y -= keyboardHeight
             }, completion: nil)
+        }else{
+            print("not first responder")
         }
 
     }
     
     func keyboardWillHide(_ notification: NSNotification){
-        if(commentTextField.isFirstResponder){
+        if commentTextField.isFirstResponder{
             let info = notification.userInfo!
             let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
             let keyboardHeight: CGFloat = keyboardSize.height
             let _: CGFloat = info[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber as CGFloat
-            UIView.animate(withDuration: 0.25, delay: 0.25, options: .curveEaseInOut, animations:{
-                self.commentTextField.frame.origin.y -= keyboardHeight
-                self.sendButton.frame.origin.y -= keyboardHeight
+            UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseInOut, animations:{
+                self.commentTextField.frame.origin.y += keyboardHeight
+                self.sendButton.frame.origin.y += keyboardHeight
             }, completion: nil)
         }
     }

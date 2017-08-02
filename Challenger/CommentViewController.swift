@@ -143,24 +143,14 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func reportComment(comment: Comment){
-        let alert = UIAlertController(title: "Report a Comment", message: "please enter a reason for this comment to be removed below", preferredStyle: .alert)
-        alert.addTextField(configurationHandler: {(textField) in
-            textField.placeholder = "reason"
-        })
-        alert.addAction(UIAlertAction(title: "Report", style: .destructive, handler: {(UIAlertAction) in
-            let params = [
+        let params = [
                 "type":"comment",
                 "username":Global.global.loggedInUser.username!,
-                "reason":alert.textFields![0].text!,
+                "reason":"",
                 "uuid":comment.uuid!
             ]
             URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "report")).resume()
-            Global.showAlert(title: "Comment Reported", message: "justice has been served!", here: self)
-        }))
-        alert.addAction(UIAlertAction(title: "cancel", style: .default, handler: { (UIAlertAction) in
-            alert.dismiss(animated: true, completion: {})
-        }))
-        self.present(alert, animated: true, completion: nil)
+            Global.global.showAlert(title: "Comment Reported", message: "justice has been served!", here: self)
     }
     
     @IBAction func sendButtonTapped(_ sender: UIButton) {
@@ -201,22 +191,24 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
         let _: CGFloat = info[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber as CGFloat
         
         
-        UIView.animate(withDuration: 0.25, delay: 0.25, options: .curveEaseInOut, animations: {
-            self.replyTextField.frame.origin.y += keyboardHeight
-            self.sendButton.frame.origin.y += keyboardHeight
+        UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseInOut, animations: {
+            self.replyTextField.frame.origin.y -= keyboardHeight
+            self.sendButton.frame.origin.y -= keyboardHeight
         }, completion: nil)
         
     }
     
     func keyboardWillHide(_ notification: NSNotification){
-        let info = notification.userInfo!
-        let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
-        let keyboardHeight: CGFloat = keyboardSize.height
-        let _: CGFloat = info[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber as CGFloat
-        UIView.animate(withDuration: 0.25, delay: 0.25, options: .curveEaseInOut, animations:{
-            self.replyTextField.frame.origin.y -= keyboardHeight
-            self.sendButton.frame.origin.y -= keyboardHeight
-        }, completion: nil)
+        if replyTextField.isFirstResponder{
+            let info = notification.userInfo!
+            let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+            let keyboardHeight: CGFloat = keyboardSize.height
+            let _: CGFloat = info[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber as CGFloat
+            UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseInOut, animations:{
+                self.replyTextField.frame.origin.y += keyboardHeight
+                self.sendButton.frame.origin.y += keyboardHeight
+            }, completion: nil)
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

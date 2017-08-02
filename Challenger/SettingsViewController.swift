@@ -107,7 +107,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
                             URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "edit")).resume()
                             
                         }else{
-                            Global.showAlert(title: "Wrong Password", message: "your password is incorrect!", here: self)
+                            Global.global.showAlert(title: "Wrong Password", message: "your password is incorrect!", here: self)
                         }
                     }
                 }

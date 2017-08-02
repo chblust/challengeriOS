@@ -47,7 +47,7 @@ extension UIViewController{
                             Global.global.currentViewController = otherUserViewController
                             self.present(nav, animated: true, completion: nil)
                         }else{
-                            Global.showAlert(title: "User Removed!", message: "This user no longer exists.", here: self)
+                            Global.global.showAlert(title: "User Removed!", message: "This user no longer exists.", here: self)
                         }
                     }
                 }
@@ -83,7 +83,7 @@ extension UIViewController{
                             Global.global.currentViewController = challengeViewController
                             self.present(nav, animated: true, completion: nil)
                         }else{
-                            Global.showAlert(title: "Challenge Removed!", message: "This challenge no longer exists.", here: self)
+                            Global.global.showAlert(title: "Challenge Removed!", message: "This challenge no longer exists.", here: self)
                         }
                     }
                 }

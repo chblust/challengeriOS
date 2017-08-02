@@ -61,7 +61,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, URLSessionDele
                     case "bool(false)\n":
                         OperationQueue.main.addOperation {
                             Global.pusher.nativePusher.unsubscribe(interestName: username)
-                            Global.showAlert(title: "Invalid User", message: "the logged in user no longer exists!", here:  self)
+                            Global.global.showAlert(title: "Invalid User", message: "the logged in user no longer exists!", here:  self)
                         }
                         break
                     default:
@@ -126,11 +126,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate, URLSessionDele
             
             break
         case "false":
-            Global.showAlert(title: "Login failed!", message: "credentials didn't match", here: self)
+            Global.global.showAlert(title: "Login failed!", message: "credentials didn't match", here: self)
             break
         default:
             //if server returns null
-            Global.showAlert(title: "Invalid Username", message: "the entered username does not exist", here: self)
+            Global.global.showAlert(title: "Invalid Username", message: "the entered username does not exist", here: self)
             break
         }
     }

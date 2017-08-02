@@ -37,7 +37,7 @@ class UploadProcessDelegate:NSObject, UIImagePickerControllerDelegate, UINavigat
                         self.acceptChallenge(challenge: challenge, sender: sender)
                         break
                     case "true":
-                        Global.showAlert(title: "Challenge already accepted!", message: "You cannot accept a challenge more than once!", here: self.viewController!)
+                        Global.global.showAlert(title: "Challenge already accepted!", message: "You cannot accept a challenge more than once!", here: self.viewController!)
                         break
                     default:break
                     }
@@ -98,7 +98,7 @@ class UploadProcessDelegate:NSObject, UIImagePickerControllerDelegate, UINavigat
                 viewController.present(imagePickerController, animated: true, completion: nil)
                 
             }else{
-                Global.showAlert(title: "No Camera!", message: "application could not access a camera", here: viewController)
+                Global.global.showAlert(title: "No Camera!", message: "application could not access a camera", here: viewController)
             }
             
             //next, the imagePickerControllerDelegate method gets the video info and executes the segue
@@ -145,7 +145,7 @@ class UploadProcessDelegate:NSObject, UIImagePickerControllerDelegate, UINavigat
               showUploadViewController(challenge: picker.challenge!, previewImage: videoPreview!, videoData: videoData)
             }else{
                 picker.dismiss(animated: true, completion: nil)
-                Global.showAlert(title: "Video too long", message: "please choose a video 20 seconds or shorter", here: viewController)
+                Global.global.showAlert(title: "Video too long", message: "please choose a video 20 seconds or shorter", here: viewController)
             }
             
             break
@@ -185,7 +185,7 @@ class UploadProcessDelegate:NSObject, UIImagePickerControllerDelegate, UINavigat
 
                 }else{
                     picker.dismiss(animated: true, completion: nil)
-                    Global.showAlert(title: "Video too long", message: "please choose a video 20 seconds or shorter", here: viewController)
+                    Global.global.showAlert(title: "Video too long", message: "please choose a video 20 seconds or shorter", here: viewController)
                 }
                 
                 

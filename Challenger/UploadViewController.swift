@@ -79,7 +79,7 @@ class UploadViewController: UIViewController, URLSessionDelegate, URLSessionTask
                 }
             }.resume()
         }else{
-            Global.showAlert(title: "No Video Selected", message: "please select a video", here: self)
+            Global.global.showAlert(title: "No Video Selected", message: "please select a video", here: self)
         }
     }
     

@@ -169,7 +169,7 @@ class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableVie
                 "offender":self.user.username!
             ]
             URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "report")).resume()
-            Global.showAlert(title: "User Reported", message: "justice has been served!", here: self)
+            Global.global.showAlert(title: "User Reported", message: "justice has been served!", here: self)
         }))
         alert.addAction(UIAlertAction(title: "cancel", style: .default, handler: { (UIAlertAction) in
             alert.dismiss(animated: true, completion: {})

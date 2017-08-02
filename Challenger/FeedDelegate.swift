@@ -330,7 +330,7 @@ class FeedDelegate{
     func rechallengeButtonTapped(challenge: Challenge, cell: UITableViewCell){
         //if login did not post it, rechallenge if not rechallenged, unrechallenge if rechallenged
         if challenge.author! == Global.global.loggedInUser.username!{
-            Global.showAlert(title: "You posted this Challenge", message: "you cannot rechallenge your own challenges", here: viewController)
+            Global.global.showAlert(title: "You posted this Challenge", message: "you cannot rechallenge your own challenges", here: viewController)
         }else{
             let cell = cell as! FeedTableViewCell
             if challenge.rechallengers!.contains(Global.global.loggedInUser.username!){
@@ -416,25 +416,24 @@ class FeedDelegate{
     
     //handles a challenge report
     func reportChallenge(challenge: Challenge){
-        NotificationCenter.default.removeObserver(viewController, name: .UIKeyboardWillShow, object: nil)
-        let alert = UIAlertController(title: "Report a Challenge", message: "please enter a reason for this challenge to be removed below", preferredStyle: .alert)
-        alert.addTextField(configurationHandler: {(textField) in
-            textField.placeholder = "reason"
-        })
-        alert.addAction(UIAlertAction(title: "Report", style: .destructive, handler: {(UIAlertAction) in
+//        let alert = UIAlertController(title: "Report a Challenge", message: "please enter a reason for this challenge to be removed below", preferredStyle: .alert)
+//        alert.addTextField(configurationHandler: {(textField) in
+//            textField.placeholder = "reason"
+//        })
+//        alert.addAction(UIAlertAction(title: "Report", style: .destructive, handler: {(UIAlertAction) in
             let params = [
                 "type":"challenge",
                 "username":Global.global.loggedInUser.username!,
-                "reason":alert.textFields![0].text!,
+                "reason":"",
                 "challenge":challenge.name!
             ]
             URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "report")).resume()
-            Global.showAlert(title: "Challenge Reported", message: "justice has been served!", here: self.viewController)
-        }))
-        alert.addAction(UIAlertAction(title: "cancel", style: .default, handler: { (UIAlertAction) in
-            alert.dismiss(animated: true, completion: {})
-        }))
-        viewController.present(alert, animated: true, completion: {})
+            Global.global.showAlert(title: "Challenge Reported", message: "justice has been served!", here: self.viewController)
+//        }))
+//        alert.addAction(UIAlertAction(title: "cancel", style: .default, handler: { (UIAlertAction) in
+//            alert.dismiss(animated: true, completion: {})
+//        }))
+//        viewController.present(alert, animated: true, completion: {})
     }
     
     func userTapped(_ username: String){

@@ -176,7 +176,7 @@ class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataS
     func completeSettingImage(_ json: JSON){
         switch json["success"].stringValue{
         case "false":
-            Global.showAlert(title: "Failed to set user image", message: "the user image could not be uploaded at this time", here: self)
+            Global.global.showAlert(title: "Failed to set user image", message: "the user image could not be uploaded at this time", here: self)
             break
         default:
             Global.global.imageQueues.removeValue(forKey: Global.global.loggedInUser.username!)

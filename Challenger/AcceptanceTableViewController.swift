@@ -202,7 +202,7 @@ class AcceptanceTableViewController: UITableViewController, URLSessionDelegate{
                     "offender":user.username!
                 ]
                 URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "report")).resume()
-                Global.showAlert(title: "Video Reported", message: "justice has been served!", here: self)
+                Global.global.showAlert(title: "Video Reported", message: "justice has been served!", here: self)
             }))
             alert.addAction(UIAlertAction(title: "cancel", style: .default, handler: { (UIAlertAction) in
                 alert.dismiss(animated: true, completion: {})

@@ -53,10 +53,10 @@ class CreateUserViewController: UIViewController, UITextFieldDelegate {
                         }
                         }.resume()
                 }else{
-                    Global.showAlert(title: "Username contains illegal characters", message: "username cannot contain spaces", here: self)
+                    Global.global.showAlert(title: "Username contains illegal characters", message: "username cannot contain spaces", here: self)
                 }
             }else{
-                Global.showAlert(title: "Passwords do not match", message: "please ensure your password is entered correctly in both fields", here: self)
+                Global.global.showAlert(title: "Passwords do not match", message: "please ensure your password is entered correctly in both fields", here: self)
             }
         }
     }
@@ -80,7 +80,7 @@ class CreateUserViewController: UIViewController, UITextFieldDelegate {
                 }.resume()
             break
         case "false":
-            Global.showAlert(title: "Username Taken", message: "please choose another username", here: self)
+            Global.global.showAlert(title: "Username Taken", message: "please choose another username", here: self)
             break
         default:break
         }

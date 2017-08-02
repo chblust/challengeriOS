@@ -60,7 +60,7 @@ class PostViewController: UIViewController, UITextFieldDelegate {
            }
             break
         case "false":
-            Global.showAlert(title: "Challenge name Taken!", message: "a challenge already exists with this name", here: self)
+            Global.global.showAlert(title: "Challenge name Taken!", message: "a challenge already exists with this name", here: self)
             break
         default:break
         }

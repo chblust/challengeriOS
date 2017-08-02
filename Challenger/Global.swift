@@ -36,6 +36,8 @@ class Global: NSObject{
     
     var notificationsItem: UITabBarItem!
     
+    var alerting: Bool!
+    
     //correctly formats an associative array into post request parameters and returns the binary data
     static func createPostParameters(params: [String: String])->Data{
         var postString = ""
@@ -62,9 +64,12 @@ class Global: NSObject{
     }
     
     //shows a simple pop-up view with an OK button to dismiss
-    static func showAlert(title: String, message: String, here: UIViewController){
+    func showAlert(title: String, message: String, here: UIViewController){
+        alerting = true
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: {(UIAlertAction) in
+            self.alerting = false
+        }))
         here.present(alertController, animated: true, completion: nil)
     }
     
@@ -88,11 +93,11 @@ class Global: NSObject{
     //ensures the passed text field is not empty and does not include characters that will mess with the post request
     static func textIsSafe(textView: UITextView, here: UIViewController)->Bool{
         if (textView.text == ""){
-            showAlert(title: "Empty Field", message: "please fill out all required information", here: here)
+            global.showAlert(title: "Empty Field", message: "please fill out all required information", here: here)
             return false
         }
         if (textView.text!.contains("&") || textView.text!.contains("=")){
-            showAlert(title: "Invalid Entry", message: "text entered contains illegal characters", here: here)
+            global.showAlert(title: "Invalid Entry", message: "text entered contains illegal characters", here: here)
         }
         return true
     }
@@ -101,12 +106,16 @@ class Global: NSObject{
     //same as above but with a textView
     static func textIsSafe(textField: UITextField, here: UIViewController)->Bool{
         if (textField.text == ""){
-            showAlert(title: "Empty Field", message: "please fill out all required information", here: here)
+            textField.resignFirstResponder()
+            global.showAlert(title: "Empty Field", message: "please fill out all required information", here: here)
+            
             return false
         }
         for str in banned{
             if(textField.text!.contains(str)){
-                showAlert(title: "Invalid Entry", message: "text entered contains illegal characters", here: here)
+                textField.resignFirstResponder()
+                global.showAlert(title: "Invalid Entry", message: "text entered contains illegal characters", here: here)
+                
                 return false
             }
         }
@@ -200,7 +209,7 @@ class Global: NSObject{
         }
         bannerView.frame.size.width = viewController.view.frame.width
         
-        bannerView.adUnitID = admobTestAdUnitId
+        bannerView.adUnitID = admobAdUnitId
         bannerView.rootViewController = viewController
         bannerView.load(GADRequest())
     }
