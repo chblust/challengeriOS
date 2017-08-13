@@ -8,7 +8,7 @@
 
 import UIKit
 import SwiftyJSON
-
+import BRYXBanner
 class CommentTableViewDataSource: NSObject,UITableViewDataSource, UITableViewDelegate {
     let cellId = "cc"
     var comments = [Comment]()
@@ -93,8 +93,8 @@ class CommentTableViewDataSource: NSObject,UITableViewDataSource, UITableViewDel
     }
     
     func deleteComment(comment: Comment){
-        let alert = UIAlertController(title: "Delete Comment?", message: "Are you sure you want to remove this comment?", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "delete", style: .destructive, handler: {(UIAlertAction) in
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Remove Comment", style: .destructive, handler: {(UIAlertAction) in
             URLSession.shared.dataTask(with: Global.createServerRequest(params: [
                 "type": "remove",
                 "uuid": comment.uuid
@@ -109,20 +109,23 @@ class CommentTableViewDataSource: NSObject,UITableViewDataSource, UITableViewDel
                 }.resume()
 
         }))
-        alert.addAction(UIAlertAction(title: "cancel", style: .default, handler: {(UIAlertAction) in
-            alert.dismiss(animated: true, completion: nil)
-        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         viewController.present(alert, animated: true, completion: nil)
     }
     
     func reportComment(comment: Comment){
-        let params = [
-            "type":"comment",
-            "username":Global.global.loggedInUser.username!,
-            "reason":"",
-            "uuid":comment.uuid!
-        ]
-        URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "report")).resume()
-        Global.global.showAlert(title: "Comment Reported", message: "justice has been served!", here: viewController)
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Report Comment", style: .destructive, handler: {(UIAlertAction) in
+            let params = [
+                "type":"comment",
+                "username":Global.global.loggedInUser.username!,
+                "reason":"",
+                "uuid":comment.uuid!
+            ]
+            URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "report")).resume()
+            Banner(title: "Comment Reported!", subtitle: nil, image: nil, backgroundColor: .blue, didTapBlock: nil).show(duration: 1.5)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        viewController.present(alert, animated: true, completion: nil)
     }
 }

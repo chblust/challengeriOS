@@ -19,18 +19,16 @@ extension UIViewController{
         let userListViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "userList") as! UserListViewController
         userListViewController.listType = type
         userListViewController.challenge = challenge
-        let nav = UINavigationController.init(rootViewController: userListViewController)
         Global.global.currentViewController = userListViewController
-        self.present(nav, animated: true, completion: nil)
+        self.navigationController!.pushViewController(userListViewController, animated: true)
     }
     
     func presentUserList(user: User, type: String){
         let userListViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "userList") as! UserListViewController
         userListViewController.listType = type
         userListViewController.user = user
-        let nav = UINavigationController.init(rootViewController: userListViewController)
         Global.global.currentViewController = userListViewController
-        self.present(nav, animated: true, completion: nil)
+        self.navigationController!.pushViewController(userListViewController, animated: true)
     }
     
     func presentOtherUser(username: String){
@@ -41,11 +39,7 @@ extension UIViewController{
                     OperationQueue.main.addOperation {
                         let json = JSON(data: data)
                         if json[0]["username"].exists(){
-                            let otherUserViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "otherUserViewController") as! OtherUserViewController
-                            otherUserViewController.user = Global.jsonToUser(json[0].dictionaryValue)
-                            let nav = UINavigationController(rootViewController: otherUserViewController)
-                            Global.global.currentViewController = otherUserViewController
-                            self.present(nav, animated: true, completion: nil)
+                            self.presentOtherUser(user: Global.jsonToUser(json[0].dictionaryValue))
                         }else{
                             Global.global.showAlert(title: "User Removed!", message: "This user no longer exists.", here: self)
                         }
@@ -58,10 +52,8 @@ extension UIViewController{
     func presentOtherUser(user: User){
         let otherUserViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "otherUserViewController") as! OtherUserViewController
         otherUserViewController.user = user
-        let nav = UINavigationController(rootViewController: otherUserViewController)
         Global.global.currentViewController = otherUserViewController
-        self.present(nav, animated: true, completion: nil)
-
+        self.navigationController!.pushViewController(otherUserViewController, animated: true)
     }
     
     func presentChallenge(challengeName: String){
@@ -75,13 +67,10 @@ extension UIViewController{
                         let json = JSON(data: data)
                         
                         if json["challenges"][0]["name"].exists(){
-                            print("YEEEEEEEE")
-                            print(json)
                             let challengeViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "challengeViewController") as! ChallengeViewController
                             challengeViewController.challenge = Global.jsonToChallenge(json["challenges"][0].dictionaryValue)
-                            let nav = UINavigationController.init(rootViewController: challengeViewController)
                             Global.global.currentViewController = challengeViewController
-                            self.present(nav, animated: true, completion: nil)
+                            self.navigationController!.pushViewController(challengeViewController, animated: true)
                         }else{
                             Global.global.showAlert(title: "Challenge Removed!", message: "This challenge no longer exists.", here: self)
                         }
@@ -94,9 +83,8 @@ extension UIViewController{
     func presentComment(comment: Comment){
         let commentViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "commentViewController") as! CommentViewController
         commentViewController.comment = comment
-        let nav = UINavigationController(rootViewController: commentViewController)
         Global.global.currentViewController = commentViewController
-        self.present(nav, animated: true, completion: nil)
+        self.navigationController!.pushViewController(commentViewController, animated: true)
     }
     
     func presentComment(uuid: String){

@@ -11,6 +11,7 @@ import UIKit
 import SwiftyJSON
 import AVKit
 import AVFoundation
+import BRYXBanner
 enum FeedType{
     case feed
     case top
@@ -298,12 +299,9 @@ class FeedDelegate{
     }
     
     func viewButtonTapped(challenge: Challenge, sender: Any?){
-        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        let acceptanceViewController = storyBoard.instantiateViewController(withIdentifier: "acceptanceViewController") as! AcceptanceTableViewController
+        let acceptanceViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "acceptanceViewController") as! AcceptanceTableViewController
         acceptanceViewController.challenge = challenge
-        let nav = UINavigationController.init(rootViewController: acceptanceViewController)
-        
-        viewController.present(nav, animated: true, completion: nil)
+        self.viewController.navigationController!.pushViewController(acceptanceViewController, animated: true)
     }
     
     func likeButtonTapped(challenge: Challenge, cell: UITableViewCell){
@@ -391,8 +389,8 @@ class FeedDelegate{
     
     //handles a challenge delete
     func deleteChallenge(challenge: Challenge, refresh: Bool, dismiss: Bool){
-        let alert = UIAlertController(title: "Delete Challenge", message: "are you sure you want to permanently remove this challenge?", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: {(UIAlertAction) in
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Remove Challenge", style: .destructive, handler: {(UIAlertAction) in
             let params = [
                 "challengeName":challenge.name!
             ]
@@ -403,24 +401,33 @@ class FeedDelegate{
                             self.handleRefresh()
                         }
                         if dismiss{
-                            self.viewController.dismiss(animated: true, completion: nil)
+                            self.viewController.navigationController?.popViewController(animated: true)
+                            let next = self.viewController.navigationController?.topViewController
+                            if let fvc = next as? FeedViewController{
+                                fvc.feedDelegate.handleRefresh()
+                            }else if let hvc = next as? HomeViewController{
+                                hvc.feedDelegate.handleRefresh()
+                            }else if let ovc = next as? OtherUserViewController{
+                                ovc.feedDelegate.handleRefresh()
+                            }else if let avc = next as? AcceptedTableViewController{
+                                avc.feedDelegate.handleRefresh()
+                            }else if let tvc = next as? TopChallengesViewController{
+                                tvc.feedDelegate.handleRefresh()
+                            }
                         }
                     }
                     
                 }
                 }.resume()
         }))
-        alert.addAction(UIAlertAction(title: "No", style: .default, handler: {(UIAlertAction) in alert.dismiss(animated: true, completion: {})}))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {(UIAlertAction) in alert.dismiss(animated: true, completion: {})}))
         viewController.present(alert, animated: true, completion: {})
     }
     
     //handles a challenge report
     func reportChallenge(challenge: Challenge){
-//        let alert = UIAlertController(title: "Report a Challenge", message: "please enter a reason for this challenge to be removed below", preferredStyle: .alert)
-//        alert.addTextField(configurationHandler: {(textField) in
-//            textField.placeholder = "reason"
-//        })
-//        alert.addAction(UIAlertAction(title: "Report", style: .destructive, handler: {(UIAlertAction) in
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Report Challenge", style: .destructive, handler: {(UIAlertAction) in
             let params = [
                 "type":"challenge",
                 "username":Global.global.loggedInUser.username!,
@@ -428,12 +435,12 @@ class FeedDelegate{
                 "challenge":challenge.name!
             ]
             URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "report")).resume()
-            Global.global.showAlert(title: "Challenge Reported", message: "justice has been served!", here: self.viewController)
-//        }))
-//        alert.addAction(UIAlertAction(title: "cancel", style: .default, handler: { (UIAlertAction) in
-//            alert.dismiss(animated: true, completion: {})
-//        }))
-//        viewController.present(alert, animated: true, completion: {})
+            Banner(title: "Challenge Reported!", subtitle: nil, image: nil, backgroundColor: .blue, didTapBlock: nil).show(duration: 1.5)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (UIAlertAction) in
+            alert.dismiss(animated: true, completion: {})
+        }))
+        viewController.present(alert, animated: true, completion: {})
     }
     
     func userTapped(_ username: String){

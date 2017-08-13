@@ -26,11 +26,13 @@ class FeedViewController: UITableViewController{
         uploadProcessDelegate = UploadProcessDelegate(self)
 //        feedDelegate = FeedDelegate(viewController: self, username: "", tableController: self, upd: uploadProcessDelegate, view: "feedToView", list: "feedToUserList")
         feedDelegate = FeedDelegate(viewController: self, tableController: self, upd: uploadProcessDelegate, type: .feed)
+        feedDelegate.handleRefresh()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        feedDelegate.handleRefresh()
+        self.navigationController?.popToRootViewController(animated: true)
+//        feedDelegate.handleRefresh()
         Global.global.currentViewController = self
     }
     

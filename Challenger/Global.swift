@@ -11,6 +11,7 @@ import UIKit
 import SwiftyJSON
 import GoogleMobileAds
 import PusherSwift
+import BRYXBanner
 class Global: NSObject{
     static let NOTIFICATIONS_BADGE_VALUE_KEY = "notificationsBadgeValue"
     
@@ -93,11 +94,11 @@ class Global: NSObject{
     //ensures the passed text field is not empty and does not include characters that will mess with the post request
     static func textIsSafe(textView: UITextView, here: UIViewController)->Bool{
         if (textView.text == ""){
-            global.showAlert(title: "Empty Field", message: "please fill out all required information", here: here)
+            Banner(title: "Please complete all fields", subtitle: nil, image: nil, backgroundColor: .red, didTapBlock: nil).show(duration: 1.5)
             return false
         }
         if (textView.text!.contains("&") || textView.text!.contains("=")){
-            global.showAlert(title: "Invalid Entry", message: "text entered contains illegal characters", here: here)
+            Banner(title: "Text entered contains illegal characters", subtitle: nil, image: nil, backgroundColor: .red, didTapBlock: nil).show(duration: 1.5)
         }
         return true
     }
@@ -107,14 +108,14 @@ class Global: NSObject{
     static func textIsSafe(textField: UITextField, here: UIViewController)->Bool{
         if (textField.text == ""){
             textField.resignFirstResponder()
-            global.showAlert(title: "Empty Field", message: "please fill out all required information", here: here)
+            Banner(title: "Please complete all fields", subtitle: nil, image: nil, backgroundColor: .red, didTapBlock: nil).show(duration: 1.5)
             
             return false
         }
         for str in banned{
             if(textField.text!.contains(str)){
                 textField.resignFirstResponder()
-                global.showAlert(title: "Invalid Entry", message: "text entered contains illegal characters", here: here)
+                Banner(title: "Text entered contains illegal characters", subtitle: nil, image: nil, backgroundColor: .red, didTapBlock: nil).show(duration: 1.5)
                 
                 return false
             }
@@ -209,7 +210,7 @@ class Global: NSObject{
         }
         bannerView.frame.size.width = viewController.view.frame.width
         
-        bannerView.adUnitID = admobAdUnitId
+        bannerView.adUnitID = admobTestAdUnitId
         bannerView.rootViewController = viewController
         bannerView.load(GADRequest())
     }

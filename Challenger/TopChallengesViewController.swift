@@ -24,11 +24,12 @@ class TopChallengesViewController: UITableViewController{
         self.tableView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
         uploadProcessDelegate = UploadProcessDelegate(self)
         feedDelegate = FeedDelegate(viewController: self, tableController: self, upd: uploadProcessDelegate, type: .top)
+        feedDelegate.handleRefresh()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        feedDelegate.handleRefresh()
+//        feedDelegate.handleRefresh()
         Global.global.currentViewController = self
     }
     

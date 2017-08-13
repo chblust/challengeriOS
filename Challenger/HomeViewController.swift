@@ -42,6 +42,7 @@ class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataS
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController!.setToolbarHidden(true, animated: false)
         Global.setupBannerAd(self, tab: true)
         //this only appears when setting your image
         imageUploadProgressView.isHidden = true
@@ -50,11 +51,9 @@ class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataS
         homeFeed.dataSource = self
         tableViewController.tableView = homeFeed
         tableViewController.tableView.delegate = self
-        
-//        feedDelegate = FeedDelegate(viewController: self, username: Global.global.loggedInUser.username!, tableController: tableViewController, upd: uploadProcessDelegate, view: "homeToView", list: "userListFromHome")
         feedDelegate = FeedDelegate(viewController: self, username: Global.global.loggedInUser.username!, tableController: tableViewController, upd: uploadProcessDelegate)
-       
         //set the user info labels to the logged in user metadata
+        feedDelegate.handleRefresh()
         setupHome()
     }
     

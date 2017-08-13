@@ -26,10 +26,6 @@ class UserListViewController: UITableViewController, URLSessionDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.setToolbarHidden(false, animated: true)
-        var items = [UIBarButtonItem]()
-        items.append(UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped)))
-        self.setToolbarItems(items, animated: true)
         //setup the post request based on the type of user list to be displayed
         var getUsersParams = [String:String]()
         
@@ -37,24 +33,29 @@ class UserListViewController: UITableViewController, URLSessionDelegate {
         switch listType!{
         case "followers":
             userList = user?.followers!
-            self.title = "Followers"
+//            self.title = "Followers"
+            self.navigationItem.title = "Followers"
             break
         case "following":
             userList = user?.following!
-            self.title = "Following"
+//            self.title = "Following"
+            self.navigationItem.title  = "Following"
             break
         case "challengeLikers":
             userList = challenge.likers!
-            self.title = "Likers"
+//            self.title = "Likers"
+            self.navigationItem.title  = "Likers"
             break
         case "rechallengers":
             userList = challenge.rechallengers!
-            self.title = "ReChallengers"
+//            self.title = "ReChallengers"
+            self.navigationItem.title  = "Rechallengers"
             break
         default:
             fatalError("list type not set!")
             break
         }
+        self.title = self.navigationItem.title
         var index = 0
         
         for user in userList!{
@@ -140,12 +141,6 @@ class UserListViewController: UITableViewController, URLSessionDelegate {
     
     //misc methods
     func cellTapped(user: User, sender: Any?){
-        //userPass = user
-        //performSegue(withIdentifier: "otherUserFromUserList", sender: sender)
-//        let otherUserViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "otherUserViewController") as! OtherUserViewController
-//        otherUserViewController.user = user
-//        let nav = UINavigationController(rootViewController: otherUserViewController)
-//        self.present(nav, animated: true, completion: nil)
         self.presentOtherUser(user: user)
 
     }

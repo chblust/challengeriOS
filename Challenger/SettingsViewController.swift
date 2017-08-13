@@ -10,24 +10,63 @@ import UIKit
 import SwiftyJSON
 class SettingsViewController: UIViewController, UITextFieldDelegate {
     
+    @IBOutlet weak var acceptedNotificationLabel: UILabel!
+    @IBOutlet weak var followNotificationLabel: UILabel!
+    @IBOutlet weak var likeNotificationLabel: UILabel!
+    @IBOutlet weak var rechallengeNotificationLabel: UILabel!
+    @IBOutlet weak var commentNotificationLabel: UILabel!
     @IBOutlet weak var passwordSaveButton: UIButton!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var emailSaveButton: UIButton!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var bioSaveButton: UIButton!
     @IBOutlet weak var bioTextField: UITextField!
+    
+    
+    @IBOutlet weak var acceptSwitch: UISwitch!
+    @IBOutlet weak var followSwitch: UISwitch!
+    @IBOutlet weak var likeSwitch: UISwitch!
+    @IBOutlet weak var rechallengeSwitch: UISwitch!
+    @IBOutlet weak var commentSwitch: UISwitch!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         bioTextField.delegate = self
         emailTextField.delegate = self
         passwordTextField.delegate = self
         setupFields()
-        //self.navigationController!.navigationBar.isHidden = false
+            }
+    
+    func stringToBool(_ str: String) -> Bool{
+        if str == "true"{
+            return true
+        }else{
+            return false
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         Global.global.currentViewController = self
+        URLSession.shared.dataTask(with: Global.createServerRequest(params: [
+            "username": Global.global.loggedInUser.username!,
+            "type":"getSettings"
+            ], intent: "notifications")){data, response, error in
+                if let data = data{
+                    let json = JSON(data: data)
+                    if let settings = json.dictionaryObject as? [String: String]{
+                        OperationQueue.main.addOperation {
+                            self.acceptSwitch.setOn(self.stringToBool(settings["accept"]!), animated: true)
+                            self.followSwitch.setOn(self.stringToBool(settings["follow"]!), animated: true)
+                            self.likeSwitch.setOn(self.stringToBool(settings["like"]!), animated: true)
+                            self.rechallengeSwitch.setOn(self.stringToBool(settings["rechallenge"]!), animated: true)
+                            self.commentSwitch.setOn(self.stringToBool(settings["comment"]!), animated: true)
+                        }
+                        
+                    }
+                }
+            }.resume()
+
     }
     
     func setupFields(){
@@ -154,4 +193,36 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
+    @IBAction func acceptedSwitchChanged(_ sender: UISwitch) {
+        updateNotificationSetting(to: sender.isOn, forSetting: "accept")
+    }
+    @IBAction func followSwitchChanged(_ sender: UISwitch) {
+        updateNotificationSetting(to: sender.isOn, forSetting: "follow")
+    }
+    @IBAction func likeSwitchChanged(_ sender: UISwitch) {
+        updateNotificationSetting(to: sender.isOn, forSetting: "like")
+    }
+    @IBAction func rechallengeSwitchChanged(_ sender: UISwitch) {
+        updateNotificationSetting(to: sender.isOn, forSetting: "rechallenge")
+    }
+    @IBAction func commentSwitchChanged(_ sender: UISwitch) {
+        updateNotificationSetting(to: sender.isOn, forSetting: "comment")
+    }
+    
+    func updateNotificationSetting(to: Bool, forSetting: String){
+        var update: String!
+        if to{
+            update = "true"
+        }else{
+            update = "false"
+        }
+        URLSession.shared.dataTask(with: Global.createServerRequest(params: [
+            "username": Global.global.loggedInUser.username!,
+            "type": "set",
+            "setting": forSetting,
+            "update": update,
+            ], intent: "notifications")).resume()
+    }
+
 }

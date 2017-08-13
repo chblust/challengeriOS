@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftyJSON
+import BRYXBanner
 class CommentViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var replyTextField: UITextField!
@@ -20,13 +21,9 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
     @IBOutlet weak var commentTableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.title = "Comments"
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
-        self.navigationController?.setToolbarHidden(false, animated: true)
-        var items = [UIBarButtonItem]()
-        items.append(UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped)))
-        self.setToolbarItems(items, animated: true)
-
         commentTableView.dataSource = self
         commentTableView.delegate = self
         commentTableView.reloadData()
@@ -124,8 +121,8 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func deleteComment(comment: Comment){
-        let alert = UIAlertController(title: "Delete Comment?", message: "Are you sure you want to remove this comment?", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "delete", style: .destructive, handler: {(UIAlertAction) in
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Remove Comment", style: .destructive, handler: {(UIAlertAction) in
             URLSession.shared.dataTask(with: Global.createServerRequest(params: [
                 "type": "remove",
                 "uuid": comment.uuid
@@ -136,21 +133,24 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
                 }.resume()
             
         }))
-        alert.addAction(UIAlertAction(title: "cancel", style: .default, handler: {(UIAlertAction) in
-            alert.dismiss(animated: true, completion: nil)
-        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
     
     func reportComment(comment: Comment){
-        let params = [
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Report Comment", style: .destructive, handler: {(UIAlertAction) in
+            let params = [
                 "type":"comment",
                 "username":Global.global.loggedInUser.username!,
                 "reason":"",
                 "uuid":comment.uuid!
             ]
             URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "report")).resume()
-            Global.global.showAlert(title: "Comment Reported", message: "justice has been served!", here: self)
+            Banner(title: "Comment Reported!", subtitle: nil, image: nil, backgroundColor: .blue, didTapBlock: nil).show(duration: 1.5)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
     
     @IBAction func sendButtonTapped(_ sender: UIButton) {
@@ -192,8 +192,8 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
         
         
         UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseInOut, animations: {
-            self.replyTextField.frame.origin.y -= keyboardHeight
-            self.sendButton.frame.origin.y -= keyboardHeight
+            self.replyTextField.frame.origin.y -= keyboardHeight - 45
+            self.sendButton.frame.origin.y -= keyboardHeight - 45
         }, completion: nil)
         
     }
@@ -205,8 +205,8 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
             let keyboardHeight: CGFloat = keyboardSize.height
             let _: CGFloat = info[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber as CGFloat
             UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseInOut, animations:{
-                self.replyTextField.frame.origin.y += keyboardHeight
-                self.sendButton.frame.origin.y += keyboardHeight
+                self.replyTextField.frame.origin.y += keyboardHeight - 45
+                self.sendButton.frame.origin.y += keyboardHeight - 45
             }, completion: nil)
         }
     }

@@ -54,10 +54,12 @@ class PostViewController: UIViewController, UITextFieldDelegate {
         case "true":
             challengeNameTextField.text = ""
             challengeInstructionsTextField.text = ""
-           tabBarController?.selectedIndex = 2
-           if let next = tabBarController?.viewControllers?[2] as? FeedViewController{
+            if let next = (tabBarController?.viewControllers?[2] as? UINavigationController)?.viewControllers[0] as? FeedViewController{
+                print("WEEEEEEEEEEEEE")
                 next.feedDelegate.handleRefresh()
-           }
+            }
+           tabBarController?.selectedIndex = 2
+           
             break
         case "false":
             Global.global.showAlert(title: "Challenge name Taken!", message: "a challenge already exists with this name", here: self)

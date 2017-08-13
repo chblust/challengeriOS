@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 import SwiftyJSON
-
+import BRYXBanner
 class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableViewDataSource, UITableViewDelegate {
     //the user that's page is being displayed, set ahead of time by previous view controller
     var user: User!
@@ -42,10 +42,7 @@ class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableVie
     //methods that set up metadata views
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.setToolbarHidden(false, animated: true)
-        var items = [UIBarButtonItem]()
-        items.append(UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped)))
-        self.setToolbarItems(items, animated: true)
+        
         Global.setupBannerAd(self, tab: true)
         followerCountButton.setTitle("\(user.followers!.count)", for: .normal)
         followingCountButton.setTitle("\(user.following!.count)", for: .normal)
@@ -79,11 +76,12 @@ class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableVie
         //retrieve the userImage from the server
         Global.global.getUserImage(username: user.username!, view: userImage)
         feedDelegate = FeedDelegate(viewController: self, username: user.username!, tableController: tableViewController, upd: uploadProcessDelegate)
+        feedDelegate.handleRefresh()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        feedDelegate.handleRefresh()
+//        feedDelegate.handleRefresh()
         Global.global.currentViewController = self
     }
     
@@ -95,21 +93,21 @@ class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableVie
         return feedDelegate.getChallengeCell(indexPath: indexPath)
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        //if its a user list, pass the type and the user
-        if (sender as? UIButton == followersButton || sender as? UIButton == followingButton){
-            let nextViewController = segue.destination as! UITableViewController
-            let nextUserListController = nextViewController as? UserListViewController
-            nextUserListController?.listType = listTypePass
-            nextUserListController?.user = self.user
-
-        //if its a generic user list, the feedDelegate has achieved sentience and all control should immediately be handed over to it
-        }else if let next = segue.destination as? UserListViewController{
-            next.listType = feedDelegate.listTypePass
-            next.challenge = feedDelegate.challengePass
-        }
-        
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        //if its a user list, pass the type and the user
+//        if (sender as? UIButton == followersButton || sender as? UIButton == followingButton){
+//            let nextViewController = segue.destination as! UITableViewController
+//            let nextUserListController = nextViewController as? UserListViewController
+//            nextUserListController?.listType = listTypePass
+//            nextUserListController?.user = self.user
+//
+//        //if its a generic user list, the feedDelegate has achieved sentience and all control should immediately be handed over to it
+//        }else if let next = segue.destination as? UserListViewController{
+//            next.listType = feedDelegate.listTypePass
+//            next.challenge = feedDelegate.challengePass
+//        }
+//        
+//    }
     
     //MARK: Button Methods
     
@@ -127,7 +125,6 @@ class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableVie
     }
     @IBAction func followButtonPressed(_ sender: UIButton) {
         if user.followers!.contains(Global.global.loggedInUser.username!){
-//            followButton.setImage(UIImage(named: "follow"), for: .normal)
             followButton.setTitle("Follow", for: .normal)
             followButton.backgroundColor = UIColor.gray
             user.followers!.remove(at: user.followers!.index(of: Global.global.loggedInUser.username!)!)
@@ -135,7 +132,6 @@ class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableVie
             Global.global.loggedInUser.following!.remove(at: Global.global.loggedInUser.following!.index(of: user.username!)!)
             
         }else{
-            //followButton.setImage(UIImage(named: "following"), for: .normal)
             followButton.setTitle("Following", for: .normal)
             followButton.backgroundColor = followingColor
             user.followers!.append(Global.global.loggedInUser.username!)
@@ -157,23 +153,19 @@ class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableVie
     }
     
     @IBAction func reportButtonPressed(_ sender: UIButton) {
-        let alert = UIAlertController(title: "Report a User", message: "please enter a reason for this user to be removed below", preferredStyle: .alert)
-        alert.addTextField(configurationHandler: {(textField) in
-            textField.placeholder = "reason"
-        })
-        alert.addAction(UIAlertAction(title: "Report", style: .destructive, handler: {(UIAlertAction) in
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
+        alert.addAction(UIAlertAction(title: "Report User", style: .destructive, handler: {(UIAlertAction) in
             let params = [
                 "type":"user",
                 "username":Global.global.loggedInUser.username!,
-                "reason":alert.textFields![0].text!,
+                "reason":"",
                 "offender":self.user.username!
             ]
             URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "report")).resume()
-            Global.global.showAlert(title: "User Reported", message: "justice has been served!", here: self)
+            Banner(title: "User Reported!", subtitle: nil, image: nil, backgroundColor: .blue, didTapBlock: nil).show(duration: 1.5)
         }))
-        alert.addAction(UIAlertAction(title: "cancel", style: .default, handler: { (UIAlertAction) in
-            alert.dismiss(animated: true, completion: {})
-        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(alert, animated: true, completion: {})
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

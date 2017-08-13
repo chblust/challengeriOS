@@ -10,7 +10,7 @@ import UIKit
 import SwiftyJSON
 import AVFoundation
 import MobileCoreServices
-
+import BRYXBanner
 class UploadProcessDelegate:NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     //var videoMethod: String?
     var videoExists: Bool?
@@ -37,7 +37,8 @@ class UploadProcessDelegate:NSObject, UIImagePickerControllerDelegate, UINavigat
                         self.acceptChallenge(challenge: challenge, sender: sender)
                         break
                     case "true":
-                        Global.global.showAlert(title: "Challenge already accepted!", message: "You cannot accept a challenge more than once!", here: self.viewController!)
+                       // Global.global.showAlert(title: "Challenge already accepted!", message: "You cannot accept a challenge more than once!", here: self.viewController!)
+                        Banner(title: "You've already accepted this challenge!", subtitle: "", image: UIImage(named: "challengeImage"), backgroundColor: UIColor.blue, didTapBlock: nil).show(duration: 1.5);
                         break
                     default:break
                     }
@@ -48,8 +49,8 @@ class UploadProcessDelegate:NSObject, UIImagePickerControllerDelegate, UINavigat
     //presents the two methods of getting the video to upload in a pop up
     func acceptChallenge(challenge: Challenge, sender: Any?){
        // challengePass = challenge
-        let videoChoice = UIAlertController(title: "Upload a video", message: "choose a video from your library, or capture one right now", preferredStyle: UIAlertControllerStyle.alert)
-        videoChoice.addAction(UIAlertAction(title: "Choose", style: .default, handler: { (action: UIAlertAction!) in
+        let videoChoice = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        videoChoice.addAction(UIAlertAction(title: "Choose Video", style: .default, handler: { (action: UIAlertAction!) in
             
             videoChoice.dismiss(animated: true, completion: nil)
             self.videoExists = true
@@ -57,7 +58,7 @@ class UploadProcessDelegate:NSObject, UIImagePickerControllerDelegate, UINavigat
             
         }))
         
-        videoChoice.addAction(UIAlertAction(title: "Capture", style: .default, handler: { (action: UIAlertAction!) in
+        videoChoice.addAction(UIAlertAction(title: "Capture Video", style: .default, handler: { (action: UIAlertAction!) in
             
             videoChoice.dismiss(animated: true, completion: nil)
             self.videoExists = false
@@ -65,7 +66,7 @@ class UploadProcessDelegate:NSObject, UIImagePickerControllerDelegate, UINavigat
            
         }))
         
-        videoChoice.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (action: UIAlertAction!) in
+        videoChoice.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
             
             videoChoice.dismiss(animated: true, completion: nil)
         }))

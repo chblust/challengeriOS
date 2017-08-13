@@ -20,6 +20,7 @@ import UIKit
 import SwiftyJSON
 import AVFoundation
 import AVKit
+import BRYXBanner
 class AcceptanceTableViewController: UITableViewController, URLSessionDelegate{
     var challenge: Challenge!
     var playerViewController: AVPlayerViewController!
@@ -31,11 +32,6 @@ class AcceptanceTableViewController: UITableViewController, URLSessionDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.setToolbarHidden(false, animated: true)
-        
-        var items = [UIBarButtonItem]()
-        items.append(UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped)))
-        self.setToolbarItems(items, animated: true)
         
         fillTable()
     }
@@ -116,14 +112,17 @@ class AcceptanceTableViewController: UITableViewController, URLSessionDelegate{
     
     func cellTapped(user: String, sender: UITableViewCell){
         //the following brings up a stream of the user's uploaded video
+        playerViewController = AVPlayerViewController()
+        playerViewController.videoGravity = AVLayerVideoGravityResize
         let path = "\(Global.ip)/uploads/\(Global.getServerSafeName(challenge.name!))/\(user)/4-medium/4-medium.m3u8"
         print(path)
         let url = URL(string: path)
         let avasset = AVURLAsset(url: url!)
         let item = AVPlayerItem(asset: avasset)
         let player = AVPlayer(playerItem: item)
-        playerViewController = AVPlayerViewController()
+        
         playerViewController.player = player
+        
         
         self.present(playerViewController, animated: true){() -> Void in
             self.playerViewController.player!.play()
@@ -175,8 +174,8 @@ class AcceptanceTableViewController: UITableViewController, URLSessionDelegate{
         var params = [String: String]()
         
         if user.username! == Global.global.loggedInUser.username! || challenge.author! == Global.global.loggedInUser.username!{
-            let alert = UIAlertController(title: "Delete Video", message: "are you sure you want to permanently remove this video?", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: {(UIAlertAction) in
+            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            alert.addAction(UIAlertAction(title: "Remove Video", style: .destructive, handler: {(UIAlertAction) in
                 params = [
                     "uploader": user.username!,
                     "challengeName": self.challenge.name!
@@ -184,27 +183,25 @@ class AcceptanceTableViewController: UITableViewController, URLSessionDelegate{
                 URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "removeVideo")){data, response, error in
 
                     }.resume()
-                self.doneButtonTapped()
+                cell.removeFromSuperview()
             }))
-            alert.addAction(UIAlertAction(title: "No", style: .default, handler: {(UIAlertAction) in alert.dismiss(animated: true, completion: {})}))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {(UIAlertAction) in alert.dismiss(animated: true, completion: {})}))
             present(alert, animated: true, completion: {})
         }else{
-            let alert = UIAlertController(title: "Report a Video", message: "please enter a reason for this challenge to be removed below", preferredStyle: .alert)
-            alert.addTextField(configurationHandler: {(textField) in
-                textField.placeholder = "reason"
-            })
-            alert.addAction(UIAlertAction(title: "Report", style: .destructive, handler: {(UIAlertAction) in
+            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+           
+            alert.addAction(UIAlertAction(title: "Report Video", style: .destructive, handler: {(UIAlertAction) in
                 let params = [
                     "type":"video",
                     "username":Global.global.loggedInUser.username!,
-                    "reason":alert.textFields![0].text!,
+                    "reason":"",
                     "challenge":self.challenge.name!,
                     "offender":user.username!
                 ]
                 URLSession.shared.dataTask(with: Global.createServerRequest(params: params, intent: "report")).resume()
-                Global.global.showAlert(title: "Video Reported", message: "justice has been served!", here: self)
+                Banner(title: "Video Reported!", subtitle: nil, image: nil, backgroundColor: .blue, didTapBlock: nil).show(duration: 1.5)
             }))
-            alert.addAction(UIAlertAction(title: "cancel", style: .default, handler: { (UIAlertAction) in
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (UIAlertAction) in
                 alert.dismiss(animated: true, completion: {})
             }))
             present(alert, animated: true, completion: {})

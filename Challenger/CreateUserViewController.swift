@@ -8,7 +8,7 @@
 
 import UIKit
 import SwiftyJSON
-class CreateUserViewController: UIViewController, UITextFieldDelegate {
+class CreateUserViewController: UIViewController, UITextFieldDelegate, UIPopoverPresentationControllerDelegate {
     //references to the views
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
@@ -28,13 +28,22 @@ class CreateUserViewController: UIViewController, UITextFieldDelegate {
         emailTextField.delegate = self
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     @IBAction func acceptButtonPressed(_ sender: UIButton) {
         //checks for obscenities, illegal symbols, and password matching
         if Global.textIsSafe(textField: usernameTextField, here: self) && Global.textIsSafe(textField: passwordTextField, here: self) && Global.textIsSafe(textField: bioTextField, here: self) && Global.textIsSafe(textField: emailTextField, here: self){
-
             if passwordTextField.text! == repeatPasswordTextField.text!{
                 if !usernameTextField.text!.characters.contains(" "){
                         //attempt user creation with server
@@ -130,6 +139,20 @@ class CreateUserViewController: UIViewController, UITextFieldDelegate {
             next.selectedIndex = 2
             next.customizableViewControllers = nil
         }
+    }
+    @IBAction func termsAndConditionsButtonTapped(_ sender: UIButton) {
+        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "termsAndConditions")
+        vc.modalPresentationStyle = .popover
+        let popover = vc.popoverPresentationController!
+        popover.delegate = self
+        popover.permittedArrowDirections = .down
+        popover.sourceView = sender as? UIView
+        popover.sourceRect = sender.bounds
+        self.present(vc, animated: true, completion: nil)
+    }
+    
+    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        return .none
     }
 
 }

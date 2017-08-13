@@ -22,11 +22,12 @@ class AcceptedTableViewController: UITableViewController {
         uploadProcessDelegate = UploadProcessDelegate(self)
 //        feedDelegate = FeedDelegate(viewController: self, username: "=", tableController: self, upd: uploadProcessDelegate, view: "acceptedToView", list: "acceptedToUserList")
         feedDelegate = FeedDelegate(viewController: self, tableController: self, upd: uploadProcessDelegate, type: .accepted)
+        feedDelegate.handleRefresh()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        feedDelegate.handleRefresh()
+//        feedDelegate.handleRefresh()
         Global.global.currentViewController = self
     }
     

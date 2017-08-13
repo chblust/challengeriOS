@@ -22,12 +22,10 @@ class ChallengeViewController: UIViewController, UITableViewDataSource, UITableV
     var uploadProcessDelegate: UploadProcessDelegate!
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = challenge.name!
+        self.navigationItem.title = challenge.name!
         commentsDataSource = CommentTableViewDataSource(self)
         self.commentTextField.delegate = self
-        self.navigationController?.setToolbarHidden(false, animated: true)
-        var items = [UIBarButtonItem]()
-        items.append(UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped)))
-        self.setToolbarItems(items, animated: true)
         uploadProcessDelegate = UploadProcessDelegate(self)
         tableViewController = UITableViewController()
         tableViewController.tableView = tableView
@@ -125,8 +123,8 @@ class ChallengeViewController: UIViewController, UITableViewDataSource, UITableV
         
         
             UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseInOut, animations: {
-                self.commentTextField.frame.origin.y -= keyboardHeight
-                self.sendButton.frame.origin.y -= keyboardHeight
+                self.commentTextField.frame.origin.y -= keyboardHeight - 45
+                self.sendButton.frame.origin.y -= keyboardHeight - 45
             }, completion: nil)
         }else{
             print("not first responder")
@@ -141,8 +139,8 @@ class ChallengeViewController: UIViewController, UITableViewDataSource, UITableV
             let keyboardHeight: CGFloat = keyboardSize.height
             let _: CGFloat = info[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber as CGFloat
             UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseInOut, animations:{
-                self.commentTextField.frame.origin.y += keyboardHeight
-                self.sendButton.frame.origin.y += keyboardHeight
+                self.commentTextField.frame.origin.y += keyboardHeight - 45
+                self.sendButton.frame.origin.y += keyboardHeight - 45
             }, completion: nil)
         }
     }

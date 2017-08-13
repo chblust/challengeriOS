@@ -10,21 +10,34 @@ import UIKit
 import SwiftyJSON
 import GoogleMobileAds
 import PusherSwift
+import MediaPlayer
 class LoginViewController: UIViewController, UITextFieldDelegate, URLSessionDelegate {
     //references to views
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var welcomeToChallengerLabel: UILabel!
     
+    @IBOutlet weak var indicatorLabel: UILabel!
     @IBOutlet weak var passwordField: UITextField!
     
     @IBOutlet weak var loginButton: UIButton!
     
     @IBOutlet weak var createUserButton: UIButton!
+    var moviePlayer: MPMoviePlayerController!
     override func viewDidLoad() {
         super.viewDidLoad()
+        indicatorLabel.isHidden = true
+        let videoUrl = Bundle.main.url(forResource: "loginVideo", withExtension: "mp4")
+        self.moviePlayer = MPMoviePlayerController(contentURL: videoUrl)
+        self.moviePlayer.controlStyle = .none
+        self.moviePlayer.scalingMode = .aspectFill
+        self.moviePlayer.view.frame = self.view.frame
+        self.view.insertSubview(moviePlayer.view, at: 0)
+        self.moviePlayer.play()
+        NotificationCenter.default.addObserver(self, selector: #selector(loopVideo), name: NSNotification.Name.MPMoviePlayerPlaybackDidFinish, object: self.moviePlayer)
+        self.navigationItem.title = "Login"
         Global.global.currentViewController = self
         Global.setupBannerAd(self, tab: false)
-        
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
         self.navigationController?.setToolbarHidden(true, animated: true)
         self.usernameField.center.x -= self.view.bounds.width
         self.passwordField.center.x -= self.view.bounds.width
@@ -96,7 +109,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate, URLSessionDele
                         OperationQueue.main.addOperation {
                             //set the username for automatic login
                             UserDefaults.standard.set(username, forKey: "loginUsername")
-                            
                             self.completeLogin(response: json["success"].stringValue, username: username, sender: sender)
                         }
                     }
@@ -109,6 +121,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, URLSessionDele
         switch response{
         case "true":
             //get the user metadata, set login, go to home page
+            indicatorLabel.isHidden = true
                 URLSession.shared.dataTask(with: Global.createServerRequest(params: [
                     "usernames[0]": username
                     ], intent: "getUsers")){data, response, error in
@@ -126,11 +139,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate, URLSessionDele
             
             break
         case "false":
-            Global.global.showAlert(title: "Login failed!", message: "credentials didn't match", here: self)
+            indicatorLabel.text = "Password Incorrect"
+            indicatorLabel.isHidden = false
             break
         default:
             //if server returns null
-            Global.global.showAlert(title: "Invalid Username", message: "the entered username does not exist", here: self)
+            indicatorLabel.text = "User does not exist"
+            indicatorLabel.isHidden = false
             break
         }
     }
@@ -159,4 +174,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, URLSessionDele
         super.didReceiveMemoryWarning()
     }
     @IBAction func unwindToVC1(segue:UIStoryboardSegue) { }
+    func loopVideo(){
+        self.moviePlayer.play()
+    }
 }
