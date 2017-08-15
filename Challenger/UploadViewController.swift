@@ -9,6 +9,7 @@
 import UIKit
 import SwiftyJSON
 import AVFoundation
+import BRYXBanner
 class UploadViewController: UIViewController, URLSessionDelegate, URLSessionTaskDelegate{
     //here are the references to the views
     @IBOutlet weak var imageView: UIImageView!
@@ -21,13 +22,14 @@ class UploadViewController: UIViewController, URLSessionDelegate, URLSessionTask
     var previewImage: UIImage?
     var videoData: Data?
     var challenge: Challenge?
-    
+    var feed: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
         Global.setupBannerAd(self, tab: false)
         
         //set the image to the preview of the selected video
-        imageView.image = previewImage
+//        imageView.image = previewImage
+        Global.global.setUserImage(image: previewImage!, imageView: imageView)
         
         //ensures the processing indicator is hidden
         processingActivityIndicatorView.hidesWhenStopped = true
@@ -89,22 +91,23 @@ class UploadViewController: UIViewController, URLSessionDelegate, URLSessionTask
         processingActivityIndicatorView.stopAnimating()
         switch success{
         case "true":
-            let alertController = UIAlertController(title: "Success!", message: "your video has been uploaded to the challenge: \(challenge!.name!)", preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: {(UIAlertAction) in
-                self.performSegue(withIdentifier: "unwindToFeed", sender: sender)
-            }))
-            present(alertController, animated: true, completion: nil)
+            Banner(title: "Video Successfully Uploaded!", subtitle: self.challenge?.name, image: nil, backgroundColor: UIColor.darkGray, didTapBlock: {
+                Global.global.currentViewController.presentAcceptances(challenge: self.challenge!)
+            }).show(duration: 1.5)
+            for cell in feed.visibleCells{
+                if let cell = cell as? FeedTableViewCell{
+                    if cell.challengeNameLabel.text == self.challenge?.name!{
+                        cell.acceptCountLabel.text = "\(Int(cell.acceptCountLabel.text!)! + 1)"
+                    }
+                }
+            }
             break
         case "false":
-            
-            let alertController = UIAlertController(title: "Failure!", message: "your video could not be uploaded to the challenge at this time", preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: {(UIAlertAction) in
-                self.performSegue(withIdentifier: "unwindToFeed", sender: sender)
-            }))
-            present(alertController, animated: true, completion: nil)
+            Banner(title: "Error Uploading Video", subtitle: "Please try again later", image: nil, backgroundColor: UIColor.red, didTapBlock: {}).show(duration: 1.5)
         default:
             break
         }
+        self.dismiss(animated: true, completion: {})
     }
     
     //method that allows the progress of the upload to be sent to the progress bar

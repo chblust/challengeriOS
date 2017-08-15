@@ -23,6 +23,7 @@ class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableVie
     @IBOutlet weak var bioTextView: UITextView!
     @IBOutlet weak var followerCountButton: UIButton!
     @IBOutlet weak var followingCountButton: UIButton!
+    @IBOutlet weak var acceptedCountButton: UIButton!
     
     
     
@@ -46,6 +47,7 @@ class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableVie
         Global.setupBannerAd(self, tab: true)
         followerCountButton.setTitle("\(user.followers!.count)", for: .normal)
         followingCountButton.setTitle("\(user.following!.count)", for: .normal)
+        acceptedCountButton.setTitle("\(user.acceptedCount!)", for: .normal)
         followButton.layer.borderWidth = 1
         //set the image for the follow button depending on whether or not the login is following the user
         if (user.followers!.contains(Global.global.loggedInUser.username!)){
@@ -75,7 +77,7 @@ class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableVie
         bioTextView.text = user!.bio
         //retrieve the userImage from the server
         Global.global.getUserImage(username: user.username!, view: userImage)
-        feedDelegate = FeedDelegate(viewController: self, username: user.username!, tableController: tableViewController, upd: uploadProcessDelegate)
+        feedDelegate = FeedDelegate(viewController: self, username: user.username!, tableController: tableViewController, upd: uploadProcessDelegate, type: .home)
         feedDelegate.handleRefresh()
     }
     
@@ -116,6 +118,9 @@ class OtherUserViewController:  UIViewController, URLSessionDelegate, UITableVie
     }
     @IBAction func followingButtonPressed(_ sender: UIButton) {
         self.presentUserList(user: user, type: "following")
+    }
+    @IBAction func acceptedButtonTapped(_ sender: UIButton) {
+        self.presentAccepted(username: self.user.username!)
     }
     
     override func didReceiveMemoryWarning() {

@@ -27,6 +27,12 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
         Global.setupBannerAd(self, tab: true)
         searchBar.delegate = self
         tableView.dataSource = self
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "top"), for: .normal)
+        button.setTitle("Top 50", for: .normal)
+        button.sizeToFit()
+        button.addTarget(self, action: #selector(topButtonTapped(_:)), for: .touchUpInside)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: button)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -121,12 +127,15 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         //if its the other user view, pass the user
-        if let next = segue.destination as? OtherUserViewController{
-            next.user = userPass
-        //if its the single challenge view, pass the challenge
-        }else if let next = segue.destination as? ChallengeViewController{
-            next.challenge = challengePass
-        }
+//        if let next = segue.destination as? OtherUserViewController{
+//            next.user = userPass
+//        //if its the single challenge view, pass the challenge
+//        }else if let next = segue.destination as? ChallengeViewController{
+//            next.challenge = challengePass
+//        }
+    }
+    func topButtonTapped(_ sender: UIBarButtonItem) {
+        self.presentTop()
     }
     
     //misc methods

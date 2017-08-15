@@ -14,6 +14,8 @@ import AVFoundation
 import Photos
 class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, URLSessionTaskDelegate, UITableViewDelegate{
     //references to views
+    @IBOutlet weak var acceptedCountButton: UIButton!
+    @IBOutlet weak var acceptedButton: UIButton!
     @IBOutlet weak var imageUploadProgressView: UIProgressView!
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var bioTextView: UITextView!
@@ -51,7 +53,7 @@ class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataS
         homeFeed.dataSource = self
         tableViewController.tableView = homeFeed
         tableViewController.tableView.delegate = self
-        feedDelegate = FeedDelegate(viewController: self, username: Global.global.loggedInUser.username!, tableController: tableViewController, upd: uploadProcessDelegate)
+        feedDelegate = FeedDelegate(viewController: self, username: Global.global.loggedInUser.username!, tableController: tableViewController, upd: uploadProcessDelegate, type: .home)
         //set the user info labels to the logged in user metadata
         feedDelegate.handleRefresh()
         setupHome()
@@ -91,6 +93,7 @@ class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataS
         //usernameLabel.text = Global.global.loggedInUser.username
         followerCountButton.setTitle("\(Global.global.loggedInUser.followers!.count)", for: .normal)
         followingCountButton.setTitle("\(Global.global.loggedInUser.following!.count)", for: .normal)
+        acceptedCountButton.setTitle("\(Global.global.loggedInUser.acceptedCount!)", for: .normal)
         bioTextView.text = Global.global.loggedInUser.bio
         
         Global.global.getUserImage(username: Global.global.loggedInUser.username!, view: userImage)
@@ -100,18 +103,18 @@ class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataS
     //determines what information needs to be passed to the next segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         //if its a user list, pass the type and the logged in user
-        let sender = sender as! UIButton
-        if (sender == followersButton || sender == followingButton || sender == followerCountButton || sender == followingCountButton){
-            let nextViewController = segue.destination as! UITableViewController
-            let nextUserListController = nextViewController as? UserListViewController
-            nextUserListController?.listType = listTypePass
-            nextUserListController?.user = Global.global.loggedInUser
-            
-        //if its a generic user list, dont panic, the feed delegate initiated it, so just give it the info the feedDelegate has for it
-        }else if let next = segue.destination as? UserListViewController{
-            next.listType = feedDelegate.listTypePass
-            next.challenge = feedDelegate.challengePass
-        }
+//        let sender = sender as! UIButton
+//        if (sender == followersButton || sender == followingButton || sender == followerCountButton || sender == followingCountButton){
+//            let nextViewController = segue.destination as! UITableViewController
+//            let nextUserListController = nextViewController as? UserListViewController
+//            nextUserListController?.listType = listTypePass
+//            nextUserListController?.user = Global.global.loggedInUser
+//            
+//        //if its a generic user list, dont panic, the feed delegate initiated it, so just give it the info the feedDelegate has for it
+//        }else if let next = segue.destination as? UserListViewController{
+//            next.listType = feedDelegate.listTypePass
+//            next.challenge = feedDelegate.challengePass
+//        }
     }
     
     //functions that initiate a segue to a user list
@@ -122,6 +125,9 @@ class HomeViewController: UIViewController, URLSessionDelegate, UITableViewDataS
 //        listTypePass = "following"
 //        performSegue(withIdentifier: "userListFromHome", sender: sender)
         self.presentUserList(user: Global.global.loggedInUser, type: "following")
+    }
+    @IBAction func acceptedButtonTapped(_ sender: UIButton) {
+        self.presentAccepted(username: Global.global.loggedInUser.username!)
     }
     
     @IBAction func userImageTapped(_ sender: UITapGestureRecognizer) {

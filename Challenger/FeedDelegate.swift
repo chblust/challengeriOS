@@ -40,11 +40,11 @@ class FeedDelegate{
     //variables passed to future view controllers through segues
     var listTypePass:String!
     var challengePass: Challenge!
-    init(viewController: UIViewController, username: String, tableController: UITableViewController, upd: UploadProcessDelegate){
+    init(viewController: UIViewController, username: String, tableController: UITableViewController, upd: UploadProcessDelegate, type: FeedType){
         self.viewController = viewController
-        tableViewController = tableController
+        self.tableViewController = tableController
         self.username = username
-        feedType = .home
+        feedType = type
         self.uploadProcessDelegate = UploadProcessDelegate(viewController)
         
         refreshControl = UIRefreshControl()
@@ -93,7 +93,7 @@ class FeedDelegate{
             case FeedType.accepted:
                 params = [
                     "type":"accepted",
-                    "username":Global.global.loggedInUser.username!
+                    "username":username
                 ]
             break
             case FeedType.home:
@@ -151,8 +151,10 @@ class FeedDelegate{
                 let cell = tableViewController.tableView.dequeueReusableCell(withIdentifier: "ac", for: indexPath) as! FollowingAcceptanceTableViewCell
                 cell.setupDesign()
                 //set the data and tap action
-                cell.messageButton.setTitle("\(challenge.poster!) has accepted the challenge: \(challenge.name!)", for: .normal)
+                cell.messageButton.setTitle("\(challenge.poster!) has accepted the challenge:", for: .normal)
                 cell.messageButtonAction = {[weak self] (cell) in self?.messageButtonTapped(challenge: challenge, cell: cell)}
+                cell.challengeButton.setTitle("\(challenge.name!)", for: .normal)
+                cell.challengeAction = {[weak self] (cell) in self?.challengeButtonTapped(challenge: challenge)}
                 cell.userImageAction = {[weak self] (cell) in self?.userTapped(challenge.poster!)}
                 
                 Global.global.getUserImage(username: challenge.poster!, view: cell.userImage)
@@ -299,9 +301,7 @@ class FeedDelegate{
     }
     
     func viewButtonTapped(challenge: Challenge, sender: Any?){
-        let acceptanceViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "acceptanceViewController") as! AcceptanceTableViewController
-        acceptanceViewController.challenge = challenge
-        self.viewController.navigationController!.pushViewController(acceptanceViewController, animated: true)
+        viewController.presentAcceptances(challenge: challenge)
     }
     
     func likeButtonTapped(challenge: Challenge, cell: UITableViewCell){
@@ -328,7 +328,7 @@ class FeedDelegate{
     func rechallengeButtonTapped(challenge: Challenge, cell: UITableViewCell){
         //if login did not post it, rechallenge if not rechallenged, unrechallenge if rechallenged
         if challenge.author! == Global.global.loggedInUser.username!{
-            Global.global.showAlert(title: "You posted this Challenge", message: "you cannot rechallenge your own challenges", here: viewController)
+            Banner(title: "You posted this Challenge!", subtitle: "You cannot rechallenge your own challenges", image: nil, backgroundColor: UIColor.darkGray, didTapBlock: {}).show(duration: 1.5)
         }else{
             let cell = cell as! FeedTableViewCell
             if challenge.rechallengers!.contains(Global.global.loggedInUser.username!){
@@ -381,6 +381,10 @@ class FeedDelegate{
                                                selector: #selector(self.playerDidFinish(_:)),
                                                name: .AVPlayerItemDidPlayToEndTime,
                                                object: player.currentItem)
+    }
+    
+    func challengeButtonTapped(challenge: Challenge){
+        viewController.presentChallenge(challengeName: challenge.name!)
     }
     
     @objc func playerDidFinish(_ player: AVPlayer){

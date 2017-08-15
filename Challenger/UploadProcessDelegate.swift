@@ -16,9 +16,25 @@ class UploadProcessDelegate:NSObject, UIImagePickerControllerDelegate, UINavigat
     var videoExists: Bool?
     //variables that are set in the UploadViewController ahead of time
     var viewController: UIViewController!
+    var tableView: UITableView!
     var segueIdentifier: String!
     init(_ viewController: UIViewController){
         self.viewController = viewController
+        if let vc = self.viewController as? ChallengeViewController{
+            self.tableView = vc.tableView
+        }
+        if let vc = self.viewController as? FeedViewController{
+            self.tableView = vc.tableView
+        }
+        if let vc = self.viewController as? HomeViewController{
+            self.tableView = vc.tableViewController.tableView
+        }
+        if let vc = self.viewController as? OtherUserViewController{
+            self.tableView = vc.tableViewController.tableView
+        }
+        if let vc = self.viewController as? TopChallengesViewController{
+            self.tableView = vc.tableView
+        }
     }
     
     //universal method that is called whenever an accept button is tapped
@@ -37,8 +53,7 @@ class UploadProcessDelegate:NSObject, UIImagePickerControllerDelegate, UINavigat
                         self.acceptChallenge(challenge: challenge, sender: sender)
                         break
                     case "true":
-                       // Global.global.showAlert(title: "Challenge already accepted!", message: "You cannot accept a challenge more than once!", here: self.viewController!)
-                        Banner(title: "You've already accepted this challenge!", subtitle: "", image: UIImage(named: "challengeImage"), backgroundColor: UIColor.blue, didTapBlock: nil).show(duration: 1.5);
+                        Banner(title: "You've already accepted this challenge!", subtitle: "", image: nil, backgroundColor: UIColor.darkGray, didTapBlock: nil).show(duration: 1.5);
                         break
                     default:break
                     }
@@ -146,7 +161,7 @@ class UploadProcessDelegate:NSObject, UIImagePickerControllerDelegate, UINavigat
               showUploadViewController(challenge: picker.challenge!, previewImage: videoPreview!, videoData: videoData)
             }else{
                 picker.dismiss(animated: true, completion: nil)
-                Global.global.showAlert(title: "Video too long", message: "please choose a video 20 seconds or shorter", here: viewController)
+                Banner(title: "Video too long!", subtitle: "Please choose a video 20 seconds or shorter", image: nil, backgroundColor: UIColor.darkGray, didTapBlock: {}).show(duration: 1.5)
             }
             
             break
@@ -186,7 +201,7 @@ class UploadProcessDelegate:NSObject, UIImagePickerControllerDelegate, UINavigat
 
                 }else{
                     picker.dismiss(animated: true, completion: nil)
-                    Global.global.showAlert(title: "Video too long", message: "please choose a video 20 seconds or shorter", here: viewController)
+                    Banner(title: "Video too long!", subtitle: "Please choose a video 20 seconds or shorter", image: nil, backgroundColor: UIColor.darkGray, didTapBlock: {}).show(duration: 1.5)
                 }
                 
                 
@@ -203,6 +218,7 @@ class UploadProcessDelegate:NSObject, UIImagePickerControllerDelegate, UINavigat
         uploadViewController.challenge = challenge
         uploadViewController.previewImage = previewImage
         uploadViewController.videoData = videoData
+        uploadViewController.feed = self.tableView
         viewController.present(uploadViewController, animated: true, completion: nil)
 
     }

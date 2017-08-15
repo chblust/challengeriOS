@@ -15,13 +15,12 @@ class AcceptedTableViewController: UITableViewController {
     
     //object that constrols the upload process for challenges
     var uploadProcessDelegate: UploadProcessDelegate!
-    
+    var username: String!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
         uploadProcessDelegate = UploadProcessDelegate(self)
-//        feedDelegate = FeedDelegate(viewController: self, username: "=", tableController: self, upd: uploadProcessDelegate, view: "acceptedToView", list: "acceptedToUserList")
-        feedDelegate = FeedDelegate(viewController: self, tableController: self, upd: uploadProcessDelegate, type: .accepted)
+        feedDelegate = FeedDelegate(viewController: self, username: username, tableController: self, upd: uploadProcessDelegate, type: .accepted)
         feedDelegate.handleRefresh()
     }
     

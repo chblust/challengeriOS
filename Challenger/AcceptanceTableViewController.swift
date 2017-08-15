@@ -184,6 +184,55 @@ class AcceptanceTableViewController: UITableViewController, URLSessionDelegate{
 
                     }.resume()
                 cell.removeFromSuperview()
+                if let feed = self.navigationController!.viewControllers[self.navigationController!.viewControllers.index(of: self.navigationController!.topViewController!)! - 1] as? FeedViewController{
+                    for cell in feed.tableView.visibleCells{
+                        if let cell = cell as? FeedTableViewCell{
+                            if cell.challengeNameLabel.text == self.self.challenge.name!{
+                                cell.acceptCountLabel.text = "\(Int(cell.acceptCountLabel.text!)! - 1)"
+                            }
+                        }
+                    }
+                }
+                if let feed = self.navigationController!.viewControllers[self.navigationController!.viewControllers.index(of: self.navigationController!.topViewController!)! - 1] as? TopChallengesViewController{
+                    for cell in feed.tableView.visibleCells{
+                        if let cell = cell as? FeedTableViewCell{
+                            if cell.challengeNameLabel.text == self.self.challenge.name!{
+                                cell.acceptCountLabel.text = "\(Int(cell.acceptCountLabel.text!)! - 1)"
+                            }
+                        }
+                    }
+                }
+                if let feed = self.navigationController!.viewControllers[self.navigationController!.viewControllers.index(of: self.navigationController!.topViewController!)! - 1] as? ChallengeViewController{
+                    for cell in feed.tableView.visibleCells{
+                        if let cell = cell as? FeedTableViewCell{
+                            if cell.challengeNameLabel.text == self.self.challenge.name!{
+                                cell.acceptCountLabel.text = "\(Int(cell.acceptCountLabel.text!)! - 1)"
+                            }
+                        }
+                    }
+                }
+                if let feed = self.navigationController!.viewControllers[self.navigationController!.viewControllers.index(of: self.navigationController!.topViewController!)! - 1] as? HomeViewController{
+                    for cell in feed.tableViewController.tableView.visibleCells{
+                        if let cell = cell as? FeedTableViewCell{
+                            if cell.challengeNameLabel.text == self.self.challenge.name!{
+                                cell.acceptCountLabel.text = "\(Int(cell.acceptCountLabel.text!)! - 1)"
+                            }
+                        }
+                    }
+                }
+                if let feed = self.navigationController!.viewControllers[self.navigationController!.viewControllers.index(of: self.navigationController!.topViewController!)! - 1] as? OtherUserViewController{
+                    for cell in feed.tableViewController.tableView.visibleCells{
+                        if let cell = cell as? FeedTableViewCell{
+                            if cell.challengeNameLabel.text == self.self.challenge.name!{
+                                cell.acceptCountLabel.text = "\(Int(cell.acceptCountLabel.text!)! - 1)"
+                            }
+                        }
+                    }
+                }
+
+
+
+
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {(UIAlertAction) in alert.dismiss(animated: true, completion: {})}))
             present(alert, animated: true, completion: {})

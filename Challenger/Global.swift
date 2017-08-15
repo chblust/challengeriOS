@@ -77,7 +77,7 @@ class Global: NSObject{
     //takes in json formatted data from the server and translates it into a user object
     static func jsonToUser(_ json: [String: JSON])->User{
         
-        return User(username: json["username"]!.stringValue, bio: json["bio"]!.stringValue, email: json["email"]!.stringValue, followers: json["followers"]!.arrayObject as! [String], following: json["following"]!.arrayObject as! [String])
+        return User(username: json["username"]!.stringValue, bio: json["bio"]!.stringValue, email: json["email"]!.stringValue, followers: json["followers"]!.arrayObject as! [String], following: json["following"]!.arrayObject as! [String], acceptedCount: Int(json["acceptedCount"]!.stringValue)!)
          
     }
     

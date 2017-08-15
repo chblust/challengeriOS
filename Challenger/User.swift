@@ -18,13 +18,15 @@ class User {
     var email: String?
     var followers: [String]?
     var following: [String]?
+    var acceptedCount: Int?
     
-    init(username: String, bio: String, email: String, followers: [String], following: [String]){
+    init(username: String, bio: String, email: String, followers: [String], following: [String], acceptedCount: Int){
         self.username = username
         self.bio = bio
         self.email = email
         self.followers = followers
         self.following = following
+        self.acceptedCount = acceptedCount
     }
     
     init(){

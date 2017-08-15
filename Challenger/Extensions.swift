@@ -101,6 +101,25 @@ extension UIViewController{
         }.resume()
     }
     
+    func presentAccepted(username: String){
+        let acceptedTableViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "accepted") as! AcceptedTableViewController
+        acceptedTableViewController.username = username
+        Global.global.currentViewController = acceptedTableViewController
+        self.navigationController?.pushViewController(acceptedTableViewController, animated: true)
+    }
+    
+    func presentAcceptances(challenge: Challenge){
+        let acceptanceViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "acceptanceViewController") as! AcceptanceTableViewController
+        acceptanceViewController.challenge = challenge
+        self.navigationController!.pushViewController(acceptanceViewController, animated: true)
+    }
+    
+    func presentTop(){
+        let topViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "top") as! TopChallengesViewController
+        Global.global.currentViewController = topViewController
+        self.navigationController?.pushViewController(topViewController, animated: true)
+    }
+    
     func jsonToComment(_ json: JSON) -> Comment{
         let jsonArray = json.dictionaryObject
         return Comment(uuid: jsonArray!["uuid"] as! String, author: jsonArray!["author"] as! String, challengeName: jsonArray!["challenge"] as! String, message: jsonArray!["message"] as! String, date: jsonArray!["date"] as! String, replyingTo: jsonArray!["replyingTo"] as! String, likers: jsonArray!["likers"] as! [String], replys: jsonArray!["replys"] as! [String])
